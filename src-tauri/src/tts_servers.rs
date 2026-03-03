@@ -64,24 +64,27 @@ fn find_kittentts_paths(app_handle: &tauri::AppHandle) -> KittenTtsPaths {
     let mut venv_candidates: Vec<std::path::PathBuf> = Vec::new();
     let mut models_candidates: Vec<std::path::PathBuf> = Vec::new();
 
-    // Highest priority: Tauri bundled resources
+    // User-writable app data dir — primary location for venv and models
+    if let Ok(app_data) = app_handle.path().app_data_dir() {
+        let kittentts_dir = app_data.join("kittentts");
+        venv_candidates.push(kittentts_dir.join(".venv"));
+        models_candidates.push(kittentts_dir.join("models"));
+    }
+
+    // Tauri bundled resources — scripts live here (read-only is fine)
     if let Ok(res_dir) = app_handle.path().resolve("scripts", tauri::path::BaseDirectory::Resource) {
         script_candidates.push(res_dir.join("kittentts-server.py"));
-        venv_candidates.push(res_dir.join(".venv"));
-        models_candidates.push(res_dir.join("models"));
 
         // Windows: check for PyInstaller exe
         #[cfg(target_os = "windows")]
         script_candidates.push(res_dir.join("kittentts-server.exe"));
     }
 
-    // System install location (Linux)
+    // System install location (Linux) — scripts only
     #[cfg(target_os = "linux")]
     {
         let sys = std::path::PathBuf::from("/usr/lib/en-parlant/scripts");
         script_candidates.push(sys.join("kittentts-server.py"));
-        venv_candidates.push(sys.join(".venv"));
-        models_candidates.push(sys.join("models"));
     }
 
     // Dev fallback (relative to CWD)
@@ -97,13 +100,14 @@ fn find_kittentts_paths(app_handle: &tauri::AppHandle) -> KittenTtsPaths {
         .find(|p| p.exists())
         .map(|p| p.to_string_lossy().to_string());
 
-    let venv_dir = venv_candidates.iter()
-        .find(|p| p.exists())
-        .map(|p| p.to_string_lossy().to_string());
-
+    // Validate venv by checking for the actual Python binary, not just the directory
     let python = venv_candidates.iter()
         .map(|v| v.join(VENV_PYTHON))
         .find(|p| p.exists())
+        .map(|p| p.to_string_lossy().to_string());
+
+    let venv_dir = venv_candidates.iter()
+        .find(|v| v.join(VENV_PYTHON).exists())
         .map(|p| p.to_string_lossy().to_string());
 
     let models_dir = models_candidates.iter()
@@ -245,22 +249,27 @@ pub fn check_python_installed() -> DepCheck {
 #[specta::specta]
 pub fn check_kittentts_venv(app_handle: tauri::AppHandle) -> DepCheck {
     let paths = find_kittentts_paths(&app_handle);
-    match paths.venv_dir {
-        Some(dir) => DepCheck {
-            ok: true,
-            label: "Virtual environment found".into(),
-            detail: dir,
-            fix_hint: String::new(),
+    // Check for actual Python binary, not just directory existence
+    match paths.python {
+        Some(ref _python) => match paths.venv_dir {
+            Some(dir) => DepCheck {
+                ok: true,
+                label: "Virtual environment found".into(),
+                detail: dir,
+                fix_hint: String::new(),
+            },
+            None => DepCheck {
+                ok: false,
+                label: "Virtual environment not found".into(),
+                detail: "No valid .venv found".into(),
+                fix_hint: "Will be created automatically".into(),
+            },
         },
         None => DepCheck {
             ok: false,
-            label: "Virtual environment not found".into(),
-            detail: "No .venv directory found in scripts/".into(),
-            fix_hint: if cfg!(target_os = "windows") {
-                "python -m venv scripts/.venv".into()
-            } else {
-                "python3 -m venv scripts/.venv".into()
-            },
+            label: "Virtual environment not set up".into(),
+            detail: "Python venv with packages needs to be created".into(),
+            fix_hint: "Will be created automatically".into(),
         },
     }
 }
@@ -347,27 +356,56 @@ pub fn check_kittentts_script(app_handle: tauri::AppHandle) -> DepCheck {
 pub fn setup_kittentts_venv(app_handle: tauri::AppHandle) -> Result<String, String> {
     let paths = find_kittentts_paths(&app_handle);
 
-    // Determine the venv directory — prefer found location, try system install, fall back to dev
-    let venv_dir = if let Some(ref dir) = paths.venv_dir {
-        dir.clone()
-    } else if std::path::Path::new("/usr/lib/en-parlant/scripts").exists() {
-        "/usr/lib/en-parlant/scripts/.venv".to_string()
-    } else {
-        "scripts/.venv".to_string()
-    };
+    // If a valid venv already exists, nothing to do
+    if paths.python.is_some() {
+        return Ok("Already installed".to_string());
+    }
+
+    // Create venv in user-writable app data dir
+    let kittentts_dir = app_handle.path().app_data_dir()
+        .map_err(|e| format!("Cannot determine app data directory: {}", e))?
+        .join("kittentts");
+    let venv_dir = kittentts_dir.join(".venv");
+    let venv_str = venv_dir.to_string_lossy().to_string();
+
+    info!("Setting up KittenTTS venv at {}", venv_str);
+
+    // Ensure parent directory exists
+    std::fs::create_dir_all(&kittentts_dir)
+        .map_err(|e| format!("Cannot create directory {}: {}", kittentts_dir.display(), e))?;
 
     let python_cmd = if cfg!(target_os = "windows") { "python" } else { "python3" };
 
-    // Create venv if it doesn't exist
-    if !std::path::Path::new(&venv_dir).exists() {
+    // Check Python is available
+    let python_check = Command::new(python_cmd).arg("--version").output();
+    match python_check {
+        Ok(output) if output.status.success() => {
+            info!("Found {}", String::from_utf8_lossy(&output.stdout).trim());
+        }
+        _ => {
+            return Err("Python 3.10+ is required but not installed. On Ubuntu/Debian: sudo apt install python3 python3-venv".to_string());
+        }
+    }
+
+    // Remove stale/empty venv if python binary is missing
+    if venv_dir.exists() && !venv_dir.join(VENV_PYTHON).exists() {
+        info!("Removing incomplete venv at {}", venv_str);
+        let _ = std::fs::remove_dir_all(&venv_dir);
+    }
+
+    // Create venv
+    if !venv_dir.exists() {
+        info!("Creating Python virtual environment...");
         let create = Command::new(python_cmd)
-            .args(["-m", "venv", &venv_dir])
+            .args(["-m", "venv", &venv_str])
             .output()
-            .map_err(|e| format!("Failed to create venv: {}", e))?;
+            .map_err(|e| format!("Failed to create venv: {}. On Ubuntu/Debian you may need: sudo apt install python3-venv", e))?;
         if !create.status.success() {
+            let stderr = String::from_utf8_lossy(&create.stderr).trim().to_string();
             return Err(format!(
-                "Failed to create venv: {}",
-                String::from_utf8_lossy(&create.stderr).trim()
+                "Failed to create venv: {}{}",
+                stderr,
+                if stderr.contains("ensurepip") { ". Fix: sudo apt install python3-venv" } else { "" }
             ));
         }
     }
@@ -386,14 +424,15 @@ pub fn setup_kittentts_venv(app_handle: tauri::AppHandle) -> Result<String, Stri
         .map(|p| p.to_string_lossy().to_string());
 
     // Install packages
-    let pip = format!("{}/{}", venv_dir, VENV_PIP);
+    info!("Installing Python packages (kittentts, flask, soundfile, numpy)...");
+    let pip = format!("{}/{}", venv_str, VENV_PIP);
     let install = if let Some(req_path) = requirements {
+        info!("Using requirements.txt: {}", req_path);
         Command::new(&pip)
             .args(["install", "-r", &req_path])
             .output()
             .map_err(|e| format!("Failed to run pip: {}", e))?
     } else {
-        // Fallback if requirements.txt not found
         Command::new(&pip)
             .args(["install", "kittentts", "flask", "soundfile", "numpy"])
             .output()
@@ -401,6 +440,7 @@ pub fn setup_kittentts_venv(app_handle: tauri::AppHandle) -> Result<String, Stri
     };
 
     if install.status.success() {
+        info!("KittenTTS packages installed successfully");
         Ok("Packages installed successfully".to_string())
     } else {
         Err(format!(
@@ -541,9 +581,18 @@ pub fn kittentts_start(app_handle: tauri::AppHandle, state: State<'_, TtsServerS
         }
     }
 
-    // Point HuggingFace cache at bundled models if available
-    if let Some(ref models) = paths.models_dir {
-        cmd.env("HF_HOME", models);
+    // Point HuggingFace cache at app data models dir (user-writable)
+    let models_dir = if let Some(ref models) = paths.models_dir {
+        models.clone()
+    } else if let Ok(app_data) = app_handle.path().app_data_dir() {
+        let dir = app_data.join("kittentts").join("models");
+        let _ = std::fs::create_dir_all(&dir);
+        dir.to_string_lossy().to_string()
+    } else {
+        String::new()
+    };
+    if !models_dir.is_empty() {
+        cmd.env("HF_HOME", &models_dir);
     }
 
     // Windows: hide the console window

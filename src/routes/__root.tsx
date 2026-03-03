@@ -28,7 +28,6 @@ import useSWRImmutable from "swr/immutable";
 import { match } from "ts-pattern";
 import type { Dirs } from "@/App";
 import AboutModal from "@/components/About";
-import { DocViewer } from "@/components/DocViewer";
 import { SideBar } from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
 import {
@@ -201,8 +200,13 @@ function RootLayout() {
   useHotkeys(keyMap.NEW_TAB.keys, createNewTab);
   useHotkeys(keyMap.OPEN_FILE.keys, openNewFile);
   const [opened, setOpened] = useState(false);
-  const [docResource, setDocResource] = useState<string | null>(null);
-  const [docTitle, setDocTitle] = useState("");
+
+  const DOCS_BASE = "https://enparlant.redshed.ai";
+  function docsUrl(path: string, lang: string): string {
+    return lang === "en"
+      ? `${DOCS_BASE}/docs/${path}/`
+      : `${DOCS_BASE}/${lang}/docs/${path}/`;
+  }
 
   const isMacOS = platform() === "macos";
 
@@ -329,10 +333,7 @@ function RootLayout() {
           {
             label: "Getting Started",
             id: "tts_getting_started",
-            action: () => {
-              setDocTitle("Getting Started");
-              setDocResource(`docs/${docLang}/tts-guide.md`);
-            },
+            action: () => shellOpen(docsUrl("tts-guide", docLang)),
           },
           {
             label: "TTS Demo",
@@ -396,26 +397,20 @@ function RootLayout() {
           {
             label: "En Parlant~ Docs",
             id: "documentation",
-            action: () => {
-              setDocTitle("En Parlant~ Docs");
-              setDocResource("docs/README.md");
-            },
+            action: () => shellOpen(`${DOCS_BASE}/docs/`),
           },
           {
             label: "License (GPL-3.0)",
             id: "license",
-            action: () => {
-              setDocTitle("License (GPL-3.0)");
-              setDocResource("docs/LICENSE");
-            },
+            action: () =>
+              shellOpen(
+                "https://github.com/DarrellThomas/en-parlant/blob/master/LICENSE",
+              ),
           },
           {
             label: "Under the Hood",
             id: "architecture",
-            action: () => {
-              setDocTitle("Under the Hood");
-              setDocResource(`docs/${docLang}/architecture.md`);
-            },
+            action: () => shellOpen(docsUrl("architecture", docLang)),
           },
           { label: "divider" },
           {
@@ -425,18 +420,17 @@ function RootLayout() {
               {
                 label: "A Note from Darrell",
                 id: "ai_note",
-                action: () => {
-                  setDocTitle("A Note from Darrell");
-                  setDocResource(`docs/${docLang}/ai-note.md`);
-                },
+                action: () => shellOpen(docsUrl("ai-note", docLang)),
+              },
+              {
+                label: "A Note from Claude",
+                id: "claude_note",
+                action: () => shellOpen(docsUrl("claude-note", docLang)),
               },
               {
                 label: "AI Workflow",
                 id: "ai_workflow",
-                action: () => {
-                  setDocTitle("AI Workflow");
-                  setDocResource(`docs/${docLang}/ai-workflow.md`);
-                },
+                action: () => shellOpen(docsUrl("ai-workflow", docLang)),
               },
             ],
           },
@@ -677,15 +671,6 @@ function RootLayout() {
       }}
     >
       <AboutModal opened={opened} setOpened={setOpened} />
-      <DocViewer
-        resource={docResource}
-        title={docTitle}
-        onClose={() => setDocResource(null)}
-        onNavigate={(res, t) => {
-          setDocResource(res);
-          setDocTitle(t);
-        }}
-      />
       {!isNative && import.meta.env.VITE_PLATFORM === "win32" && (
         <AppShell.Header>
           <TopBar menuActions={menuActions} />
