@@ -5,7 +5,7 @@ use std::{
         atomic::{AtomicBool, Ordering},
         Arc,
     },
-    time::Instant,
+    time::{Duration, Instant},
 };
 
 use derivative::Derivative;
@@ -58,6 +58,7 @@ pub struct EngineProcess {
     best_moves: Vec<BestMoves>,
     last_best_moves: Vec<BestMoves>,
     last_progress: f32,
+    last_event_sent: Option<Instant>,
     options: EngineOptions,
     go_mode: GoMode,
     running: bool,
@@ -78,6 +79,7 @@ impl EngineProcess {
                 best_moves: Vec::new(),
                 last_best_moves: Vec::new(),
                 last_progress: 0.0,
+                last_event_sent: None,
                 options: EngineOptions::default(),
                 real_multipv: 0,
                 go_mode: GoMode::Infinite,
@@ -138,6 +140,7 @@ impl EngineProcess {
         self.base.go(mode).await?;
         self.running = true;
         self.start = Instant::now();
+        self.last_event_sent = None;
         Ok(())
     }
 
@@ -370,76 +373,119 @@ pub async fn get_best_moves(
     state.engine_processes.insert(key.clone(), process.clone());
 
     let lim = RateLimiter::direct(Quota::per_second(nonzero!(5u32)));
+    let mut buffered_payload: Option<BestMovesPayload> = None;
+    let tick_duration = Duration::from_millis(50);
+    let min_time_before_first = Duration::from_millis(200);
+    let min_time_between = Duration::from_millis(500);
+    let max_buffer_hold = Duration::from_millis(1000);
 
-    while let Some(line) = reader.next_line().await? {
-        let mut proc = process.lock().await;
-        match parse_one(&normalize_uci_line(&line)) {
-            UciMessage::Info(attrs) => {
-                if let Ok(best_moves) =
-                    parse_uci_attrs(attrs, &proc.options.fen.parse()?, &proc.options.moves)
-                {
-                    if best_moves.score.lower_bound == Some(true)
-                        || best_moves.score.upper_bound == Some(true)
-                    {
-                        continue;
-                    }
-                    let multipv = best_moves.multipv;
-                    let cur_depth = best_moves.depth;
-                    let cur_nodes = best_moves.nodes;
-                    if multipv as usize == proc.best_moves.len() + 1 {
-                        proc.best_moves.push(best_moves);
-                        if multipv == proc.real_multipv {
-                            if proc.best_moves.iter().all(|x| x.depth == cur_depth)
-                                && cur_depth >= proc.last_depth
-                                && lim.check().is_ok()
+    loop {
+        match tokio::time::timeout(tick_duration, reader.next_line()).await {
+            Ok(Ok(Some(line))) => {
+                let mut proc = process.lock().await;
+                match parse_one(&normalize_uci_line(&line)) {
+                    UciMessage::Info(attrs) => {
+                        if let Ok(best_moves) =
+                            parse_uci_attrs(attrs, &proc.options.fen.parse()?, &proc.options.moves)
+                        {
+                            if best_moves.score.lower_bound == Some(true)
+                                || best_moves.score.upper_bound == Some(true)
                             {
-                                let progress = match proc.go_mode {
-                                    GoMode::Depth(depth) => {
-                                        (cur_depth as f64 / depth as f64) * 100.0
-                                    }
-                                    GoMode::Time(time) => {
-                                        (proc.start.elapsed().as_millis() as f64 / time as f64)
-                                            * 100.0
-                                    }
-                                    GoMode::Nodes(nodes) => {
-                                        (cur_nodes as f64 / nodes as f64) * 100.0
-                                    }
-                                    GoMode::PlayersTime(_) => 99.99,
-                                    GoMode::Infinite => 99.99,
-                                };
-                                BestMovesPayload {
-                                    best_lines: proc.best_moves.clone(),
-                                    engine: id.clone(),
-                                    tab: tab.clone(),
-                                    fen: proc.options.fen.clone(),
-                                    moves: proc.options.moves.clone(),
-                                    progress,
-                                }
-                                .emit(&app)?;
-                                proc.last_depth = cur_depth;
-                                proc.last_best_moves = proc.best_moves.clone();
-                                proc.last_progress = progress as f32;
+                                proc.base.log_engine(&line);
+                                continue;
                             }
-                            proc.best_moves.clear();
+                            let multipv = best_moves.multipv;
+                            let cur_depth = best_moves.depth;
+                            let cur_nodes = best_moves.nodes;
+                            if multipv as usize == proc.best_moves.len() + 1 {
+                                proc.best_moves.push(best_moves);
+                                if multipv == proc.real_multipv {
+                                    if proc.best_moves.iter().all(|x| x.depth == cur_depth)
+                                        && cur_depth >= proc.last_depth
+                                        && lim.check().is_ok()
+                                    {
+                                        let progress = match proc.go_mode {
+                                            GoMode::Depth(depth) => {
+                                                (cur_depth as f64 / depth as f64) * 100.0
+                                            }
+                                            GoMode::Time(time) => {
+                                                (proc.start.elapsed().as_millis() as f64
+                                                    / time as f64)
+                                                    * 100.0
+                                            }
+                                            GoMode::Nodes(nodes) => {
+                                                (cur_nodes as f64 / nodes as f64) * 100.0
+                                            }
+                                            GoMode::PlayersTime(_) => 99.99,
+                                            GoMode::Infinite => 99.99,
+                                        };
+                                        let payload = BestMovesPayload {
+                                            best_lines: proc.best_moves.clone(),
+                                            engine: id.clone(),
+                                            tab: tab.clone(),
+                                            fen: proc.options.fen.clone(),
+                                            moves: proc.options.moves.clone(),
+                                            progress,
+                                        };
+                                        // Buffer or send based on timing
+                                        let too_soon = proc.last_event_sent.map_or(
+                                            proc.start.elapsed() < min_time_before_first,
+                                            |t| t.elapsed() < min_time_between,
+                                        );
+                                        if too_soon {
+                                            buffered_payload = Some(payload);
+                                        } else {
+                                            proc.last_event_sent = Some(Instant::now());
+                                            payload.emit(&app)?;
+                                            buffered_payload = None;
+                                        }
+                                        proc.last_depth = cur_depth;
+                                        proc.last_best_moves = proc.best_moves.clone();
+                                        proc.last_progress = progress as f32;
+                                    }
+                                    proc.best_moves.clear();
+                                }
+                            }
                         }
                     }
+                    UciMessage::BestMove { .. } => {
+                        // Always emit immediately when engine finishes
+                        buffered_payload = None;
+                        BestMovesPayload {
+                            best_lines: proc.last_best_moves.clone(),
+                            engine: id.clone(),
+                            tab: tab.clone(),
+                            fen: proc.options.fen.clone(),
+                            moves: proc.options.moves.clone(),
+                            progress: 100.0,
+                        }
+                        .emit(&app)?;
+                        proc.last_progress = 100.0;
+                    }
+                    _ => {}
+                }
+                proc.base.log_engine(&line);
+            }
+            Err(_) => {
+                // Tick timeout — flush buffered payload if enough time has passed
+                if let Some(payload) = buffered_payload.clone() {
+                    let mut proc = process.lock().await;
+                    let should_flush = proc.last_event_sent.map_or(
+                        proc.start.elapsed() >= min_time_before_first,
+                        |t| t.elapsed() >= max_buffer_hold,
+                    );
+                    if should_flush {
+                        proc.last_event_sent = Some(Instant::now());
+                        payload.emit(&app)?;
+                        buffered_payload = None;
+                    }
                 }
             }
-            UciMessage::BestMove { .. } => {
-                BestMovesPayload {
-                    best_lines: proc.last_best_moves.clone(),
-                    engine: id.clone(),
-                    tab: tab.clone(),
-                    fen: proc.options.fen.clone(),
-                    moves: proc.options.moves.clone(),
-                    progress: 100.0,
-                }
-                .emit(&app)?;
-                proc.last_progress = 100.0;
+            _ => {
+                // EOF or read error
+                break;
             }
-            _ => {}
         }
-        proc.base.log_engine(&line);
     }
     info!("Engine process finished: tab: {}, engine: {}", tab, engine);
     state.engine_processes.remove(&key);
