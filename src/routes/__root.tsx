@@ -28,9 +28,9 @@ import useSWRImmutable from "swr/immutable";
 import { match } from "ts-pattern";
 import type { Dirs } from "@/App";
 import AboutModal from "@/components/About";
-import UpdateModal from "@/components/UpdateModal";
 import { SideBar } from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
+import UpdateModal from "@/components/UpdateModal";
 import {
   activeTabAtom,
   docLangAtom,
@@ -346,30 +346,122 @@ function RootLayout() {
             label: "TTS Demo (Male)",
             id: "tts_demo_male",
             submenu: [
-              { label: "English", id: "tts_demo_m_en", action: () => openDemo("en", "English", "male") },
-              { label: "Fran\u00e7ais", id: "tts_demo_m_fr", action: () => openDemo("fr", "Fran\u00e7ais", "male") },
-              { label: "Espa\u00f1ol", id: "tts_demo_m_es", action: () => openDemo("es", "Espa\u00f1ol", "male") },
-              { label: "Deutsch", id: "tts_demo_m_de", action: () => openDemo("de", "Deutsch", "male") },
-              { label: "\u65e5\u672c\u8a9e", id: "tts_demo_m_ja", action: () => openDemo("ja", "\u65e5\u672c\u8a9e", "male") },
-              { label: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", id: "tts_demo_m_ru", action: () => openDemo("ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", "male") },
-              { label: "\u4e2d\u6587", id: "tts_demo_m_zh", action: () => openDemo("zh", "\u4e2d\u6587", "male") },
-              { label: "\uD55C\uAD6D\uC5B4", id: "tts_demo_m_ko", action: () => openDemo("ko", "\uD55C\uAD6D\uC5B4", "male") },
-              { label: "\u0939\u093F\u0928\u094D\u0926\u0940", id: "tts_demo_m_hi", action: () => openDemo("hi", "\u0939\u093F\u0928\u094D\u0926\u0940", "male") },
+              {
+                label: "English",
+                id: "tts_demo_m_en",
+                action: () => openDemo("en", "English", "male"),
+              },
+              {
+                label: "Fran\u00e7ais",
+                id: "tts_demo_m_fr",
+                action: () => openDemo("fr", "Fran\u00e7ais", "male"),
+              },
+              {
+                label: "Espa\u00f1ol",
+                id: "tts_demo_m_es",
+                action: () => openDemo("es", "Espa\u00f1ol", "male"),
+              },
+              {
+                label: "Deutsch",
+                id: "tts_demo_m_de",
+                action: () => openDemo("de", "Deutsch", "male"),
+              },
+              {
+                label: "\u65e5\u672c\u8a9e",
+                id: "tts_demo_m_ja",
+                action: () => openDemo("ja", "\u65e5\u672c\u8a9e", "male"),
+              },
+              {
+                label: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+                id: "tts_demo_m_ru",
+                action: () =>
+                  openDemo(
+                    "ru",
+                    "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+                    "male",
+                  ),
+              },
+              {
+                label: "\u4e2d\u6587",
+                id: "tts_demo_m_zh",
+                action: () => openDemo("zh", "\u4e2d\u6587", "male"),
+              },
+              {
+                label: "\uD55C\uAD6D\uC5B4",
+                id: "tts_demo_m_ko",
+                action: () => openDemo("ko", "\uD55C\uAD6D\uC5B4", "male"),
+              },
+              {
+                label: "\u0939\u093F\u0928\u094D\u0926\u0940",
+                id: "tts_demo_m_hi",
+                action: () =>
+                  openDemo(
+                    "hi",
+                    "\u0939\u093F\u0928\u094D\u0926\u0940",
+                    "male",
+                  ),
+              },
             ],
           },
           {
             label: "TTS Demo (Female)",
             id: "tts_demo_female",
             submenu: [
-              { label: "English", id: "tts_demo_f_en", action: () => openDemo("en", "English", "female") },
-              { label: "Fran\u00e7ais", id: "tts_demo_f_fr", action: () => openDemo("fr", "Fran\u00e7ais", "female") },
-              { label: "Espa\u00f1ol", id: "tts_demo_f_es", action: () => openDemo("es", "Espa\u00f1ol", "female") },
-              { label: "Deutsch", id: "tts_demo_f_de", action: () => openDemo("de", "Deutsch", "female") },
-              { label: "\u65e5\u672c\u8a9e", id: "tts_demo_f_ja", action: () => openDemo("ja", "\u65e5\u672c\u8a9e", "female") },
-              { label: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", id: "tts_demo_f_ru", action: () => openDemo("ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", "female") },
-              { label: "\u4e2d\u6587", id: "tts_demo_f_zh", action: () => openDemo("zh", "\u4e2d\u6587", "female") },
-              { label: "\uD55C\uAD6D\uC5B4", id: "tts_demo_f_ko", action: () => openDemo("ko", "\uD55C\uAD6D\uC5B4", "female") },
-              { label: "\u0939\u093F\u0928\u094D\u0926\u0940", id: "tts_demo_f_hi", action: () => openDemo("hi", "\u0939\u093F\u0928\u094D\u0926\u0940", "female") },
+              {
+                label: "English",
+                id: "tts_demo_f_en",
+                action: () => openDemo("en", "English", "female"),
+              },
+              {
+                label: "Fran\u00e7ais",
+                id: "tts_demo_f_fr",
+                action: () => openDemo("fr", "Fran\u00e7ais", "female"),
+              },
+              {
+                label: "Espa\u00f1ol",
+                id: "tts_demo_f_es",
+                action: () => openDemo("es", "Espa\u00f1ol", "female"),
+              },
+              {
+                label: "Deutsch",
+                id: "tts_demo_f_de",
+                action: () => openDemo("de", "Deutsch", "female"),
+              },
+              {
+                label: "\u65e5\u672c\u8a9e",
+                id: "tts_demo_f_ja",
+                action: () => openDemo("ja", "\u65e5\u672c\u8a9e", "female"),
+              },
+              {
+                label: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+                id: "tts_demo_f_ru",
+                action: () =>
+                  openDemo(
+                    "ru",
+                    "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+                    "female",
+                  ),
+              },
+              {
+                label: "\u4e2d\u6587",
+                id: "tts_demo_f_zh",
+                action: () => openDemo("zh", "\u4e2d\u6587", "female"),
+              },
+              {
+                label: "\uD55C\uAD6D\uC5B4",
+                id: "tts_demo_f_ko",
+                action: () => openDemo("ko", "\uD55C\uAD6D\uC5B4", "female"),
+              },
+              {
+                label: "\u0939\u093F\u0928\u094D\u0926\u0940",
+                id: "tts_demo_f_hi",
+                action: () =>
+                  openDemo(
+                    "hi",
+                    "\u0939\u093F\u0928\u094D\u0926\u0940",
+                    "female",
+                  ),
+              },
             ],
           },
           {

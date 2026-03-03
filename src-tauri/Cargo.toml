@@ -1,6 +1,6 @@
 [package]
 name = "en-parlant"
-version = "0.1.3"
+version = "0.1.4"
 description = "A Modern Chess Database with TTS"
 authors = ["Darrell Thomas"]
 license = "GPL-3.0-only"

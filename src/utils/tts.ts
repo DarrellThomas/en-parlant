@@ -1037,7 +1037,11 @@ export async function speakComment(
 ): Promise<void> {
   // Demo mode — play intro clip (halfMoves=0)
   if (headers?.other?.AudioSource === "demo" && headers?.other?.Language) {
-    await playDemoNarration(0, headers.other.Language, headers.other.AudioGender);
+    await playDemoNarration(
+      0,
+      headers.other.Language,
+      headers.other.AudioGender,
+    );
     return;
   }
 
@@ -1061,7 +1065,11 @@ export async function speakMoveNarration(
 ): Promise<void> {
   // Demo mode — works regardless of provider setting
   if (headers?.other?.AudioSource === "demo" && headers?.other?.Language) {
-    await playDemoNarration(halfMoves, headers.other.Language, headers.other.AudioGender);
+    await playDemoNarration(
+      halfMoves,
+      headers.other.Language,
+      headers.other.AudioGender,
+    );
     return;
   }
 

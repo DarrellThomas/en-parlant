@@ -2,8 +2,8 @@ import { notifications } from "@mantine/notifications";
 import { fetch } from "@tauri-apps/plugin-http";
 import { getDefaultStore } from "jotai";
 import { ttsSpeedAtom, ttsVolumeAtom } from "@/state/atoms";
-import { audioCache, getRequestGeneration, setCurrentAudio } from "./tts";
 import type { TreeNode } from "./treeReducer";
+import { audioCache, getRequestGeneration, setCurrentAudio } from "./tts";
 
 const CLOUD_BASE_URL = "https://enparlant.redshed.ai/audio";
 

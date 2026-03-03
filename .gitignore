@@ -46,6 +46,9 @@ AI-NOTE.md
 docs/demos/narration/*/audio/
 docs/demos/backups/
 
+# Bundled TTS audio (licensing restrictions — not in git)
+src-tauri/resources/audio/
+
 # Generated clip output
 scripts/chess-clips/
 scripts/__pycache__/
