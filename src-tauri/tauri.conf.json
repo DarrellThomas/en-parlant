@@ -4,7 +4,7 @@
     "category": "BoardGame",
     "copyright": "",
     "windows": {
-      "signCommand": "trusted-signing-cli -e https://cus.codesigning.azure.net -a enparlant-public -c redshed-ai -d \"En Parlant~\" %1"
+      "signCommand": "trusted-signing-cli -e https://cus.codesigning.azure.net -a enparlant-public -c redshed-ai %1"
     },
     "icon": [
       "icons/32x32.png",

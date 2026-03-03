@@ -108,17 +108,6 @@ jobs:
         if: matrix.platform == 'windows-latest'
         run: cargo install trusted-signing-cli
 
-      - name: Test Azure Trusted Signing auth (Windows)
-        if: matrix.platform == 'windows-latest'
-        env:
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        run: |
-          echo "Testing trusted-signing-cli with a dummy file..."
-          echo "test" > dummy.txt
-          trusted-signing-cli -e https://cus.codesigning.azure.net -a enparlant-public -c redshed-ai dummy.txt 2>&1 || echo "EXIT CODE: $?"
-
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
 
