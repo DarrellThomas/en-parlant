@@ -12,10 +12,9 @@ import {
   PredefinedMenuItem,
   Submenu,
 } from "@tauri-apps/api/menu";
-import { appLogDir, resolve, resolveResource } from "@tauri-apps/api/path";
+import { appLogDir, resolve } from "@tauri-apps/api/path";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { ask, open } from "@tauri-apps/plugin-dialog";
-import { readTextFile } from "@tauri-apps/plugin-fs";
 import { platform } from "@tauri-apps/plugin-os";
 import { exit } from "@tauri-apps/plugin-process";
 import { open as shellOpen } from "@tauri-apps/plugin-shell";
@@ -161,8 +160,11 @@ function RootLayout() {
   const openDemo = useCallback(
     async (lang: string, label: string, gender: "male" | "female" = "male") => {
       try {
-        const p = await resolveResource(`docs/demos/tts-demo-${lang}.pgn`);
-        let pgn = await readTextFile(p);
+        const res = await fetch(
+          `https://enparlant.redshed.ai/pgn/demo/tts-demo-${lang}.pgn`,
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        let pgn = await res.text();
         // Inject gender header so the TTS system knows which clips to fetch
         pgn = pgn.replace(
           '[AudioSource "demo"]',
@@ -430,13 +432,21 @@ function RootLayout() {
                 label: "\u041c\u0443\u0436\u0441\u043a\u043e\u0439",
                 id: "tts_demo_ru_male",
                 action: () =>
-                  openDemo("ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", "male"),
+                  openDemo(
+                    "ru",
+                    "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+                    "male",
+                  ),
               },
               {
                 label: "\u0416\u0435\u043d\u0441\u043a\u043e\u0439",
                 id: "tts_demo_ru_female",
                 action: () =>
-                  openDemo("ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", "female"),
+                  openDemo(
+                    "ru",
+                    "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+                    "female",
+                  ),
               },
             ],
           },
@@ -480,13 +490,21 @@ function RootLayout() {
                 label: "\u092a\u0941\u0930\u0941\u0937",
                 id: "tts_demo_hi_male",
                 action: () =>
-                  openDemo("hi", "\u0939\u093F\u0928\u094D\u0926\u0940", "male"),
+                  openDemo(
+                    "hi",
+                    "\u0939\u093F\u0928\u094D\u0926\u0940",
+                    "male",
+                  ),
               },
               {
                 label: "\u092e\u0939\u093f\u0932\u093e",
                 id: "tts_demo_hi_female",
                 action: () =>
-                  openDemo("hi", "\u0939\u093F\u0928\u094D\u0926\u0940", "female"),
+                  openDemo(
+                    "hi",
+                    "\u0939\u093F\u0928\u094D\u0926\u0940",
+                    "female",
+                  ),
               },
             ],
           },

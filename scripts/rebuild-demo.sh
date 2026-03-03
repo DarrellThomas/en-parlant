@@ -339,6 +339,19 @@ if ! command -v wrangler &>/dev/null; then
   echo "  SKIPPED: wrangler not found"
 else
   uploaded=0
+
+  # Upload PGN files
+  for lang in $LANGUAGES; do
+    pgn="$DEMOS_DIR/tts-demo-${lang}.pgn"
+    [[ -f "$pgn" ]] || continue
+    r2_key="enparlant-assets/pgn/demo/tts-demo-${lang}.pgn"
+    echo "  $r2_key"
+    wrangler r2 object put "$r2_key" \
+      --file "$pgn" --remote --content-type text/plain 2>/dev/null
+    uploaded=$((uploaded + 1))
+  done
+
+  # Upload audio files
   for lang in $LANGUAGES; do
     for gender in $GENDERS; do
       audio_dir="$DEMOS_DIR/narration/$lang/audio/$gender"
@@ -354,6 +367,7 @@ else
       done
     done
   done
+
   echo "  Uploaded $uploaded files to R2"
 fi
 echo ""

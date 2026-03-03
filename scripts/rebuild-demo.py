@@ -3,6 +3,11 @@
 Parse a commented English PGN, translate to 8 languages via Claude API,
 generate PGN files and narration text for all 9 languages.
 
+Output PGN files (docs/demos/tts-demo-*.pgn) and narration text files are
+written locally but are NOT bundled with the app. rebuild-demo.sh uploads
+them to R2 (enparlant-assets/pgn/demo/ and enparlant-assets/audio/demo/)
+where the app fetches them at runtime.
+
 Usage:
     python3 scripts/rebuild-demo.py \
         --pgn docs/demos/game.pgn \
@@ -13,6 +18,7 @@ Requires: pip install anthropic chess
 """
 
 import argparse
+import json
 import os
 import re
 import sys
@@ -403,19 +409,12 @@ def translate_batch(client, texts_by_key, target_lang, lang_name):
     """Translate a dict of {key: english_text} via Claude API.
 
     Returns {key: translated_text}.
+    Raises RuntimeError if the response cannot be parsed or keys are missing.
     """
     if not texts_by_key:
         return {}
 
-    # Map to numbered items for cleaner prompting
-    keys_ordered = sorted(texts_by_key.keys())
-    idx_to_key = {}
-    numbered_lines = []
-    for i, key in enumerate(keys_ordered, 1):
-        idx_to_key[i] = key
-        numbered_lines.append(f'{i}: "{texts_by_key[key]}"')
-
-    numbered = "\n".join(numbered_lines)
+    input_json = json.dumps(texts_by_key, ensure_ascii=False, indent=2)
 
     prompt = f"""You are translating chess commentary from English to {lang_name}.
 
@@ -425,10 +424,10 @@ Rules:
 - Preserve algebraic notation (e4, Nf3, O-O, etc.) exactly
 - Use standard chess terminology for the target language
 - Keep the same tone (casual, instructive)
-- Return ONLY the numbered translations in the exact same format, one per line
+- Return ONLY a JSON object with the same keys and translated values, no other text
 
-Translate each numbered item:
-{numbered}"""
+Input:
+{input_json}"""
 
     response = client.messages.create(
         model="claude-sonnet-4-20250514",
@@ -436,14 +435,26 @@ Translate each numbered item:
         messages=[{"role": "user", "content": prompt}],
     )
 
-    response_text = response.content[0].text
-    result = {}
-    for line in response_text.strip().split("\n"):
-        m = re.match(r'(\d+):\s*"(.+)"\s*$', line)
-        if m:
-            idx = int(m.group(1))
-            if idx in idx_to_key:
-                result[idx_to_key[idx]] = m.group(2)
+    response_text = response.content[0].text.strip()
+
+    # Strip markdown code fence if Claude wraps the response
+    if response_text.startswith("```"):
+        response_text = re.sub(r"^```\w*\n?", "", response_text)
+        response_text = re.sub(r"\n?```\s*$", "", response_text.strip())
+
+    try:
+        result = json.loads(response_text)
+    except json.JSONDecodeError as e:
+        raise RuntimeError(
+            f"Translation response for {lang_name} is not valid JSON: {e}\n"
+            f"Response was: {response_text[:300]}"
+        )
+
+    missing = set(texts_by_key.keys()) - set(result.keys())
+    if missing:
+        raise RuntimeError(
+            f"Translation response for {lang_name} is missing keys: {missing}"
+        )
 
     return result
 
@@ -509,89 +520,103 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
 
     # ── Process each language ──
+    succeeded = []
+    failed = {}  # lang -> error message
+
     for lang in LANGUAGES:
         print(f"\n{'='*60}")
         print(f"  {lang} — {LANG_NAMES[lang]}")
         print(f"{'='*60}")
 
-        if lang == "en":
-            translated = dict(texts)
-        else:
-            print(f"  Translating {len(texts)} items via Claude API...")
-            translated = translate_batch(client, texts, lang, LANG_NAMES[lang])
-            print(f"  Received {len(translated)} translations")
-
-            missing = set(texts.keys()) - set(translated.keys())
-            if missing:
-                print(f"  WARNING: missing translations for {missing}, using English")
-                for k in missing:
-                    translated[k] = texts[k]
-
-        # ── Build headers ──
-        lang_headers = []
-        has_audio_source = False
-        has_language = False
-        for key, value in headers:
-            if key == "Event" and "event" in translated:
-                lang_headers.append((key, translated["event"]))
-            elif key == "Termination" and "termination" in translated:
-                lang_headers.append((key, translated["termination"]))
-            elif key == "Language":
-                lang_headers.append((key, lang))
-                has_language = True
-            elif key == "AudioSource":
-                lang_headers.append((key, "demo"))
-                has_audio_source = True
+        try:
+            if lang == "en":
+                translated = dict(texts)
             else:
-                lang_headers.append((key, value))
-        if not has_audio_source:
-            lang_headers.append(("AudioSource", "demo"))
-        if not has_language:
-            lang_headers.append(("Language", lang))
+                print(f"  Translating {len(texts)} items via Claude API...")
+                translated = translate_batch(client, texts, lang, LANG_NAMES[lang])
+                print(f"  Received {len(translated)} translations")
 
-        # ── Build moves with translated comments ──
-        lang_moves = []
-        for mv in moves:
-            new_mv = dict(mv)
-            if mv["comment"]:
-                markup, _ = split_markup(mv["comment"])
-                key = f"m{mv['halfmove']}"
-                trans = translated.get(key, texts.get(key, ""))
-                new_mv["comment"] = f"{markup} {trans}" if markup else trans
-            lang_moves.append(new_mv)
+            # ── Build headers ──
+            lang_headers = []
+            has_audio_source = False
+            has_language = False
+            for key, value in headers:
+                if key == "Event" and "event" in translated:
+                    lang_headers.append((key, translated["event"]))
+                elif key == "Termination" and "termination" in translated:
+                    lang_headers.append((key, translated["termination"]))
+                elif key == "Language":
+                    lang_headers.append((key, lang))
+                    has_language = True
+                elif key == "AudioSource":
+                    lang_headers.append((key, "demo"))
+                    has_audio_source = True
+                else:
+                    lang_headers.append((key, value))
+            if not has_audio_source:
+                lang_headers.append(("AudioSource", "demo"))
+            if not has_language:
+                lang_headers.append(("Language", lang))
 
-        # ── Build root comment ──
-        lang_root = ""
-        if root_comment:
-            markup, _ = split_markup(root_comment)
-            trans_root = translated.get("root", texts.get("root", ""))
-            lang_root = f"{markup} {trans_root}" if markup else trans_root
+            # ── Build moves with translated comments ──
+            lang_moves = []
+            for mv in moves:
+                new_mv = dict(mv)
+                if mv["comment"]:
+                    markup, _ = split_markup(mv["comment"])
+                    key = f"m{mv['halfmove']}"
+                    trans = translated.get(key, texts.get(key, ""))
+                    new_mv["comment"] = f"{markup} {trans}" if markup else trans
+                lang_moves.append(new_mv)
 
-        # ── Write PGN ──
-        pgn_str = generate_pgn(lang_headers, lang_root, lang_moves, result)
-        pgn_path = os.path.join(args.output_dir, f"tts-demo-{lang}.pgn")
-        with open(pgn_path, "w") as f:
-            f.write(pgn_str)
-        print(f"  PGN:       {pgn_path}")
+            # ── Build root comment ──
+            lang_root = ""
+            if root_comment:
+                markup, _ = split_markup(root_comment)
+                trans_root = translated.get("root", texts.get("root", ""))
+                lang_root = f"{markup} {trans_root}" if markup else trans_root
 
-        # ── Write narration text ──
-        narr = generate_narration(lang_root, lang_moves, lang)
-        narr_dir = os.path.join(args.output_dir, "narration", lang)
-        os.makedirs(narr_dir, exist_ok=True)
+            # ── Write PGN ──
+            pgn_str = generate_pgn(lang_headers, lang_root, lang_moves, result)
+            pgn_path = os.path.join(args.output_dir, f"tts-demo-{lang}.pgn")
+            with open(pgn_path, "w") as f:
+                f.write(pgn_str)
+            print(f"  PGN:       {pgn_path}")
 
-        # Remove old narration text files (but not audio/)
-        for fname in os.listdir(narr_dir):
-            if fname.startswith("move-") and fname.endswith(".txt"):
-                os.remove(os.path.join(narr_dir, fname))
+            # ── Write narration text ──
+            narr = generate_narration(lang_root, lang_moves, lang)
+            narr_dir = os.path.join(args.output_dir, "narration", lang)
+            os.makedirs(narr_dir, exist_ok=True)
 
-        for hm, text in narr.items():
-            txt_path = os.path.join(narr_dir, f"move-{hm}.txt")
-            with open(txt_path, "w") as f:
-                f.write(text + "\n")
+            # Remove old narration text files (but not audio/)
+            for fname in os.listdir(narr_dir):
+                if fname.startswith("move-") and fname.endswith(".txt"):
+                    os.remove(os.path.join(narr_dir, fname))
 
-        print(f"  Narration: {len(narr)} files in {narr_dir}")
+            for hm, text in narr.items():
+                txt_path = os.path.join(narr_dir, f"move-{hm}.txt")
+                with open(txt_path, "w") as f:
+                    f.write(text + "\n")
 
-    print(f"\nDone — generated PGN + narration for {len(LANGUAGES)} languages.")
+            print(f"  Narration: {len(narr)} files in {narr_dir}")
+            succeeded.append(lang)
+
+        except Exception as e:
+            print(f"  ERROR: {e}")
+            failed[lang] = str(e)
+
+    # ── Summary ──
+    print(f"\n{'='*60}")
+    print(f"  Summary")
+    print(f"{'='*60}")
+    for lang in succeeded:
+        print(f"  OK   {lang} — {LANG_NAMES[lang]}")
+    for lang, err in failed.items():
+        print(f"  FAIL {lang} — {LANG_NAMES[lang]}: {err}")
+    print(f"\n  {len(succeeded)} succeeded, {len(failed)} failed.")
+
+    if failed:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

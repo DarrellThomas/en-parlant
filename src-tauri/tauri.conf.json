@@ -33,7 +33,6 @@
     },
     "resources": {
       "../sound/": "sound/",
-      "../docs/demos/": "docs/demos/",
       "../docs/LICENSE": "docs/LICENSE",
       "../scripts/kittentts-server.py": "scripts/kittentts-server.py",
       "../scripts/setup-tts.sh": "scripts/setup-tts.sh",

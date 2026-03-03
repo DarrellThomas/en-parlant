@@ -10,26 +10,48 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { readTextFile } from "@tauri-apps/plugin-fs";
-import { resolveResource } from "@tauri-apps/api/path";
-import { useSetAtom, useAtom } from "jotai";
-import { useNavigate } from "@tanstack/react-router";
-import { activeTabAtom, tabsAtom } from "@/state/atoms";
-import { createTab } from "@/utils/tabs";
 import {
   IconHeadphones,
   IconKey,
   IconPlayerPlay,
   IconSparkles,
 } from "@tabler/icons-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useAtom, useSetAtom } from "jotai";
+import { activeTabAtom, tabsAtom } from "@/state/atoms";
+import { createTab } from "@/utils/tabs";
 
 const DEMO_LANGUAGES = [
   { code: "en", label: "English", flag: "🇬🇧", male: "Male", female: "Female" },
-  { code: "fr", label: "Français", flag: "🇫🇷", male: "Masculin", female: "Féminin" },
-  { code: "es", label: "Español", flag: "🇪🇸", male: "Masculino", female: "Femenino" },
-  { code: "de", label: "Deutsch", flag: "🇩🇪", male: "Männlich", female: "Weiblich" },
+  {
+    code: "fr",
+    label: "Français",
+    flag: "🇫🇷",
+    male: "Masculin",
+    female: "Féminin",
+  },
+  {
+    code: "es",
+    label: "Español",
+    flag: "🇪🇸",
+    male: "Masculino",
+    female: "Femenino",
+  },
+  {
+    code: "de",
+    label: "Deutsch",
+    flag: "🇩🇪",
+    male: "Männlich",
+    female: "Weiblich",
+  },
   { code: "ja", label: "日本語", flag: "🇯🇵", male: "男性", female: "女性" },
-  { code: "ru", label: "Русский", flag: "🇷🇺", male: "Мужской", female: "Женский" },
+  {
+    code: "ru",
+    label: "Русский",
+    flag: "🇷🇺",
+    male: "Мужской",
+    female: "Женский",
+  },
   { code: "zh", label: "中文", flag: "🇨🇳", male: "男声", female: "女声" },
   { code: "ko", label: "한국어", flag: "🇰🇷", male: "남성", female: "여성" },
   { code: "hi", label: "हिन्दी", flag: "🇮🇳", male: "पुरुष", female: "महिला" },
@@ -52,8 +74,11 @@ export default function TTSDemoModal({
     gender: "male" | "female",
   ) {
     try {
-      const p = await resolveResource(`docs/demos/tts-demo-${lang}.pgn`);
-      let pgn = await readTextFile(p);
+      const res = await fetch(
+        `https://enparlant.redshed.ai/pgn/demo/tts-demo-${lang}.pgn`,
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      let pgn = await res.text();
       pgn = pgn.replace(
         '[AudioSource "demo"]',
         `[AudioSource "demo"]\n[AudioGender "${gender}"]`,
@@ -86,9 +111,10 @@ export default function TTSDemoModal({
       <Stack gap="md">
         <Text size="sm">
           This is a short demo of <strong>En Parlant~</strong>'s narrated
-          debrief feature. Pick a language, then <strong>step through the moves
-          yourself</strong> using the arrow keys or the move list — each move
-          narrates as you go. It's your pace, not auto-play.
+          debrief feature. Pick a language, then{" "}
+          <strong>step through the moves yourself</strong> using the arrow keys
+          or the move list — each move narrates as you go. It's your pace, not
+          auto-play.
         </Text>
         <Text size="sm">
           You can load <strong>any annotated PGN</strong> and have it narrated

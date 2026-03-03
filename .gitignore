@@ -42,7 +42,8 @@ scripts/kittentts-server.exe
 # Draft notes (not ready for release)
 AI-NOTE.md
 
-# Demo narration audio (hosted on R2, not in git)
+# Demo assets (hosted on R2, not in git)
+docs/demos/tts-demo-*.pgn
 docs/demos/narration/*/audio/
 docs/demos/backups/
 
