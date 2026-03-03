@@ -14,12 +14,12 @@ import {
 } from "@tauri-apps/api/menu";
 import { appLogDir, resolve, resolveResource } from "@tauri-apps/api/path";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { ask, message, open } from "@tauri-apps/plugin-dialog";
+import { ask, open } from "@tauri-apps/plugin-dialog";
 import { readTextFile } from "@tauri-apps/plugin-fs";
 import { platform } from "@tauri-apps/plugin-os";
-import { exit, relaunch } from "@tauri-apps/plugin-process";
+import { exit } from "@tauri-apps/plugin-process";
 import { open as shellOpen } from "@tauri-apps/plugin-shell";
-import { check } from "@tauri-apps/plugin-updater";
+import { check, type Update } from "@tauri-apps/plugin-updater";
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -28,6 +28,7 @@ import useSWRImmutable from "swr/immutable";
 import { match } from "ts-pattern";
 import type { Dirs } from "@/App";
 import AboutModal from "@/components/About";
+import UpdateModal from "@/components/UpdateModal";
 import { SideBar } from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
 import {
@@ -158,10 +159,15 @@ function RootLayout() {
   }, [navigate, setActiveTab, setTabs, t]);
 
   const openDemo = useCallback(
-    async (lang: string, label: string) => {
+    async (lang: string, label: string, gender: "male" | "female" = "male") => {
       try {
         const p = await resolveResource(`docs/demos/tts-demo-${lang}.pgn`);
-        const pgn = await readTextFile(p);
+        let pgn = await readTextFile(p);
+        // Inject gender header so the TTS system knows which clips to fetch
+        pgn = pgn.replace(
+          '[AudioSource "demo"]',
+          `[AudioSource "demo"]\n[AudioGender "${gender}"]`,
+        );
         navigate({ to: "/" });
         createTab({
           tab: { name: `TTS Demo (${label})`, type: "analysis" },
@@ -176,18 +182,19 @@ function RootLayout() {
     [navigate, setTabs, setActiveTab],
   );
 
+  const [updateModalOpened, setUpdateModalOpened] = useState(false);
+  const [pendingUpdate, setPendingUpdate] = useState<Update | null>(null);
+
   const checkForUpdates = useCallback(async () => {
     const update = await check();
     if (update) {
-      const yes = await ask("Do you want to install the new version now?", {
-        title: "New version available",
-      });
-      if (yes) {
-        await update.downloadAndInstall();
-        await relaunch();
-      }
+      setPendingUpdate(update);
+      setUpdateModalOpened(true);
     } else {
-      await message("No updates available");
+      notifications.show({
+        title: "Updates",
+        message: "No updates available.",
+      });
     }
   }, []);
 
@@ -336,50 +343,33 @@ function RootLayout() {
             action: () => shellOpen(docsUrl("tts-guide", docLang)),
           },
           {
-            label: "TTS Demo",
-            id: "tts_demo",
+            label: "TTS Demo (Male)",
+            id: "tts_demo_male",
             submenu: [
-              {
-                label: "English",
-                id: "tts_demo_en",
-                action: () => openDemo("en", "English"),
-              },
-              {
-                label: "Fran\u00e7ais",
-                id: "tts_demo_fr",
-                action: () => openDemo("fr", "Fran\u00e7ais"),
-              },
-              {
-                label: "Espa\u00f1ol",
-                id: "tts_demo_es",
-                action: () => openDemo("es", "Espa\u00f1ol"),
-              },
-              {
-                label: "Deutsch",
-                id: "tts_demo_de",
-                action: () => openDemo("de", "Deutsch"),
-              },
-              {
-                label: "\u65e5\u672c\u8a9e",
-                id: "tts_demo_ja",
-                action: () => openDemo("ja", "\u65e5\u672c\u8a9e"),
-              },
-              {
-                label: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
-                id: "tts_demo_ru",
-                action: () =>
-                  openDemo("ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439"),
-              },
-              {
-                label: "\u4e2d\u6587",
-                id: "tts_demo_zh",
-                action: () => openDemo("zh", "\u4e2d\u6587"),
-              },
-              {
-                label: "\uD55C\uAD6D\uC5B4",
-                id: "tts_demo_ko",
-                action: () => openDemo("ko", "\uD55C\uAD6D\uC5B4"),
-              },
+              { label: "English", id: "tts_demo_m_en", action: () => openDemo("en", "English", "male") },
+              { label: "Fran\u00e7ais", id: "tts_demo_m_fr", action: () => openDemo("fr", "Fran\u00e7ais", "male") },
+              { label: "Espa\u00f1ol", id: "tts_demo_m_es", action: () => openDemo("es", "Espa\u00f1ol", "male") },
+              { label: "Deutsch", id: "tts_demo_m_de", action: () => openDemo("de", "Deutsch", "male") },
+              { label: "\u65e5\u672c\u8a9e", id: "tts_demo_m_ja", action: () => openDemo("ja", "\u65e5\u672c\u8a9e", "male") },
+              { label: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", id: "tts_demo_m_ru", action: () => openDemo("ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", "male") },
+              { label: "\u4e2d\u6587", id: "tts_demo_m_zh", action: () => openDemo("zh", "\u4e2d\u6587", "male") },
+              { label: "\uD55C\uAD6D\uC5B4", id: "tts_demo_m_ko", action: () => openDemo("ko", "\uD55C\uAD6D\uC5B4", "male") },
+              { label: "\u0939\u093F\u0928\u094D\u0926\u0940", id: "tts_demo_m_hi", action: () => openDemo("hi", "\u0939\u093F\u0928\u094D\u0926\u0940", "male") },
+            ],
+          },
+          {
+            label: "TTS Demo (Female)",
+            id: "tts_demo_female",
+            submenu: [
+              { label: "English", id: "tts_demo_f_en", action: () => openDemo("en", "English", "female") },
+              { label: "Fran\u00e7ais", id: "tts_demo_f_fr", action: () => openDemo("fr", "Fran\u00e7ais", "female") },
+              { label: "Espa\u00f1ol", id: "tts_demo_f_es", action: () => openDemo("es", "Espa\u00f1ol", "female") },
+              { label: "Deutsch", id: "tts_demo_f_de", action: () => openDemo("de", "Deutsch", "female") },
+              { label: "\u65e5\u672c\u8a9e", id: "tts_demo_f_ja", action: () => openDemo("ja", "\u65e5\u672c\u8a9e", "female") },
+              { label: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", id: "tts_demo_f_ru", action: () => openDemo("ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439", "female") },
+              { label: "\u4e2d\u6587", id: "tts_demo_f_zh", action: () => openDemo("zh", "\u4e2d\u6587", "female") },
+              { label: "\uD55C\uAD6D\uC5B4", id: "tts_demo_f_ko", action: () => openDemo("ko", "\uD55C\uAD6D\uC5B4", "female") },
+              { label: "\u0939\u093F\u0928\u094D\u0926\u0940", id: "tts_demo_f_hi", action: () => openDemo("hi", "\u0939\u093F\u0928\u094D\u0926\u0940", "female") },
             ],
           },
           {
@@ -671,6 +661,11 @@ function RootLayout() {
       }}
     >
       <AboutModal opened={opened} setOpened={setOpened} />
+      <UpdateModal
+        opened={updateModalOpened}
+        onClose={() => setUpdateModalOpened(false)}
+        update={pendingUpdate}
+      />
       {!isNative && import.meta.env.VITE_PLATFORM === "win32" && (
         <AppShell.Header>
           <TopBar menuActions={menuActions} />

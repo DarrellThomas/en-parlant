@@ -42,6 +42,14 @@ scripts/kittentts-server.exe
 # Draft notes (not ready for release)
 AI-NOTE.md
 
+# Demo narration audio (hosted on R2, not in git)
+docs/demos/narration/*/audio/
+docs/demos/backups/
+
+# Generated clip output
+scripts/chess-clips/
+scripts/__pycache__/
+
 # Site and Cloudflare local state (separate repo)
 site/
 .wrangler/

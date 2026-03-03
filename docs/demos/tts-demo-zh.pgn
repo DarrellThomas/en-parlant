@@ -1,16 +1,17 @@
-[Event "Play vs Coach"]
-[Site "Chess.com"]
+[Event "Demo in English"]
 [Date "2026.02.26"]
 [Round "-"]
-[White "Agent737"]
-[Black "Coach-David"]
+[White "Allen"]
+[Black "Bob"]
 [Result "1-0"]
 [ECO "B01"]
 [Opening "Scandinavian Defense"]
 [WhiteElo "943"]
-[BlackElo "1200"]
-[Termination "Agent737 won by checkmate"]
-[Annotator "Claude Chess Lab (ZH)"]
+[BlackElo "1050"]
+[Termination "Allen won by checkmate"]
+[Annotator "En Parlant"]
+[AudioSource "demo"]
+[Language "zh"]
 
-{斯堪的纳维亚防御：黑方立即挑战e4兵。白方需要吃回并争夺中心控制权。}
-1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] 用马吃回非常出色。马占据强力的中心格，向四面八方辐射影响力。} Bf5 {这正是斯堪的纳维亚防御的要点——趁兵还没堵住之前先把浅色格象发展出来。} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] 后同时瞄准f7和f5的象，黑方必须小心。} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {白方强力推兵打开中心。} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] 吃兵看似诱人，但黑方整个王翼还在沉睡。王困在中心，子力毫无出子。} 11. O-O-O! {[%cal Gd1d4,Gc1d1] 长易位带节奏！车直接落在d列，正对黑方的后。} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] 强力吃回，撕开黑方的兵形掩护。后现在有了直通c6的通道。} exf6 18. Qxc6! {后成功渗透，黑方弱格太多，阵型正在崩溃。} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] 将杀！白方的后和车从始至终统治着d列。关键教训：王还在中心时，别用后贪吃兵。} 1-0
+{The Scandinavian Defense: Black immediately challenges the e4 pawn. White needs to recapture and fight for the center.}
+1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] Recapturing with the knight is excellent. It lands on a powerful central square, radiating influence in every direction.} Bf5 {This is the whole point of the Scandinavian for Black -- the light-squared bishop develops before the pawns block it in.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] The queen eyes both f7 and the bishop on f5. Black needs to be careful.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {White opens the center with a strong pawn push.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] Grabbing the pawn looks tempting, but Black's entire kingside is still asleep. The king is stuck in the center with nothing developed.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] Castling queenside with tempo! The rook lands on the d-file aiming straight at Black's queen.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] A strong recapture that rips open Black's pawn cover. The queen now has a clear path into c6.} exf6 18. Qxc6! {The queen infiltrates. Black's position is falling apart with too many weak squares.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] Checkmate! White's queen and rook dominated the d-file from start to finish. The key lesson: don't grab pawns with your queen when your king is still in the center.} 1-0

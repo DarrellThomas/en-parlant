@@ -1,16 +1,17 @@
-[Event "Play vs Coach"]
-[Site "Chess.com"]
+[Event "Demo auf Deutsch"]
 [Date "2026.02.26"]
 [Round "-"]
-[White "Agent737"]
-[Black "Coach-David"]
+[White "Allen"]
+[Black "Bob"]
 [Result "1-0"]
 [ECO "B01"]
 [Opening "Scandinavian Defense"]
 [WhiteElo "943"]
-[BlackElo "1200"]
-[Termination "Agent737 won by checkmate"]
-[Annotator "Claude Chess Lab (DE)"]
+[BlackElo "1050"]
+[Termination "Allen gewann durch Schachmatt"]
+[Annotator "En Parlant"]
+[AudioSource "demo"]
+[Language "de"]
 
-{Die Skandinavische Verteidigung: Schwarz greift sofort den e4-Bauern an. Weiß muss zurückschlagen und ums Zentrum kämpfen.}
-1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] Das Zurückschlagen mit dem Springer ist ausgezeichnet. Er steht auf einem starken Zentralfeld und strahlt Einfluss in alle Richtungen aus.} Bf5 {Das ist die Idee der Skandinavischen für Schwarz -- der weißfeldriger Läufer entwickelt sich, bevor die Bauern ihn einmauern.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] Die Dame zielt auf f7 und den Läufer auf f5. Schwarz muss aufpassen.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {Weiß öffnet das Zentrum mit einem starken Bauernstoß.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] Den Bauern zu schnappen sieht verlockend aus, aber Schwarz' gesamter Königsflügel schläft noch. Der König steckt im Zentrum fest, ohne Entwicklung.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] Rochade auf der Damenseite mit Tempogewinn! Der Turm landet auf der d-Linie und zielt direkt auf die schwarze Dame.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] Ein starkes Zurückschlagen, das Schwarz' Bauerndeckung aufreißt. Die Dame hat jetzt einen freien Weg nach c6.} exf6 18. Qxc6! {Die Dame dringt ein. Schwarz' Stellung bricht zusammen -- zu viele schwache Felder.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] Schachmatt! Weiß' Dame und Turm beherrschten die d-Linie von Anfang bis Ende. Die wichtigste Lektion: Schnapp dir keine Bauern mit der Dame, solange dein König noch im Zentrum steht.} 1-0
+{Die Skandinavische Verteidigung: Schwarz greift sofort den e4-Bauern an. Weiß muss zurückschlagen und um das Zentrum kämpfen.}
+1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] Das Zurückschlagen mit dem Springer ist ausgezeichnet. Er landet auf einem mächtigen Zentralfeld und strahlt Einfluss in alle Richtungen aus.} Bf5 {Das ist der ganze Sinn der Skandinavischen Verteidigung für Schwarz -- der weißfeldrige Läufer entwickelt sich, bevor die Bauern ihn einsperren.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] Die Dame bedroht sowohl f7 als auch den Läufer auf f5. Schwarz muss vorsichtig sein.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {Weiß öffnet das Zentrum mit einem starken Bauernvorstoß.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] Den Bauern zu schnappen sieht verlockend aus, aber Blacks gesamter Königsflügel schläft noch. Der König steckt im Zentrum fest und nichts ist entwickelt.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] Lange Rochade mit Tempo! Der Turm landet auf der d-Linie und zielt direkt auf Blacks Dame.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] Ein starker Rückschlag, der Blacks Bauerndeckung aufreißt. Die Dame hat jetzt freie Bahn nach c6.} exf6 18. Qxc6! {Die Dame dringt ein. Blacks Stellung bricht zusammen mit zu vielen schwachen Feldern.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] Schachmatt! Weiß' Dame und Turm beherrschten die d-Linie von Anfang bis Ende. Die wichtige Lektion: Schnappe keine Bauern mit deiner Dame, wenn dein König noch im Zentrum steht.} 1-0

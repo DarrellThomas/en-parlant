@@ -20,8 +20,8 @@ import {
   ttsVoiceIdAtom,
   ttsVolumeAtom,
 } from "@/state/atoms";
-import { playCloudNarration } from "@/utils/cloudTts";
-import type { TreeNode } from "@/utils/treeReducer";
+import { playCloudNarration, playDemoNarration } from "@/utils/cloudTts";
+import type { GameHeaders, TreeNode } from "@/utils/treeReducer";
 
 // Throttle TTS notifications so rapid navigation doesn't spam the user
 let lastTtsNotification = 0;
@@ -225,6 +225,25 @@ const CHESS_VOCAB: Record<string, ChessVocab> = {
     dubious: "의심스러운 수.",
     mistake: "실수.",
     blunder: "대실수.",
+  },
+  hi: {
+    King: "राजा",
+    Queen: "वज़ीर",
+    Rook: "हाथी",
+    Bishop: "ऊँट",
+    Knight: "घोड़ा",
+    castlesKingside: "किंगसाइड कैसलिंग",
+    castlesQueenside: "क्वीनसाइड कैसलिंग",
+    takes: "मारता है",
+    check: "शह",
+    checkmate: "शह और मात",
+    promotesTo: "में बदलता है",
+    brilliant: "शानदार चाल।",
+    good: "अच्छी चाल।",
+    interesting: "दिलचस्प चाल।",
+    dubious: "संदिग्ध चाल।",
+    mistake: "गलती।",
+    blunder: "बड़ी गलती।",
   },
 };
 
@@ -1012,7 +1031,16 @@ export async function speakText(text: string): Promise<void> {
   }
 }
 
-export async function speakComment(comment: string): Promise<void> {
+export async function speakComment(
+  comment: string,
+  headers?: GameHeaders,
+): Promise<void> {
+  // Demo mode — play intro clip (halfMoves=0)
+  if (headers?.other?.AudioSource === "demo" && headers?.other?.Language) {
+    await playDemoNarration(0, headers.other.Language, headers.other.AudioGender);
+    return;
+  }
+
   const store = getDefaultStore();
   const provider = store.get(ttsProviderAtom) || "cloud";
   // Cloud provider can't speak arbitrary comment text
@@ -1029,7 +1057,14 @@ export async function speakMoveNarration(
   comment: string,
   annotations: string[],
   halfMoves: number,
+  headers?: GameHeaders,
 ): Promise<void> {
+  // Demo mode — works regardless of provider setting
+  if (headers?.other?.AudioSource === "demo" && headers?.other?.Language) {
+    await playDemoNarration(halfMoves, headers.other.Language, headers.other.AudioGender);
+    return;
+  }
+
   const store = getDefaultStore();
   const provider = store.get(ttsProviderAtom) || "cloud";
 

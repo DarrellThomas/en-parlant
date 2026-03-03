@@ -1,16 +1,17 @@
-[Event "Play vs Coach"]
-[Site "Chess.com"]
+[Event "한국어 데모"]
 [Date "2026.02.26"]
 [Round "-"]
-[White "Agent737"]
-[Black "Coach-David"]
+[White "Allen"]
+[Black "Bob"]
 [Result "1-0"]
 [ECO "B01"]
 [Opening "Scandinavian Defense"]
 [WhiteElo "943"]
-[BlackElo "1200"]
-[Termination "Agent737 won by checkmate"]
-[Annotator "Claude Chess Lab (KO)"]
+[BlackElo "1050"]
+[Termination "Allen이 체크메이트로 승리했습니다"]
+[Annotator "En Parlant"]
+[AudioSource "demo"]
+[Language "ko"]
 
-{스칸디나비안 디펜스: 흑이 e4 폰에 즉시 도전한다. 백은 되잡고 중앙 지배를 위해 싸워야 한다.}
-1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] 나이트로 되잡는 것은 훌륭하다. 강력한 중앙 칸에 착지하여 모든 방향으로 영향력을 발산하고 있다.} Bf5 {이것이 흑의 스칸디나비안의 핵심이다 -- 폰에 갇히기 전에 라이트스퀘어 비숍을 전개한다.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] 퀸이 f7과 f5의 비숍을 동시에 노리고 있다. 흑은 주의해야 한다.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {백이 강력한 폰 전진으로 중앙을 연다.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] 폰을 잡는 것이 매력적으로 보이지만, 흑의 킹사이드는 아직 완전히 잠들어 있다. 킹이 중앙에 갇혀 있고 전개가 전혀 안 되어 있다.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] 템포를 얻으며 퀸사이드 캐슬링! 룩이 d파일에 들어서며 흑의 퀸을 직접 겨냥한다.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] 흑의 폰 방어를 찢어버리는 강력한 되잡기. 퀸에게 c6으로의 명확한 길이 열렸다.} exf6 18. Qxc6! {퀸이 침투한다. 약한 칸이 너무 많아서 흑의 진형이 무너지고 있다.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] 체크메이트! 백의 퀸과 룩이 처음부터 끝까지 d파일을 지배했다. 핵심 교훈: 킹이 아직 중앙에 있을 때 퀸으로 폰을 잡으러 가지 마라.} 1-0
+{스칸디나비아 디펜스: 흑이 즉시 e4 폰에 도전한다. 백은 재점령하고 중앙을 위해 싸워야 한다.}
+1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] 나이트로 재점령하는 것이 훌륭하다. 강력한 중앙 스퀘어에 착지하여 모든 방향으로 영향력을 발산한다.} Bf5 {이것이 흑에게 스칸디나비아 디펜스의 핵심이다 -- 라이트스퀘어 비숍이 폰들이 막기 전에 개발된다.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] 퀸이 f7과 f5의 비숍을 모두 노린다. 흑은 조심해야 한다.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {백이 강력한 폰 전진으로 중앙을 연다.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] 폰을 잡는 것이 유혹적으로 보이지만, 흑의 킹사이드 전체가 아직 잠들어 있다. 킹이 중앙에 갇혀 있고 아무것도 개발되지 않았다.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] 템포를 얻으며 퀸사이드 캐슬링! 룩이 d파일에 착지하여 흑의 퀸을 직접 겨냥한다.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] 흑의 폰 보호막을 찢어버리는 강력한 재점령. 퀸이 이제 c6로 가는 명확한 길을 얻었다.} exf6 18. Qxc6! {퀸이 침투한다. 너무 많은 약점으로 흑의 포지션이 무너지고 있다.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] 체크메이트! 백의 퀸과 룩이 처음부터 끝까지 d파일을 지배했다. 핵심 교훈: 킹이 아직 중앙에 있을 때 퀸으로 폰을 잡지 마라.} 1-0

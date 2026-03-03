@@ -6,6 +6,7 @@ import { commands } from "@/bindings";
 import { type FileMetadata, fileMetadataSchema } from "@/components/files/file";
 import type { TreeStoreState } from "@/state/store/tree";
 import { getPGN, parsePGN } from "./chess";
+import { prefetchDemoClips } from "./cloudTts";
 import { type GameHeaders, getGameName } from "./treeReducer";
 
 const INVALID_FILENAME_CHARS = /[\\/:*?"<>|]+/g;
@@ -84,6 +85,18 @@ export async function createTab({
       }
     }
     sessionStorage.setItem(id, JSON.stringify({ version: 0, state: tree }));
+
+    // Prefetch demo narration clips so playback is instant
+    if (
+      tree.headers.other?.AudioSource === "demo" &&
+      tree.headers.other?.Language
+    ) {
+      prefetchDemoClips(
+        tree.root,
+        tree.headers.other.Language,
+        tree.headers.other.AudioGender,
+      );
+    }
   }
 
   setTabs((prev) => {

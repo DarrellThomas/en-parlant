@@ -1,7 +1,9 @@
+import { notifications } from "@mantine/notifications";
 import { fetch } from "@tauri-apps/plugin-http";
 import { getDefaultStore } from "jotai";
 import { ttsSpeedAtom, ttsVolumeAtom } from "@/state/atoms";
 import { audioCache, getRequestGeneration, setCurrentAudio } from "./tts";
+import type { TreeNode } from "./treeReducer";
 
 const CLOUD_BASE_URL = "https://enparlant.redshed.ai/audio";
 
@@ -249,6 +251,80 @@ export async function playCloudNarration(
   }
 
   setCurrentAudio(null);
+}
+
+/**
+ * Plays a pre-recorded demo narration clip from R2.
+ * Used when a PGN has [AudioSource "demo"] header.
+ */
+export async function playDemoNarration(
+  halfMoves: number,
+  lang: string,
+  gender = "male",
+): Promise<void> {
+  const store = getDefaultStore();
+  const volume = store.get(ttsVolumeAtom);
+  const speed = store.get(ttsSpeedAtom);
+  const generation = getRequestGeneration();
+
+  const url = `${CLOUD_BASE_URL}/demo/${lang}/${gender}/move-${halfMoves}.mp3`;
+  const blobUrl = await fetchClip(url);
+
+  if (generation !== getRequestGeneration()) return;
+  if (!blobUrl) return; // 404 — no clip for this move, silently skip
+
+  await playClip(blobUrl, volume, speed);
+  setCurrentAudio(null);
+}
+
+/**
+ * Prefetches all demo narration clips for a game tree.
+ * Called when a demo PGN is loaded so clips are cached before the user navigates.
+ * Shows an error notification if the network is unavailable.
+ */
+export async function prefetchDemoClips(
+  root: TreeNode,
+  lang: string,
+  gender = "male",
+): Promise<void> {
+  // Collect all halfMoves that have commentary or annotations
+  const halfMoves: number[] = [];
+  if (root.comment) halfMoves.push(0); // intro comment
+
+  const queue: TreeNode[] = [...root.children];
+  while (queue.length > 0) {
+    const node = queue.pop()!;
+    if (node.comment || node.annotations.length > 0) {
+      halfMoves.push(node.halfMoves);
+    }
+    for (const child of node.children) {
+      queue.push(child);
+    }
+  }
+
+  if (halfMoves.length === 0) return;
+
+  const urls = halfMoves.map(
+    (hm) => `${CLOUD_BASE_URL}/demo/${lang}/${gender}/move-${hm}.mp3`,
+  );
+
+  // Connectivity check — try to reach the first clip URL
+  try {
+    await fetch(urls[0], { method: "HEAD" });
+  } catch {
+    notifications.show({
+      title: "Demo audio unavailable",
+      message:
+        "Internet access is required to load the demo narration audio files. Connect to the internet and try again.",
+      color: "red",
+      autoClose: 10000,
+    });
+    return;
+  }
+
+  // Fetch all clips in parallel into cache
+  await Promise.all(urls.map((url) => fetchClip(url)));
+  console.log(`Demo TTS: prefetched ${urls.length} clips for lang=${lang}`);
 }
 
 /**

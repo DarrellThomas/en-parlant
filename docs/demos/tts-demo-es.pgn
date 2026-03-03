@@ -1,16 +1,17 @@
-[Event "Play vs Coach"]
-[Site "Chess.com"]
+[Event "Demo en español"]
 [Date "2026.02.26"]
 [Round "-"]
-[White "Agent737"]
-[Black "Coach-David"]
+[White "Allen"]
+[Black "Bob"]
 [Result "1-0"]
 [ECO "B01"]
 [Opening "Scandinavian Defense"]
 [WhiteElo "943"]
-[BlackElo "1200"]
-[Termination "Agent737 won by checkmate"]
-[Annotator "Claude Chess Lab (ES)"]
+[BlackElo "1050"]
+[Termination "Allen ganó por jaque mate"]
+[Annotator "En Parlant"]
+[AudioSource "demo"]
+[Language "es"]
 
-{La Defensa Escandinava: las negras desafían el peón de e4 de inmediato. Las blancas deben recapturar y luchar por el centro.}
-1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] Recapturar con el Caballo es excelente. Aterriza en una casilla central poderosa, irradiando influencia en todas las direcciones.} Bf5 {Este es el objetivo de la Escandinava para las negras: el Alfil de casillas claras se desarrolla antes de que los peones lo encierren.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] La Dama apunta tanto a f7 como al Alfil en f5. Las negras deben tener cuidado.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {Las blancas abren el centro con un fuerte avance de peón.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] Capturar el peón es tentador, pero todo el flanco de Rey negro sigue dormido. El Rey está atrapado en el centro sin desarrollo.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] ¡Enroque largo con tempo! La Torre cae en la columna d apuntando directamente a la Dama negra.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] Una recaptura fuerte que destroza la cobertura de peones negra. La Dama ahora tiene vía libre hacia c6.} exf6 18. Qxc6! {La Dama se infiltra. La posición negra se desmorona con demasiadas casillas débiles.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] ¡Mate! La Dama y la Torre blancas dominaron la columna d de principio a fin. La lección clave: no captures peones con la Dama cuando tu Rey aún está en el centro.} 1-0
+{La Defensa Escandinava: Las negras inmediatamente desafían el peón e4. Las blancas necesitan recapturar y luchar por el centro.}
+1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] Recapturar con el caballo es excelente. Aterriza en una poderosa casilla central, irradiando influencia en todas las direcciones.} Bf5 {Este es todo el punto de la Escandinava para las negras -- el alfil de casillas claras se desarrolla antes de que los peones lo bloqueen.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] La dama apunta tanto a f7 como al alfil en f5. Las negras necesitan tener cuidado.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {Las blancas abren el centro con un fuerte avance de peón.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] Capturar el peón parece tentador, pero todo el flanco de rey de las negras sigue dormido. El rey está atascado en el centro sin nada desarrollado.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] ¡Enroque largo con tempo! La torre aterriza en la columna d apuntando directamente a la dama de las negras.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] Una recaptura fuerte que abre la cobertura de peones de las negras. La dama ahora tiene un camino claro hacia c6.} exf6 18. Qxc6! {La dama se infiltra. La posición de las negras se desmorona con demasiadas casillas débiles.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] ¡Jaque mate! La dama y torre de las blancas dominaron la columna d de principio a fin. La lección clave: no captures peones con tu dama cuando tu rey aún está en el centro.} 1-0

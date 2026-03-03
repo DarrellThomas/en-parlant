@@ -1,16 +1,17 @@
-[Event "Play vs Coach"]
-[Site "Chess.com"]
+[Event "Démonstration en français"]
 [Date "2026.02.26"]
 [Round "-"]
-[White "Agent737"]
-[Black "Coach-David"]
+[White "Allen"]
+[Black "Bob"]
 [Result "1-0"]
 [ECO "B01"]
 [Opening "Scandinavian Defense"]
 [WhiteElo "943"]
-[BlackElo "1200"]
-[Termination "Agent737 won by checkmate"]
-[Annotator "Claude Chess Lab (FR)"]
+[BlackElo "1050"]
+[Termination "Allen a gagné par échec et mat"]
+[Annotator "En Parlant"]
+[AudioSource "demo"]
+[Language "fr"]
 
-{La Défense Scandinave : les Noirs contestent immédiatement le pion e4. Les Blancs doivent reprendre et lutter pour le centre.}
-1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] Reprendre avec le Cavalier est excellent. Il occupe une case centrale puissante, rayonnant dans toutes les directions.} Bf5 {C'est tout l'intérêt de la Scandinave pour les Noirs -- le Fou de cases blanches se développe avant que les pions ne l'enferment.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] La Dame vise à la fois f7 et le Fou en f5. Les Noirs doivent rester vigilants.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {Les Blancs ouvrent le centre avec une poussée de pion énergique.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] Prendre le pion est tentant, mais tout le flanc roi des Noirs dort encore. Le Roi est coincé au centre sans aucun développement.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] Roque du côté Dame avec tempo ! La Tour arrive sur la colonne d, visant directement la Dame noire.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] Une reprise puissante qui détruit la couverture de pions noire. La Dame a maintenant un chemin dégagé vers c6.} exf6 18. Qxc6! {La Dame s'infiltre. La position noire s'effondre avec trop de cases faibles.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] Échec et mat ! La Dame et la Tour blanches ont dominé la colonne d du début à la fin. La leçon clé : ne capturez pas des pions avec votre Dame quand votre Roi est encore au centre.} 1-0
+{La Défense Scandinave : les Noirs défient immédiatement le pion e4. Les Blancs doivent reprendre et lutter pour le centre.}
+1. e4 d5 2. Nc3 dxe4 3. Nxe4 {[%cal Ge4d6,Ge4f6,Ge4c5] Reprendre avec le cavalier est excellent. Il atterrit sur une case centrale puissante, rayonnant d'influence dans toutes les directions.} Bf5 {C'est tout l'intérêt de la Scandinave pour les Noirs -- le fou de cases claires se développe avant que les pions ne l'enferment.} 4. d3 Be6 5. Qf3 {[%cal Gf3f7,Gf3f5] La dame vise à la fois f7 et le fou en f5. Les Noirs doivent faire attention.} a5 6. c4 c6 7. Bf4 Na6 8. b3 b6 9. d4 {Les Blancs ouvrent le centre avec une poussée de pion forte.} Ra7 10. Bd3 Qxd4?! {[%csl Rg8,Rf8,Rh8] Prendre le pion semble tentant, mais tout l'aile roi des Noirs dort encore. Le roi est coincé au centre sans rien de développé.} 11. O-O-O! {[%cal Gd1d4,Gc1d1] Roque du côté dame avec tempo ! La tour atterrit sur la colonne d avec une visée directe sur la dame noire.} Nb4 12. Ne2 Nxd3+ 13. Rxd3 Qa1+ 14. Kd2 Qb2+ 15. Ke3 Rd7 16. Rhd1 Nf6 17. Nxf6+! {[%cal Gf3c6] Une reprise forte qui déchire la couverture de pions noirs. La dame a maintenant un chemin dégagé vers c6.} exf6 18. Qxc6! {La dame s'infiltre. La position des Noirs s'effondre avec trop de cases faibles.} Bc5+ 19. Kf3 Ke7 20. Rxd7+ Bxd7 21. Qxd7+ Kf8 22. Qd8# {[%csl Gd8] Échec et mat ! La dame et la tour blanches ont dominé la colonne d du début à la fin. La leçon clé : ne prenez pas de pions avec votre dame quand votre roi est encore au centre.} 1-0
