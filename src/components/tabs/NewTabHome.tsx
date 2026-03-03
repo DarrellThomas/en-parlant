@@ -27,12 +27,14 @@ import { createTab } from "@/utils/tabs";
 import { unwrap } from "@/utils/unwrap";
 import CreateRepertoireModal from "./CreateRepertoireModal";
 import ImportModal from "./ImportModal";
+import TTSDemoModal from "./TTSDemoModal";
 import "./NewTabHome.css";
 import {
   IconChess,
   IconClock,
   IconFile,
   IconFileImport,
+  IconHeadphones,
   IconPuzzle,
   IconTarget,
   IconTargetArrow,
@@ -141,6 +143,7 @@ export default function NewTabHome({ id }: { id: string }) {
 
   const [openModal, setOpenModal] = useState(false);
   const [openRepertoireModal, setOpenRepertoireModal] = useState(false);
+  const [openDemoModal, setOpenDemoModal] = useState(false);
   const [, setTabs] = useAtom(tabsAtom);
   const setActiveTab = useSetAtom(activeTabAtom);
 
@@ -265,6 +268,13 @@ export default function NewTabHome({ id }: { id: string }) {
         });
       },
     },
+    {
+      icon: <IconHeadphones size={60} />,
+      title: t("Home.Card.NarratedDemo.Title"),
+      description: t("Home.Card.NarratedDemo.Desc"),
+      label: t("Home.Card.NarratedDemo.Button"),
+      onClick: () => setOpenDemoModal(true),
+    },
   ];
 
   return (
@@ -273,6 +283,10 @@ export default function NewTabHome({ id }: { id: string }) {
       <CreateRepertoireModal
         opened={openRepertoireModal}
         setOpened={setOpenRepertoireModal}
+      />
+      <TTSDemoModal
+        opened={openDemoModal}
+        onClose={() => setOpenDemoModal(false)}
       />
       <Stack gap="lg" pt="sm">
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }}>
