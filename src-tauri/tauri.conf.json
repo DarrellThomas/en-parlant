@@ -15,7 +15,13 @@
     ],
     "linux": {
       "deb": {
-        "depends": []
+        "depends": [],
+        "desktopTemplate": "linux/en-parlant.desktop",
+        "postInstallScript": "linux/en-parlant-postinst.sh"
+      },
+      "rpm": {
+        "desktopTemplate": "linux/en-parlant.desktop",
+        "postInstallScript": "linux/en-parlant-postinst.sh"
       },
       "appimage": {
         "bundleMediaFramework": true
@@ -49,7 +55,7 @@
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420"
   },
-  "productName": "en-parlant",
+  "productName": "En Parlant",
   "mainBinaryName": "en-parlant",
   "identifier": "org.enparlant.app",
   "plugins": {

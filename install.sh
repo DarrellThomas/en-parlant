@@ -76,11 +76,35 @@ Name=En Parlant~
 Exec=en-parlant %f
 Icon=en-parlant
 StartupWMClass=en-parlant
+StartupNotify=false
 Comment=Chess Database with TTS
 Categories=Game;BoardGame;
 Terminal=false
-MimeType=application/x-chess-pgn;
+MimeType=application/x-chess-pgn;application/vnd.chess-pgn;
 EOF
+
+# Update MIME database so the desktop file is picked up
+update-desktop-database /usr/share/applications 2>/dev/null || true
+
+# Set En Parlant~ as the default handler for PGN files.
+# Both the primary type (vnd.chess-pgn) and its alias (x-chess-pgn) are set.
+_set_mime_defaults() {
+  local cfg="$1"
+  mkdir -p "$(dirname "$cfg")"
+  touch "$cfg"
+  grep -q '^\[Default Applications\]' "$cfg" || echo '[Default Applications]' >> "$cfg"
+  sed -i '/^application\/x-chess-pgn=/d;/^application\/vnd\.chess-pgn=/d' "$cfg"
+  sed -i '/^\[Default Applications\]/a application/x-chess-pgn=en-parlant.desktop\napplication/vnd.chess-pgn=en-parlant.desktop' "$cfg"
+}
+
+# System-wide default (for users without a personal preference)
+_set_mime_defaults /usr/share/applications/mimeapps.list
+
+# Per-user default for whoever ran sudo
+if [ -n "$SUDO_USER" ]; then
+  USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+  _set_mime_defaults "$USER_HOME/.config/mimeapps.list"
+fi
 
 echo "Installed en-parlant"
 echo "  Binary:    /usr/bin/en-parlant"
