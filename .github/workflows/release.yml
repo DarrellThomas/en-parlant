@@ -121,3 +121,20 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+
+  checksums:
+    needs: release
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate and upload SHA256SUMS.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir assets
+          gh release download ${{ github.ref_name }} --repo ${{ github.repository }} --dir assets
+          cd assets
+          sha256sum $(ls | grep -v 'SHA256SUMS' | grep -v 'latest.json') | sort > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+          gh release upload ${{ github.ref_name }} SHA256SUMS.txt --repo ${{ github.repository }} --clobber
