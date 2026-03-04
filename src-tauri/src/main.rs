@@ -343,19 +343,53 @@ fn install_update_linux() -> Result<(), String> {
             .output()
             .ok();
 
-        let output = Command::new("pkexec")
+        // Spawn pkexec and poll with a timeout so a missing/frozen polkit agent
+        // surfaces as a recoverable error instead of an indefinite hang.
+        let mut child = Command::new("pkexec")
             .arg(script_path)
-            .output()
+            .stdin(std::process::Stdio::null())
+            .stderr(std::process::Stdio::piped())
+            .spawn()
             .map_err(|e| format!("Failed to launch pkexec: {}", e))?;
+
+        let timeout = std::time::Duration::from_secs(120);
+        let start = std::time::Instant::now();
+        let status = loop {
+            match child.try_wait() {
+                Ok(Some(s)) => break s,
+                Ok(None) => {
+                    if start.elapsed() > timeout {
+                        let _ = child.kill();
+                        fs::remove_file(script_path).ok();
+                        return Err(
+                            "Authentication timed out (120 s). \
+                             Is a polkit agent (e.g. gnome-polkit) running?"
+                                .to_string(),
+                        );
+                    }
+                    std::thread::sleep(std::time::Duration::from_millis(200));
+                }
+                Err(e) => {
+                    let _ = child.kill();
+                    fs::remove_file(script_path).ok();
+                    return Err(format!("Failed to wait for pkexec: {}", e));
+                }
+            }
+        };
 
         // Clean up script
         fs::remove_file(script_path).ok();
 
-        if !output.status.success() {
-            let stderr = String::from_utf8_lossy(&output.stderr);
+        let mut stderr_str = String::new();
+        if let Some(mut s) = child.stderr.take() {
+            use std::io::Read;
+            let _ = s.read_to_string(&mut stderr_str);
+        }
+
+        if !status.success() {
             return Err(format!(
                 "Install failed (password cancelled or permission denied). {}",
-                stderr.trim()
+                stderr_str.trim()
             ));
         }
 
