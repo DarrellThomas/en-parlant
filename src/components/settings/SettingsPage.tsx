@@ -452,16 +452,7 @@ export default function Page() {
             onChange={(val) => {
               i18n.changeLanguage(val?.replace("_", "-") || "en-US");
               localStorage.setItem("lang", val || "en_US");
-              const ttsLangs = [
-                "en",
-                "fr",
-                "es",
-                "de",
-                "ja",
-                "ru",
-                "zh",
-                "ko",
-              ];
+              const ttsLangs = ["en", "fr", "es", "de", "ja", "ru", "zh", "ko"];
               const base = (val || "en_US").split("_")[0];
               if (ttsLangs.includes(base)) {
                 setTtsLanguage(base);

@@ -1,7 +1,7 @@
 {
   "name": "en-parlant",
   "private": true,
-  "version": "0.1.6",
+  "version": "0.1.6-beta",
   "type": "module",
   "scripts": {
     "start-vite": "vite",
