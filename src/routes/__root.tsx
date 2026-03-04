@@ -337,10 +337,10 @@ function RootLayout() {
         ],
       },
       {
-        label: "Text to Speech",
+        label: t("Menu.TTS"),
         options: [
           {
-            label: "Getting Started",
+            label: t("Menu.TTS.GettingStarted"),
             id: "tts_getting_started",
             action: () => shellOpen(docsUrl("tts-guide", docLang)),
           },
@@ -521,12 +521,12 @@ function RootLayout() {
         label: t("Menu.Help"),
         options: [
           {
-            label: "En Parlant~ Docs",
+            label: t("Menu.Help.Docs"),
             id: "documentation",
             action: () => shellOpen(`${DOCS_BASE}/docs/`),
           },
           {
-            label: "License (GPL-3.0)",
+            label: t("Menu.Help.License"),
             id: "license",
             action: () =>
               shellOpen(
@@ -534,27 +534,32 @@ function RootLayout() {
               ),
           },
           {
-            label: "Under the Hood",
+            label: t("Menu.Help.Credits"),
+            id: "credits",
+            action: () => shellOpen(`${DOCS_BASE}/credits/`),
+          },
+          {
+            label: t("Menu.Help.Architecture"),
             id: "architecture",
             action: () => shellOpen(docsUrl("architecture", docLang)),
           },
           { label: "divider" },
           {
-            label: "About AI",
+            label: t("Menu.Help.AboutAI"),
             id: "about_ai",
             submenu: [
               {
-                label: "A Note from Darrell",
+                label: t("Menu.Help.NoteFromDarrell"),
                 id: "ai_note",
                 action: () => shellOpen(docsUrl("ai-note", docLang)),
               },
               {
-                label: "A Note from Claude",
+                label: t("Menu.Help.NoteFromClaude"),
                 id: "claude_note",
                 action: () => shellOpen(docsUrl("claude-note", docLang)),
               },
               {
-                label: "AI Workflow",
+                label: t("Menu.Help.AIWorkflow"),
                 id: "ai_workflow",
                 action: () => shellOpen(docsUrl("ai-workflow", docLang)),
               },
