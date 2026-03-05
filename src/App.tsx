@@ -52,9 +52,6 @@ const colorSchemeManager = localStorageColorSchemeManager({
   key: "mantine-color-scheme",
 });
 
-import { ask } from "@tauri-apps/plugin-dialog";
-import { relaunch } from "@tauri-apps/plugin-process";
-import { check } from "@tauri-apps/plugin-updater";
 import ErrorComponent from "@/components/ErrorComponent";
 import {
   getDatabasesDir,
@@ -116,23 +113,6 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const checkForUpdates = async () => {
-  try {
-    const update = await check();
-    if (update) {
-      const yes = await ask("Do you want to install the new version now?", {
-        title: "New version available",
-      });
-      if (yes) {
-        await update.downloadAndInstall();
-        await relaunch();
-      }
-    }
-  } catch (e) {
-    error(`Failed to check for updates: ${e}`);
-  }
-};
-
 const preloadReferenceDb = async (
   store: ReturnType<typeof getDefaultStore>,
 ) => {
@@ -160,8 +140,6 @@ function useAppStartup() {
 
       const detach = await attachConsole();
       info("React app started successfully");
-
-      checkForUpdates();
 
       const store = getDefaultStore();
 

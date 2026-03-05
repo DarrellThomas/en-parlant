@@ -200,6 +200,20 @@ function RootLayout() {
     }
   }, []);
 
+  // Auto-check for updates on startup (silently — no toast if already up to date)
+  useEffect(() => {
+    check()
+      .then((update) => {
+        if (update) {
+          setPendingUpdate(update);
+          setUpdateModalOpened(true);
+        }
+      })
+      .catch(() => {
+        // Ignore network/update-check errors at startup
+      });
+  }, []);
+
   const openSettings = useCallback(async () => {
     navigate({ to: "/settings" });
   }, [navigate]);
@@ -542,28 +556,6 @@ function RootLayout() {
             label: t("Menu.Help.Architecture"),
             id: "architecture",
             action: () => shellOpen(docsUrl("architecture", docLang)),
-          },
-          { label: "divider" },
-          {
-            label: t("Menu.Help.AboutAI"),
-            id: "about_ai",
-            submenu: [
-              {
-                label: t("Menu.Help.NoteFromDarrell"),
-                id: "ai_note",
-                action: () => shellOpen(docsUrl("ai-note", docLang)),
-              },
-              {
-                label: t("Menu.Help.NoteFromClaude"),
-                id: "claude_note",
-                action: () => shellOpen(docsUrl("claude-note", docLang)),
-              },
-              {
-                label: t("Menu.Help.AIWorkflow"),
-                id: "ai_workflow",
-                action: () => shellOpen(docsUrl("ai-workflow", docLang)),
-              },
-            ],
           },
           { label: "divider" },
           {
