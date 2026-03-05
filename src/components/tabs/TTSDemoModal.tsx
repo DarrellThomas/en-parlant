@@ -135,10 +135,10 @@ export default function TTSDemoModal({
               </Badge>
             </Group>
             <Text size="xs" c="dimmed">
-              <strong>KittenTTS</strong> is a free, open-source model we
-              support — and it punches well above its weight. Install it
-              locally, and you can run that server right at home. Our
-              documentation will walk you through it.
+              <strong>KittenTTS</strong> is a free, open-source model we support
+              — and it punches well above its weight. Install it locally, and
+              you can run that server right at home. Our documentation will walk
+              you through it.
             </Text>
           </Box>
 
@@ -159,10 +159,10 @@ export default function TTSDemoModal({
               </Badge>
             </Group>
             <Text size="xs" c="dimmed">
-              This was the original idea behind TTS narration. Paste in your
-              API key, and you've got it —{" "}
-              <strong>ElevenLabs</strong> or <strong>Google Cloud</strong>.
-              Lots of options for lots of use cases.
+              This was the original idea behind TTS narration. Paste in your API
+              key, and you've got it — <strong>ElevenLabs</strong> or{" "}
+              <strong>Google Cloud</strong>. Lots of options for lots of use
+              cases.
             </Text>
           </Box>
         </SimpleGrid>

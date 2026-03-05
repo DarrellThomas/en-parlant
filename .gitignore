@@ -60,3 +60,6 @@ site/
 
 # Feature proposals (local planning docs, not for release)
 proposals/
+
+# Environment secrets (relay URL, API keys)
+.env

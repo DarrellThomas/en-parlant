@@ -118,6 +118,7 @@ jobs:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          VITE_RELAY_URL: ${{ secrets.VITE_RELAY_URL }}
           CI: false
         with:
           tagName: ${{ github.ref_name }}-beta

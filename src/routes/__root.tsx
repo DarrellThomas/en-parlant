@@ -389,14 +389,7 @@ function RootLayout() {
         ],
       },
     ],
-    [
-      t,
-      checkForUpdates,
-      createNewTab,
-      keyMap,
-      openNewFile,
-      docLang,
-    ],
+    [t, checkForUpdates, createNewTab, keyMap, openNewFile, docLang],
   );
 
   const { data: menu } = useSWRImmutable(["menu", menuActions], () =>

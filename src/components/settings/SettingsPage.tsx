@@ -827,7 +827,7 @@ export default function Page() {
           <TextInput
             value={relayUrl}
             onChange={(e) => setRelayUrl(e.currentTarget.value)}
-            placeholder="wss://relay.enparlant.org"
+            placeholder="wss://your-relay-server.example.com"
             style={{ width: 250 }}
           />
         ),

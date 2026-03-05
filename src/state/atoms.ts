@@ -638,7 +638,7 @@ export const currentPuzzleAtom = tabValue(currentPuzzleFamily);
 // Multiplayer — persistent settings
 export const relayUrlAtom = atomWithStorage<string>(
   "relay-url",
-  "wss://relay.enparlant.org",
+  import.meta.env.VITE_RELAY_URL || "",
   undefined,
   { getOnInit: true },
 );
