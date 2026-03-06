@@ -66,3 +66,6 @@ proposals/
 
 # Pending docs (staging area, not ready for site)
 pending_docs/
+
+# Claude Code configuration (local instructions)
+.claude/

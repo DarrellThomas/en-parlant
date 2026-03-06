@@ -1,1 +1,0 @@
-/data/src/claude-code-config/projects/en-parlant/claude/01_UNIVERSAL_PRINCIPLES.md
