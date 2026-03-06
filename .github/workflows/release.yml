@@ -140,6 +140,46 @@ jobs:
           cat SHA256SUMS.txt
           gh release upload ${{ github.ref_name }} SHA256SUMS.txt --repo ${{ github.repository }} --clobber
 
+  publish-updater:
+    needs: checksums
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install rclone
+        run: curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure rclone R2 remote
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf << EOF
+          [r2]
+          type = s3
+          provider = Cloudflare
+          access_key_id = ${R2_ACCESS_KEY_ID}
+          secret_access_key = ${R2_SECRET_ACCESS_KEY}
+          endpoint = https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
+          acl = private
+          EOF
+
+      - name: Download latest.json from GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download ${{ github.ref_name }} \
+            --repo ${{ github.repository }} \
+            --pattern "latest.json" \
+            --dir /tmp/updater
+
+      - name: Upload latest.json to R2
+        run: |
+          rclone copyto /tmp/updater/latest.json r2:enparlant-assets/api/updates/latest.json \
+            --header-upload "Content-Type: application/json" \
+            --header-upload "Cache-Control: public, max-age=60"
+          echo "latest.json published for ${{ github.ref_name }}"
+
   virustotal:
     needs: checksums
     runs-on: ubuntu-latest
