@@ -1,5 +1,6 @@
 import { Button, Group, Modal, Progress, Stack, Text } from "@mantine/core";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { platform } from "@tauri-apps/plugin-os";
 import { relaunch } from "@tauri-apps/plugin-process";
 import type { Update } from "@tauri-apps/plugin-updater";
@@ -76,11 +77,33 @@ function UpdateModal({
     try {
       const os = await platform();
       if (os === "linux") {
-        // On Linux system installs, the Tauri updater can't write to /usr/bin without
-        // root. Download first, then install via pkexec (shows a polkit auth dialog).
-        await update.download(progressCallback);
-        // progressCallback already set state to "installing" on Finished
-        await invoke("install_update_linux");
+        // On Linux system installs, download the .deb from GitHub and install
+        // via pkexec dpkg -i (shows one polkit auth dialog). We do NOT use
+        // Tauri's AppImage-based update path — it fails on system installs.
+        const unlisten = await listen<{
+          downloaded: number;
+          total: number | null;
+        }>("linux-update-progress", (event) => {
+          const { downloaded: dl, total } = event.payload;
+          if (total && !totalSizeRef.current) {
+            totalSizeRef.current = total;
+            setTotalSize(total);
+          }
+          downloadedRef.current = dl;
+          setDownloaded(dl);
+          if (totalSizeRef.current) {
+            setProgress((dl / totalSizeRef.current) * 100);
+          }
+        });
+        try {
+          await invoke("download_and_install_linux", {
+            version: update.version,
+          });
+          setProgress(100);
+          setState("installing");
+        } finally {
+          unlisten();
+        }
       } else {
         await update.downloadAndInstall(progressCallback);
       }

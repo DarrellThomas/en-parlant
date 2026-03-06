@@ -200,7 +200,7 @@ fn main() {
             setup_kittentts_venv,
             setup_opentts_load,
             setup_opentts_pull,
-            install_update_linux
+            download_and_install_linux
         ))
         .events(tauri_specta::collect_events!(
             BestMovesPayload,
@@ -295,58 +295,58 @@ fn main() {
         });
 }
 
-/// Linux system-install updater: finds the extracted AppImage in /tmp and
-/// installs it to /usr/bin and /usr/lib via a single pkexec prompt.
+/// Linux system-install updater: downloads the .deb from GitHub and installs
+/// via pkexec dpkg -i (shows one polkit auth prompt).
 #[tauri::command]
 #[specta::specta]
-fn install_update_linux() -> Result<(), String> {
+async fn download_and_install_linux(app: tauri::AppHandle, version: String) -> Result<(), String> {
     #[cfg(target_os = "linux")]
     {
-        use std::fs;
+        use futures_util::StreamExt;
+        use std::io::Write;
         use std::process::Command;
+        use tauri::Emitter;
 
-        // Find the most recently modified appimage_extracted_* dir that has our binary
-        let tmp = std::path::Path::new("/tmp");
-        let extracted_dir = fs::read_dir(tmp)
-            .map_err(|e| format!("Cannot read /tmp: {}", e))?
-            .filter_map(|e| e.ok())
-            .filter(|e| {
-                e.file_name()
-                    .to_string_lossy()
-                    .starts_with("appimage_extracted_")
-            })
-            .filter(|e| e.path().join("usr/bin/en-parlant").exists())
-            .max_by_key(|e| e.metadata().and_then(|m| m.modified()).ok())
-            .ok_or_else(|| {
-                "No extracted update found in /tmp — was the download completed?".to_string()
-            })?;
-
-        let src = extracted_dir.path();
-        let new_binary = src.join("usr/bin/en-parlant");
-        let new_lib = src.join("usr/lib/en-parlant");
-
-        // Write a single helper script so pkexec only prompts once
-        let script = format!(
-            "#!/bin/sh\nset -e\ninstall -m 755 '{}' /usr/bin/en-parlant\n{}\n",
-            new_binary.display(),
-            if new_lib.exists() {
-                format!("cp -r '{}/.' /usr/lib/en-parlant/", new_lib.display())
-            } else {
-                String::new()
-            }
+        let url = format!(
+            "https://github.com/DarrellThomas/en-parlant/releases/download/v{}/En.Parlant_{}_amd64.deb",
+            version, version
         );
-        let script_path = "/tmp/en-parlant-install-update.sh";
-        fs::write(script_path, &script)
-            .map_err(|e| format!("Failed to write install script: {}", e))?;
-        Command::new("chmod")
-            .args(["+x", script_path])
-            .output()
-            .ok();
 
-        // Spawn pkexec and poll with a timeout so a missing/frozen polkit agent
-        // surfaces as a recoverable error instead of an indefinite hang.
+        let deb_path = format!("/tmp/en-parlant-update-{}.deb", version);
+
+        // Download with progress events
+        let client = reqwest::Client::new();
+        let response = client
+            .get(&url)
+            .send()
+            .await
+            .map_err(|e| format!("Download failed: {}", e))?;
+
+        if !response.status().is_success() {
+            return Err(format!("Download failed: HTTP {}", response.status()));
+        }
+
+        let total = response.content_length();
+        let mut downloaded: u64 = 0;
+        let mut file = std::fs::File::create(&deb_path)
+            .map_err(|e| format!("Cannot create temp file: {}", e))?;
+
+        let mut stream = response.bytes_stream();
+        while let Some(chunk) = stream.next().await {
+            let chunk = chunk.map_err(|e| format!("Download error: {}", e))?;
+            file.write_all(&chunk)
+                .map_err(|e| format!("Write error: {}", e))?;
+            downloaded += chunk.len() as u64;
+            let _ = app.emit(
+                "linux-update-progress",
+                serde_json::json!({ "downloaded": downloaded, "total": total }),
+            );
+        }
+        drop(file);
+
+        // Install via pkexec dpkg -i
         let mut child = Command::new("pkexec")
-            .arg(script_path)
+            .args(["dpkg", "-i", &deb_path])
             .stdin(std::process::Stdio::null())
             .stderr(std::process::Stdio::piped())
             .spawn()
@@ -360,7 +360,7 @@ fn install_update_linux() -> Result<(), String> {
                 Ok(None) => {
                     if start.elapsed() > timeout {
                         let _ = child.kill();
-                        fs::remove_file(script_path).ok();
+                        std::fs::remove_file(&deb_path).ok();
                         return Err(
                             "Authentication timed out (120 s). \
                              Is a polkit agent (e.g. gnome-polkit) running?"
@@ -371,14 +371,13 @@ fn install_update_linux() -> Result<(), String> {
                 }
                 Err(e) => {
                     let _ = child.kill();
-                    fs::remove_file(script_path).ok();
+                    std::fs::remove_file(&deb_path).ok();
                     return Err(format!("Failed to wait for pkexec: {}", e));
                 }
             }
         };
 
-        // Clean up script
-        fs::remove_file(script_path).ok();
+        std::fs::remove_file(&deb_path).ok();
 
         let mut stderr_str = String::new();
         if let Some(mut s) = child.stderr.take() {
@@ -388,7 +387,7 @@ fn install_update_linux() -> Result<(), String> {
 
         if !status.success() {
             return Err(format!(
-                "Install failed (password cancelled or permission denied). {}",
+                "Install failed (password cancelled or dpkg error). {}",
                 stderr_str.trim()
             ));
         }
@@ -397,7 +396,7 @@ fn install_update_linux() -> Result<(), String> {
     }
 
     #[cfg(not(target_os = "linux"))]
-    Err("install_update_linux is only available on Linux".to_string())
+    Err("download_and_install_linux is only available on Linux".to_string())
 }
 
 #[tauri::command]
