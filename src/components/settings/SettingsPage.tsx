@@ -99,44 +99,44 @@ import VolumeSlider from "./VolumeSlider";
 // These are NOT translated via i18n — they must always be readable
 // regardless of the current UI language.
 const LANGUAGE_RESCUE = [
-  { value: "en_US", native: "English (US)" },
-  { value: "en_GB", native: "English (UK)" },
-  { value: "es_ES", native: "Español" },
-  { value: "hi_IN", native: "हिन्दी" },
-  { value: "ru_RU", native: "Русский" },
-  { value: "de_DE", native: "Deutsch" },
-  { value: "fr_FR", native: "Français" },
-  { value: "pt_PT", native: "Português" },
-  { value: "pl_PL", native: "Polski" },
-  { value: "it_IT", native: "Italiano" },
-  { value: "uk_UA", native: "Українська" },
-  { value: "tr_TR", native: "Türkçe" },
-  { value: "ko_KR", native: "한국어" },
-  { value: "zh_CN", native: "中文（简体）" },
-  { value: "zh_TW", native: "中文（繁體）" },
-  { value: "nb_NO", native: "Norsk bokmål" },
-  { value: "be_BY", native: "Беларуская" },
+  { value: "en-US", native: "English (US)" },
+  { value: "en-GB", native: "English (UK)" },
+  { value: "es-ES", native: "Español" },
+  { value: "hi-IN", native: "हिन्दी" },
+  { value: "ru-RU", native: "Русский" },
+  { value: "de-DE", native: "Deutsch" },
+  { value: "fr-FR", native: "Français" },
+  { value: "pt-PT", native: "Português" },
+  { value: "pl-PL", native: "Polski" },
+  { value: "it-IT", native: "Italiano" },
+  { value: "uk-UA", native: "Українська" },
+  { value: "tr-TR", native: "Türkçe" },
+  { value: "ko-KR", native: "한국어" },
+  { value: "zh-CN", native: "中文（简体）" },
+  { value: "zh-TW", native: "中文（繁體）" },
+  { value: "nb-NO", native: "Norsk bokmål" },
+  { value: "be-BY", native: "Беларуская" },
 ] as const;
 
 // Undo messages in each language (shown in the PREVIOUS language after switching)
 const UNDO_MESSAGES: Record<string, { changed: string; undo: string }> = {
-  en_US: { changed: "Language changed.", undo: "Undo" },
-  en_GB: { changed: "Language changed.", undo: "Undo" },
-  es_ES: { changed: "Idioma cambiado.", undo: "Deshacer" },
-  hi_IN: { changed: "भाषा बदली गई।", undo: "पूर्ववत करें" },
-  ru_RU: { changed: "Язык изменён.", undo: "Отменить" },
-  de_DE: { changed: "Sprache geändert.", undo: "Rückgängig" },
-  fr_FR: { changed: "Langue modifiée.", undo: "Annuler" },
-  pt_PT: { changed: "Idioma alterado.", undo: "Desfazer" },
-  pl_PL: { changed: "Język zmieniony.", undo: "Cofnij" },
-  it_IT: { changed: "Lingua cambiata.", undo: "Annulla" },
-  uk_UA: { changed: "Мову змінено.", undo: "Скасувати" },
-  tr_TR: { changed: "Dil değiştirildi.", undo: "Geri al" },
-  ko_KR: { changed: "언어가 변경되었습니다.", undo: "실행 취소" },
-  zh_CN: { changed: "语言已更改。", undo: "撤消" },
-  zh_TW: { changed: "語言已更改。", undo: "復原" },
-  nb_NO: { changed: "Språk endret.", undo: "Angre" },
-  be_BY: { changed: "Мова зменена.", undo: "Адмяніць" },
+  "en-US": { changed: "Language changed.", undo: "Undo" },
+  "en-GB": { changed: "Language changed.", undo: "Undo" },
+  "es-ES": { changed: "Idioma cambiado.", undo: "Deshacer" },
+  "hi-IN": { changed: "भाषा बदली गई।", undo: "पूर्ववत करें" },
+  "ru-RU": { changed: "Язык изменён.", undo: "Отменить" },
+  "de-DE": { changed: "Sprache geändert.", undo: "Rückgängig" },
+  "fr-FR": { changed: "Langue modifiée.", undo: "Annuler" },
+  "pt-PT": { changed: "Idioma alterado.", undo: "Desfazer" },
+  "pl-PL": { changed: "Język zmieniony.", undo: "Cofnij" },
+  "it-IT": { changed: "Lingua cambiata.", undo: "Annulla" },
+  "uk-UA": { changed: "Мову змінено.", undo: "Скасувати" },
+  "tr-TR": { changed: "Dil değiştirildi.", undo: "Geri al" },
+  "ko-KR": { changed: "언어가 변경되었습니다.", undo: "실행 취소" },
+  "zh-CN": { changed: "语言已更改。", undo: "撤消" },
+  "zh-TW": { changed: "語言已更改。", undo: "復原" },
+  "nb-NO": { changed: "Språk endret.", undo: "Angre" },
+  "be-BY": { changed: "Мова зменена.", undo: "Адмяніць" },
 };
 
 // "Language" in every supported language — used for tooltip and sidebar
@@ -1227,8 +1227,7 @@ export default function Page() {
                   >
                     <SimpleGrid cols={3} spacing="xs" verticalSpacing={4}>
                       {LANGUAGE_RESCUE.map((lang) => {
-                        const isActive =
-                          i18n.language.replace("-", "_") === lang.value;
+                        const isActive = i18n.language === lang.value;
                         return (
                           <Button
                             key={lang.value}
@@ -1236,8 +1235,8 @@ export default function Page() {
                             size="compact-sm"
                             onClick={() => {
                               if (isActive) return;
-                              const prevLang = i18n.language.replace("-", "_");
-                              i18n.changeLanguage(lang.value.replace("_", "-"));
+                              const prevLang = i18n.language;
+                              i18n.changeLanguage(lang.value);
                               localStorage.setItem("lang", lang.value);
                               const ttsLangs = [
                                 "en",
@@ -1250,7 +1249,7 @@ export default function Page() {
                                 "zh",
                                 "ko",
                               ];
-                              const base = lang.value.split("_")[0];
+                              const base = lang.value.split("-")[0];
                               if (ttsLangs.includes(base)) {
                                 setTtsLanguage(base);
                               }
@@ -1261,7 +1260,8 @@ export default function Page() {
                                   (l) => l.value === prevLang,
                                 )?.native || prevLang;
                               const msg =
-                                UNDO_MESSAGES[prevLang] || UNDO_MESSAGES.en_US;
+                                UNDO_MESSAGES[prevLang] ||
+                                UNDO_MESSAGES["en-US"];
                               notifications.show({
                                 id: "language-undo",
                                 title: `${msg.changed} → ${lang.native}`,
@@ -1270,11 +1270,9 @@ export default function Page() {
                                     variant="subtle"
                                     size="compact-sm"
                                     onClick={() => {
-                                      i18n.changeLanguage(
-                                        prevLang.replace("_", "-"),
-                                      );
+                                      i18n.changeLanguage(prevLang);
                                       localStorage.setItem("lang", prevLang);
-                                      const prevBase = prevLang.split("_")[0];
+                                      const prevBase = prevLang.split("-")[0];
                                       if (ttsLangs.includes(prevBase)) {
                                         setTtsLanguage(prevBase);
                                       }

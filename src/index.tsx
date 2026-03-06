@@ -43,7 +43,7 @@ i18n.use(initReactI18next).init({
     "zh-TW": zh_TW,
     "de-DE": de_DE,
   },
-  lng: localStorage.getItem("lang") || "en-US",
+  lng: (localStorage.getItem("lang") || "en-US").replace("_", "-"), // normalize legacy underscore format
   fallbackLng: "en-US",
   returnEmptyString: false,
 });
