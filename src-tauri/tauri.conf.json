@@ -55,6 +55,7 @@
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420"
   },
+  "version": "../package.json",
   "productName": "En Parlant",
   "mainBinaryName": "en-parlant",
   "identifier": "org.enparlant.app",
