@@ -649,6 +649,13 @@ export const playerNameAtom = atomWithStorage<string>(
   { getOnInit: true },
 );
 
+export const lichessIncludeUnratedAtom = atomWithStorage<boolean>(
+  "lichess-include-unrated",
+  false,
+  undefined,
+  { getOnInit: true },
+);
+
 // Multiplayer — per-tab ephemeral state
 export type MultiplayerPhase =
   | "idle"

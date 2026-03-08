@@ -425,8 +425,12 @@ export async function downloadLichess(
   games: number,
   setProgress: (progress: number) => void,
   token?: string,
+  includeUnrated?: boolean,
 ) {
-  let url = `${baseURL}/games/user/${player}?perfType=ultraBullet,bullet,blitz,rapid,classical,correspondence&rated=true&sort=dateAsc`;
+  let url = `${baseURL}/games/user/${player}?perfType=ultraBullet,bullet,blitz,rapid,classical,correspondence&sort=dateAsc`;
+  if (!includeUnrated) {
+    url += "&rated=true";
+  }
   if (timestamp) {
     url += `&since=${timestamp}`;
   }

@@ -47,6 +47,7 @@ import {
   moveInputAtom,
   moveMethodAtom,
   moveNotationTypeAtom,
+  lichessIncludeUnratedAtom,
   nativeBarAtom,
   playerNameAtom,
   previewBoardOnHoverAtom,
@@ -876,6 +877,14 @@ export default function Page() {
             style={{ width: 200 }}
           />
         ),
+      },
+      {
+        id: "lichess-include-unrated",
+        category: "network",
+        title: t("Settings.Network.LichessIncludeUnrated"),
+        description: t("Settings.Network.LichessIncludeUnrated.Desc"),
+        keywords: ["lichess", "unrated", "casual", "games", "download"],
+        render: () => <SettingsSwitch atom={lichessIncludeUnratedAtom} />,
       },
       // Privacy settings
       {

@@ -657,6 +657,8 @@
     "Settings.Network.RelayUrl": "Relay Server URL",
     "Settings.Network.RelayUrl.Desc": "WebSocket URL of the multiplayer relay server",
     "Settings.Network.PlayerName": "Player Name",
-    "Settings.Network.PlayerName.Desc": "Your display name in multiplayer games"
+    "Settings.Network.PlayerName.Desc": "Your display name in multiplayer games",
+    "Settings.Network.LichessIncludeUnrated": "Include Unrated Lichess Games",
+    "Settings.Network.LichessIncludeUnrated.Desc": "Download casual/unrated games when syncing from Lichess"
   }
 }

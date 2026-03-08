@@ -656,7 +656,7 @@ export function cleanCommentForTTS(comment: string, lang = "en"): string {
   let text = comment;
 
   // Strip PGN embedded tags: [%eval ...], [%csl ...], [%cal ...], [%clk ...]
-  text = text.replace(/\[%(?:eval|csl|cal|clk)\s+[^\]]*\]/g, "");
+  text = text.replace(/\[%(?:eval|csl|cal|clk|timestamp)\s+[^\]]*\]/g, "");
 
   // Strip annotation symbols that might appear in text
   text = text.replace(/^(?:\?\?|\?!|!\?|!!|\?|!)\s*/g, "");
