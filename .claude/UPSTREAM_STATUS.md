@@ -47,7 +47,7 @@ Last updated: 2026-03-07
 
 ---
 
-## BATCH 4: Easy Enhancements — 3 DONE (3/14)
+## BATCH 4: Easy Enhancements — 8 DONE (8/14)
 
 | # | Title | Relevance | Status |
 |---|---|---|---|
@@ -64,7 +64,7 @@ Last updated: 2026-03-07
 | #672 | Credit authors in database download list | Medium | ⬜ Open |
 | #565 | Time editor in PGN editor | Low | ⬜ Open |
 | #566 | Invert/swap sides in board editor | Low | ⬜ Open |
-| #413 | Spanish translation | Low | ⬜ Open |
+| #413 | Spanish translation | Low | ✅ Fixed |
 
 ---
 
@@ -135,16 +135,25 @@ Last updated: 2026-03-07
 | BATCH 1: Easy Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 2: Moderate Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 3: Hard Bug Fixes | 3 | **2** ✅ | 1 |
-| BATCH 4: Easy Enhancements | 14 | **5** ✅ | 9 |
+| BATCH 4: Easy Enhancements | 14 | **8** ✅ | 6 |
 | BATCH 5: Moderate Enhancements | 23 | 0 | **23** |
 | BATCH 6: Large Enhancements | 23 | 0 | **23** |
-| **TOTAL** | **81** | **25** | **56** |
+| **TOTAL** | **81** | **28** | **53** |
 
-**25 issues resolved. 56 remaining.**
+**28 issues resolved. 53 remaining.**
 
 Next highest-impact targets (quick wins from Batch 4):
-1. **#266** — Open analysis in new tab from Play Chess
-2. **#516** — Option to suppress `.info` sidecar files
-3. **#682** — Arrows for variation moves on board
-4. **#672** — Credit authors in database download list
-5. **#565** — Time editor in PGN editor
+1. **#516** — Option to suppress `.info` sidecar files
+2. **#682** — Arrows for variation moves on board
+3. **#672** — Credit authors in database download list
+4. **#565** — Time editor in PGN editor
+5. **#566** — Invert/swap sides in board editor
+
+---
+
+## WISHLIST — en-parlant Original Ideas
+
+| ID | Title | Notes |
+|---|---|---|
+| W-001 | Multiplayer: mutual engine approval | Both players must toggle "Enable Engines?" before either can use engine analysis. Opponent's engine status should be visible (i.e. if your opponent has an engine running, you see it). Prevents unfair advantage in multiplayer. |
+| W-002 | Analysis tab visual distinction | When opening "Analyze in New Tab" from a game, the analysis board looks identical to the game board. Consider adding a colored board border, tab badge, or subtle board tint to make it visually distinct. Currently uses tab name prefix ("Analysis: ...") only. |

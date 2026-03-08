@@ -18,6 +18,7 @@ import { notifications } from "@mantine/notifications";
 import {
   IconArrowsExchange,
   IconCheck,
+  IconExternalLink,
   IconFileText,
   IconHandStop,
   IconPlus,
@@ -27,7 +28,7 @@ import {
 import type { Piece } from "chessops";
 import { makeUci, parseUci } from "chessops";
 import { INITIAL_FEN } from "chessops/fen";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   useCallback,
   useContext,
@@ -85,6 +86,7 @@ import {
   sendReady,
   sendResign,
 } from "@/utils/relay";
+import { type Tab, genID } from "@/utils/tabs";
 import type { GameHeaders } from "@/utils/treeReducer";
 import { unwrap } from "@/utils/unwrap";
 import EngineLogsView from "../common/EngineLogsView";
@@ -118,6 +120,7 @@ function mapBackendMoves(
 function BoardGame() {
   const { t } = useTranslation();
   const activeTab = useAtomValue(activeTabAtom);
+  const setActiveTab = useSetAtom(activeTabAtom);
 
   const [editingMode, toggleEditingMode] = useToggle();
   const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null);
@@ -1209,6 +1212,37 @@ function BoardGame() {
                         leftSection={<IconZoomCheck />}
                       >
                         Analyze
+                      </Button>
+                    )}
+                    {!isMultiplayer && (
+                      <Button
+                        variant="default"
+                        onClick={() => {
+                          const id = genID();
+                          const snapshot = JSON.stringify({
+                            version: 0,
+                            state: {
+                              root,
+                              headers,
+                              position: treeStore.getState().position,
+                            },
+                          });
+                          sessionStorage.setItem(id, snapshot);
+                          const gameName = headers.white && headers.black
+                            ? `${headers.white} - ${headers.black}`
+                            : t("BoardAnalysis.Title", "Analysis");
+                          const name = `${t("BoardAnalysis.Title", "Analysis")}: ${gameName}`;
+                          const newTab: Tab = { name, value: id, type: "analysis" };
+                          setTabs((prev) =>
+                            prev.length === 0
+                              ? [newTab]
+                              : [...prev, newTab],
+                          );
+                          setActiveTab(id);
+                        }}
+                        leftSection={<IconExternalLink />}
+                      >
+                        {t("Board.Action.AnalyzeInNewTab", "Analyze in New Tab")}
                       </Button>
                     )}
 
