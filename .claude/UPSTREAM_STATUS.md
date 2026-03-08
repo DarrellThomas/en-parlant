@@ -54,7 +54,7 @@ Last updated: 2026-03-07
 | #254 | Arrow keys navigate tabs instead of moves | High | ✅ Fixed |
 | #301 | Allow up to 8 analysis lines (not just 5) | High | ✅ Fixed |
 | #495 | Auto-start engine on new analysis board | High | ✅ Fixed |
-| #510 | Copy engine output to clipboard | High | ⬜ Open |
+| #510 | Copy engine output to clipboard | High | ✅ Fixed |
 | #534 | Save engine line without jumping to position | High | ⬜ Open |
 | #708 | Support PGN `[%timestamp]` syntax | High | ✅ Fixed |
 | #393 | Option to download unrated Lichess games | Medium | ✅ Fixed |
@@ -135,16 +135,16 @@ Last updated: 2026-03-07
 | BATCH 1: Easy Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 2: Moderate Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 3: Hard Bug Fixes | 3 | **2** ✅ | 1 |
-| BATCH 4: Easy Enhancements | 14 | **3** ✅ | 11 |
+| BATCH 4: Easy Enhancements | 14 | **4** ✅ | 10 |
 | BATCH 5: Moderate Enhancements | 23 | 0 | **23** |
 | BATCH 6: Large Enhancements | 23 | 0 | **23** |
-| **TOTAL** | **81** | **23** | **58** |
+| **TOTAL** | **81** | **24** | **57** |
 
-**23 issues resolved. 58 remaining.**
+**24 issues resolved. 57 remaining.**
 
 Next highest-impact targets (quick wins from Batch 4):
-1. **#254** — Arrow keys navigate tabs (keyboard UX, annoying daily)
-2. **#495** — Auto-start engine on new board (reduces clicks)
-3. **#510** — Copy engine output to clipboard
-4. **#534** — Save engine line without navigating there
-5. **#266** — Open analysis in new tab from Play Chess
+1. **#534** — Save engine line without navigating there
+2. **#266** — Open analysis in new tab from Play Chess
+3. **#516** — Option to suppress `.info` sidecar files
+4. **#682** — Arrows for variation moves on board
+5. **#672** — Credit authors in database download list
