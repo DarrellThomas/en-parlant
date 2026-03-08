@@ -880,9 +880,9 @@ export default function Page() {
       },
       {
         id: "lichess-include-unrated",
-        category: "network",
-        title: t("Settings.Network.LichessIncludeUnrated"),
-        description: t("Settings.Network.LichessIncludeUnrated.Desc"),
+        category: "inputs",
+        title: t("Settings.Inputs.LichessIncludeUnrated"),
+        description: t("Settings.Inputs.LichessIncludeUnrated.Desc"),
         keywords: ["lichess", "unrated", "casual", "games", "download"],
         render: () => <SettingsSwitch atom={lichessIncludeUnratedAtom} />,
       },

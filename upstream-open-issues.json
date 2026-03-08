@@ -1,0 +1,1818 @@
+[
+  {
+    "body": "### Describe the feature\n\nIt seems the \"clk\" syntax is working fine, but some websites also use the \"timestamp\" syntax (chess.com)\n\nWhen you export a game on chess.com it adds both time signatures as comments. Only one of them is processed by en croissant, and the second signature clutters the comments. If the game happens to have other comments as well, it can make a mess of things.\n\n`1. e4 {[%clk 0:09:59.9][%timestamp 1]} 1... e5 {[%clk 0:09:59.2][%timestamp 8]}\n2. Bc4 {[%clk 0:09:58.8][%timestamp 11]} 2... ;etc`\n\nA partial implementations would be to recognize the string and filter it out. Still using the same timestamp as before.\nA better solution is to support both, but only use the 2nd style as a fallback the first.\n\nAs a side note loading chess.com games via the URL method, doesn't seem to load any timestamps.",
+    "createdAt": "2026-03-01T05:32:34Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 708,
+    "title": "Support PGN Timestamp using the \"[%timestamp 123]\" syntax",
+    "updatedAt": "2026-03-01T05:32:34Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/708"
+  },
+  {
+    "body": "### Describe the bug\n\nThe \"Lichess All\" & \"Lichess Masters\" databases both send back an error that goes as follows: SyntaxError: Failed to execute 'close' on 'ReadableStreamDefaultController': Unexpected token '<', \"<html> <h\"... is not valid JSON\n\nAfter waiting several minutes the program DOES eventually retrieve the database; however, if any new move is made on the board it immediately brings the aforementioned error back.\n\n<img width=\"798\" height=\"74\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/547ae120-c982-41db-ada3-eb0006f196e7\" />\n\n### Reproduction\n\n1. Open En Croissant\n2. Attempt to look at either \"Lichess All\" or \"Lichess Masters\" database.\n\n### Platform and versions\n\nWindows 11\nVersion 0.14.2\nTauri version 2.10.2\nOS: windows x86_64 10.0.26200\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2026-02-28T08:47:00Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 707,
+    "title": "Lichess Database Syntax Error",
+    "updatedAt": "2026-02-28T09:57:20Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/707"
+  },
+  {
+    "body": "The latest versions of en-croissant (several recent versions) have \"minor issues\" with virustotal.com. For example, here's a screenshot of a scan of en-croissant_0.14.1_x64-setup.\n\n![Image](https://github.com/user-attachments/assets/7cb02636-a969-4d6b-8786-93d3d3b8eef5)\n\nI understand that these **unknown antivirus programs are making mistakes**.\n\nBut is it possible to make en-croissant completely free of issues with virustotal? For example, en-croissant_0.11.1_x64-setup **shows completely clean results**.",
+    "createdAt": "2026-02-27T15:19:08Z",
+    "labels": [],
+    "number": 702,
+    "title": "\"Minor issues\" with virustotal",
+    "updatedAt": "2026-02-27T15:50:34Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/702"
+  },
+  {
+    "body": "## Description\n\nWhen coordinates are set to \"On the edge\" and the board orientation is flipped (e.g., via keyboard shortcut or button), the coordinate display visually switches to \"On all squares\" mode. Flipping the board should preserve the current coordinate display mode.\n\n## Steps to reproduce\n\n1. Open any game/position\n2. Set coordinates to \"On the edge\" in settings\n3. Flip the board orientation\n4. Observe: coordinates now appear on all squares instead of just the edge\n\n## Expected behavior\n\nCoordinate display mode should remain \"On the edge\" regardless of board orientation changes.\n\n## Environment\n- En Croissant v0.14.1 (also present on master)\n- Linux (X11)",
+    "createdAt": "2026-02-26T23:45:27Z",
+    "labels": [],
+    "number": 698,
+    "title": "Flipping board switches coordinate mode from 'edge' to 'all squares'",
+    "updatedAt": "2026-02-27T15:39:18Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/698"
+  },
+  {
+    "body": "### Describe the bug\n\nHello, I get a stack trace entering the Board, I don't know why.\n\n### Reproduction\n\nClick on the Board icon.\n\n### Platform and versions\n\nwindows build 0.14.1 on win11\n\n### Stack trace\n\n```Shell\n[@mantine/core] Duplicate options are not supported. Option with value \"1444a3d9-9ffb-46c8-afa4-00abe609dc8c\" was provided more than once\nError: [@mantine/core] Duplicate options are not supported. Option with value \"1444a3d9-9ffb-46c8-afa4-00abe609dc8c\" was provided more than once\n    at X8e (http://tauri.localhost/assets/index.js:53:168740)\n    at Q8e (http://tauri.localhost/assets/index.js:53:170049)\n    at vD (http://tauri.localhost/assets/index.js:8:48956)\n    at LD (http://tauri.localhost/assets/index.js:8:72022)\n    at Yte (http://tauri.localhost/assets/index.js:8:82518)\n    at _ne (http://tauri.localhost/assets/index.js:8:118616)\n    at zNe (http://tauri.localhost/assets/index.js:8:117635)\n    at iR (http://tauri.localhost/assets/index.js:8:117462)\n    at yne (http://tauri.localhost/assets/index.js:8:114199)\n    at jne (http://tauri.localhost/assets/index.js:8:126387)\n```",
+    "createdAt": "2026-02-23T16:24:48Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 690,
+    "title": "An error occured",
+    "updatedAt": "2026-02-24T21:51:10Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/690"
+  },
+  {
+    "body": "### Describe the feature\n\n\nUser story:\nAs a user(chess player),\n\nI want to generate puzzles from my Lichess or Chess.com handle,\n\nSo that I can practice based on my own games amd find my mistakes.\n\nAC:\nHandle Input: User can enter a valid Lichess or Chess.com username. System validates that the username exists.\n\nIf the username does not exist, an error message is displayed.\n\nScenario: Valid handle\nGiven the user enters a valid Lichess or Chess.com username\nWhen they click \"Generate Puzzle\"\nThen the system retrieves the user\u2019s recent games And proceeds to generate puzzles\n\nPuzzle Generation:\nSystem analyzes games and identifies tactical moments.\n\nEach puzzle must:\nHave a clear best move. Be solvable within 1\u20135 moves. Include FEN and solution line.",
+    "createdAt": "2026-02-22T00:08:15Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 686,
+    "title": "Generate puzzle from yoyr lichess or chesscom handler",
+    "updatedAt": "2026-02-22T05:07:30Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/686"
+  },
+  {
+    "body": "### Describe the feature\n\nThis adds purple arrows on the board for all variations (including mainline) whenever the current node has multiple children (i.e., alternative continuations exist).",
+    "createdAt": "2026-02-16T16:32:15Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 682,
+    "title": "Add Arrows indicating variation moves",
+    "updatedAt": "2026-02-16T16:33:18Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/682"
+  },
+  {
+    "body": "### Describe the bug\n\nWhen searching games from position, results should be ordered by elo (descending)\n\n### Reproduction\n\n1. Search games from position\n2. Games seems ordered by date (oldest first)\n\n### Platform and versions\n\nVersion 0.13\n\nExample with Lumbra Gigabase as database\n<img width=\"1837\" height=\"962\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/2576740b-8f19-490f-ba45-acdfa22ab1a0\" />\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2026-02-07T19:15:43Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 673,
+    "title": "Games from position should be ordered by players' elo",
+    "updatedAt": "2026-02-22T12:59:39Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/673"
+  },
+  {
+    "body": "### Describe the feature\n\nThe list of available databases to download from EC should credit their author with a link to the upstream website",
+    "createdAt": "2026-02-07T17:48:52Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 672,
+    "title": "Databases list should credit authors",
+    "updatedAt": "2026-02-07T17:48:52Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/672"
+  },
+  {
+    "body": "### Describe the bug\n\nChanges made in the Time, Depth, and Nodes sub-tabs of the Unlimited tab are lost when switching between these sub-tabs. P.S. The Number of cores setting does not work even if you do not switch sub-tabs.\n\n### Reproduction\n\n1. Play Chess\n2. Select, for example, Komodo and Stockfish\n3. Time Settings: Unlimited\n4. Change value in Time or Depth or Nodes sub-tab\n5. Switch to another sub-tab among the three listed\n6. Return to the previous sub-tab\n\nThe previous setting has been reset to the default value.\n\n### Platform and versions\n\n- En-croissant 0.13.0\n- Windows 11\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2026-02-06T23:06:43Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 670,
+    "title": "[Play Chess] Engine settings are reset after switching (sub-)tabs if unlimited time is selected",
+    "updatedAt": "2026-02-06T23:06:43Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/670"
+  },
+  {
+    "body": "When trying to update via [AppImageUpdate](https://github.com/AppImageCommunity/AppImageUpdate)\n\n<img width=\"427\" height=\"393\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/86ea5173-c88d-42db-a91d-53e9c4bf4b6b\" />\n\nThis is a common standard for updating AppImages.\nAppImage having update information would also recognized by other software e.g. [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher)\n\ninfo:\n- https://github.com/AppImageCommunity/AppImageUpdate#update-information-overview\n- https://github.com/AppImage/AppImageSpec/blob/master/draft.md#update-information\n- https://github.com/ivan-hc/AppImage-tips",
+    "createdAt": "2026-01-25T10:48:48Z",
+    "labels": [],
+    "number": 661,
+    "title": "Embed AppImage update information",
+    "updatedAt": "2026-01-30T05:32:32Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/661"
+  },
+  {
+    "body": "When I compile the latest version as of 24.01.2026 I get many warnings from clippy:\n\n```\nwarning: unused imports: `BigIntExportBehavior` and `Typescript`\n  --> src/main.rs:31:25\n   |\n31 | use specta_typescript::{BigIntExportBehavior, Typescript};\n   |                         ^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^\n   |\n   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default\n\nwarning: unused import: `RwLock`\n  --> src/main.rs:63:19\n   |\n63 | use tokio::sync::{RwLock, Semaphore};\n   |                   ^^^^^^\n\nwarning: unused variable: `white_player`\n   --> src/game.rs:563:13\n    |\n563 |         let white_player = match &controller.config.white {\n    |             ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_white_player`\n    |\n    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default\n\nwarning: unused variable: `black_player`\n   --> src/game.rs:568:13\n    |\n568 |         let black_player = match &controller.config.black {\n    |             ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_black_player`\n\nwarning: unused variable: `white_time`\n   --> src/game.rs:573:14\n    |\n573 |         let (white_time, black_time) = controller.get_current_times();\n    |              ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_white_time`\n\nwarning: unused variable: `black_time`\n   --> src/game.rs:573:26\n    |\n573 |         let (white_time, black_time) = controller.get_current_times();\n    |                          ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_black_time`\n\nwarning: struct `TempPlayer` is never constructed\n   --> src/db/mod.rs:185:12\n    |\n185 | pub struct TempPlayer {\n    |            ^^^^^^^^^^\n    |\n    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default\n\nwarning: struct `GameQuery` is never constructed\n   --> src/db/mod.rs:672:12\n    |\n672 | pub struct GameQuery {\n    |            ^^^^^^^^^\n\nwarning: field `0` is never read\n  --> src/db/models.rs:36:14\n   |\n36 | struct White(pub Player);\n   |        ----- ^^^^^^^^^^\n   |        |\n   |        field in this struct\n   |\n   = help: consider removing this field\n\nwarning: field `0` is never read\n  --> src/db/models.rs:37:14\n   |\n37 | struct Black(pub Player);\n   |        ----- ^^^^^^^^^^\n   |        |\n   |        field in this struct\n   |\n   = help: consider removing this field\n\nwarning: variants `LowerOrUpperBound` and `NoMatchFound` are never constructed\n  --> src/error.rs:61:5\n   |\n 5 | pub enum Error {\n   |          ----- variants in this enum\n...\n61 |     LowerOrUpperBound,\n   |     ^^^^^^^^^^^^^^^^^\n...\n73 |     NoMatchFound,\n   |     ^^^^^^^^^^^^\n   |\n   = note: `Error` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis\n\nwarning: method `to_outcome_string` is never used\n  --> src/game.rs:72:12\n   |\n71 | impl GameResult {\n   | --------------- method in this implementation\n72 |     pub fn to_outcome_string(&self) -> String {\n   |            ^^^^^^^^^^^^^^^^^\n\nwarning: field `eco` is never read\n  --> src/opening.rs:13:5\n   |\n12 | struct Opening {\n   |        ------- field in this struct\n13 |     eco: String,\n   |     ^^^\n   |\n   = note: `Opening` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis\n\nwarning: `en-croissant` (bin \"en-croissant\") generated 13 warnings (run `cargo fix --bin \"en-croissant\" -p en-croissant` to apply 6 suggestions)\n    Finished `release` profile [optimized] target(s) in 1m 35s\n    Built application at: /home/ah/Codes/en-croissant/src-tauri/target/release/en-croissant\n```\n\nIf desired, I could open a PR and fix these.",
+    "createdAt": "2026-01-24T08:14:37Z",
+    "labels": [],
+    "number": 659,
+    "title": "Compilation warnings",
+    "updatedAt": "2026-01-24T08:14:37Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/659"
+  },
+  {
+    "body": "### Describe the feature\n\nHi, I am a big fan of this software, works very well, has a sleek UI, isn\u2019t too buggy, etc. Much nicer UI than most other chess software. However, my one gripe is that you can\u2019t generate move anotations without generating a full game report. You have to sit there and wait for the report to finish, which can take a while if you want to analyze at a high depth. My understanding is that the annotations are just based on the engine\u2019s analysis of the position. So, why can\u2019t there be a feature where you get move annotations as you analyze the game yourself, alongside the engine evaluation? I think chess.com analysis has something similar to this, where in their analysis, when you start exploring variations, or just analyzing outside of a game review, you will get move annotations alongside the engine evaluation. To me, this is the one big feature missing from this software, and I would greatly appreciate any insight into if this is something feasible, in development, not planned, etc. Thanks for the great software!",
+    "createdAt": "2025-12-09T04:58:45Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 637,
+    "title": "Feature Request: Move annotations from the engine generated per move in analysis",
+    "updatedAt": "2025-12-12T02:10:03Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/637"
+  },
+  {
+    "body": "### Describe the bug\n\nWhen deleting games in a database, the list of players and tournaments does not get refreshed.\n\n### Reproduction\n\nDatabases\n\n### Platform and versions\n\nWindows 11  / Encroissant 0.12.1\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2025-12-01T20:12:25Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 634,
+    "title": "List of players and tournaments does not update",
+    "updatedAt": "2025-12-01T20:12:25Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/634"
+  },
+  {
+    "body": "**Description**\n- In practice mode, repeatedly using the left/right arrow keys sometimes lands on neighboring main lines instead of resuming the problem you were working on. Once you move left past the current drill, pressing right should always return you to the same practice line.\n- When \u201cSee Answer\u201d hasn\u2019t been pressed yet, navigation should be locked to the current problem position. Today the move is blocked visually, but capture/move sounds still play, giving the impression that a move happened. In some cases you can even advance into future moves without revealing the answer.\n\n**Steps to Reproduce**\n1. Enter practice mode with at least one saved card.\n2. Use the left arrow several times to move to the start, then press right\u2014occasionally you\u2019ll jump into an unintended variation.\n3. Start a new practice card, keep the answer hidden, and press the right arrow. The move/capture audio still plays, and sometimes the position advances when it shouldn\u2019t.\n\n**Expected Behavior**\n- Arrow navigation in practice mode always tracks the selected drill line; returning with the right arrow should land back on that line.\n- While the answer remains hidden, navigation beyond the problem node is blocked silently\u2014no move or sound should occur until the user presses \u201cSee Answer.\u201d\n\n**Proposed Fix**\nI make the PR #632 to fix this issue. Add practice-specific navigation state (current practice path, whether practice mode is active, and whether the answer has been revealed). Use it to:\n- Force `goToNext` to follow the stored practice path.\n- Prevent advancing past the practice node until `See Answer` is triggered.\n- Only play move sounds after the guard allows the move.  \n",
+    "createdAt": "2025-11-30T02:15:47Z",
+    "labels": [],
+    "number": 633,
+    "title": "[Fix] Practice mode arrows can leave the drill line and play sounds before revealing the answer",
+    "updatedAt": "2025-11-30T03:21:54Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/633"
+  },
+  {
+    "body": "### Describe the bug\n\nStarting with v0.12.0 and continuing in v0.12.1, the piece-move animations during Analysis mode have become noticeably stuttery and sluggish. This performance regression does not occur in v0.11.1, where animations are perfectly smooth under identical settings.\n\nThe issue appears specifically when running multi-line analysis and seems tied to the migration to Tauri 2, because I observe the exact same behavior in pawn-appetite, which also recently migrated to Tauri 2.\n\n### Reproduction\n\n1. Open En Croissant v0.12.0 or v0.12.1\n2. Enable Analysis mode with:\n    - Lines: 3 lines\n    - Threads/Cores: 4 cores\n    - Hash size: 8 GB\n3. move pieces quickly and observe piece movement animations as engine lines update\n\nExpected Behavior\n- Animation should remain smooth and fluid, as it was in v0.11.1, regardless of engine activity.\n\nActual Behavior\n- Piece movement animations stutter, feel laggy, and are not smooth.\n- Performance is noticeably degraded compared to v0.11.1.\n\n### Platform and versions\n\nEnvironment\n\n- CPU: Intel Core i9-13900 (24 cores / 32 threads)\n- OS: Windows 11\n- En Croissant Versions Tested:\n   - v0.11.1 \u2014 smooth animation\n   - v0.12.0 \u2014 stutter present\n   - v0.12.1 \u2014 stutter present\n\nStockfish 17.1 Engine Settings:\n- 3 lines\n- 4 cores\n- 8 GB hash\n\nAdditional Notes\n- The regression began immediately after the Tauri 2 migration, so it may be related to changes in rendering or event-loop performance.\n- The same issue appears in pawn-epitite, another project that migrated to Tauri 2, which supports this theory.\n\nRequest\n- Please investigate this issue, as smooth piece-move animation was one of the highlights of v0.11.1. The stuttering feels like a significant downgrade in user experience.\n- If you need logs, profiling data, or a screen recording, I can provide them.\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2025-11-30T01:55:38Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 631,
+    "title": "Piece-move animation stutters during Analysis mode after upgrade to Tauri 2 (v0.12.0+)",
+    "updatedAt": "2025-11-30T01:55:38Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/631"
+  },
+  {
+    "body": "### Describe the feature\n\nThere exist [drivers from graham O'Neill](https://goneill.co.nz/chess.php) for several eBoards. As far as I understand it, we can move pieces on UIs like Arena with an eBoard. That would be a great feature for en-croissant. It would be very helpful to record OTB games and save it as pgn for later analysis. There seems to be linux support also. The difficult part of the task would be accomplished through Graham's code. What do you think?",
+    "createdAt": "2025-11-27T10:24:36Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 628,
+    "title": "Proposal: Support eBoard drivers",
+    "updatedAt": "2025-11-27T10:24:36Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/628"
+  },
+  {
+    "body": "### Describe the feature\n\nDuring Analysis mode, it would be incredibly helpful to have Blue Arrows on the chessboard show their evaluation scores. This would make it much easier to compare candidate moves and understand their relative strengths. For e.g. below is how [Nibbler Chess GUI](https://user-images.githubusercontent.com/16438795/270297798-a432ea17-3601-4143-bddb-97420a0d6e6c.png) shows arrows with evaluation scores. It looks very neat and useful",
+    "createdAt": "2025-11-24T05:36:26Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 616,
+    "title": "Display Arrows With Evaluation Scores in Analysis Mode",
+    "updatedAt": "2026-01-12T03:36:10Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/616"
+  },
+  {
+    "body": "### Describe the feature\n\n> Go beyond perfect engine lines\u2014see what real players would actually do. Maia combines Stockfish's precision with human tendencies learned from millions of real games, giving you real-world context in every position. Instantly tell whether a move wins only for computers or also works at your rating, and where players like you are most likely to stumble.\n> \n> Explore the top moves at every rating level, spot positions where blunders are likely, and understand how to level up your play in every single position. Get personalized insights based on your playing style and rating level.\n\nMaia2 is open-sourced on Github, so it is technically possible to integrate it. I know it can be a big project. I'm willing to help if you think the feature is worth adding.",
+    "createdAt": "2025-10-15T07:06:13Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 607,
+    "title": "Integrate Maia 2 for better (human-aware) game analyze",
+    "updatedAt": "2026-02-24T02:36:07Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/607"
+  },
+  {
+    "body": "### Describe the feature\n\nHey! First of all, thank you a lot for a wonderful application (I hope you enjoy your croissants with coffee \ud83d\ude09)!\n\nI started using it to complement my studies on Lichess, but now I'm looking into completely replacing it. It might be just that I'm not used to UI, but I find few things very inconvenient when building a repertoire. \n\nHere's the scenario:\n\n- I create a repertoire file, i.e. \"Scotch Game\"\n- I used my chess.com game to study a line.\n- (A) I found the right answer that I want to expand on and made it the main line\n- (B) The actual game is now a sideline where I want to keep adding comments to compare the position that I can get with the right answer.\n- Ideally I want to keep adding more games as side lines as I go.\n\n<img width=\"1256\" height=\"814\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/006e5b7d-48d8-45bc-a99e-78cd8d909389\" />\n\nNow the first problem (1) is that the game is named \"kossnocor - GarrettBeck18\" without a clear way to change it. I know that I can probably edit PNG myself, but it would be nice to have this option in the UI. Forgive me if I missed it!\n\n<img width=\"524\" height=\"243\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/c602defe-7f4f-4a75-a789-e08d8d893793\" />\n\nAnother issue (2) is that the game is still says \"Black wins\" even though I changed the main line:\n\n<img width=\"1024\" height=\"848\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/6d625c34-1d4b-485e-ae6e-f9165959c1a7\" />\n\nI would expect the note to disappear or ideally move into the sideline block. Maybe that's a PNG limitation, but I would not mind if the result would transform into a comment on the last sideline move.\n\nI know that it might be a big ask, but having the ability to edit comments inline, right in this view would be amazing (3).\n\n<img width=\"1056\" height=\"632\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/a430cd72-91cb-4008-aea5-7d2e0b376d56\" />\n\nWhen I analyze with an engine, it would be awesome to preserve the engine analysis until I restart it (4), so I can refer to past results when switching between moves. Now when I run the engine for deep analysis and then try another move, when I get back, it starts from scratch. I'm not sure if engines allow it, but having a dump so I can continue where I ended would be just perfect.\n\nI know that most of the requests might be a lot of work and I willing to try my hand on it and contribute to the app or help otherwise. If you like any of the ideas and don't mind me sending your a PR, or if have further questions, please let me know.\n\nI might have further ideas on how to improve UX, especially when using the app to build a repertoire. Please tell me if you would like to receive them as separate issues without an expectation that you would address any of them, just for the discussion's sake.\n\nCheers!",
+    "createdAt": "2025-08-08T02:39:44Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 591,
+    "title": "UX improvements when building a repertoire",
+    "updatedAt": "2025-12-11T19:10:19Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/591"
+  },
+  {
+    "body": "### Describe the bug\n\nAdding new puzzles doesn\u2019t work because it allows the user to install or reinstall the Lichess Puzzles database infinitely. It also doesn\u2019t give the option to add any other local puzzle databases.\n\nThere are two bugs in this area:\n\n1. The app should not keep reinstalling the Lichess database unless it is updated or something else is happening.\n2. Add a new option, \u2014, that should allow the user to add a different puzzles\u2019 database, either locally or from a pre-configured source like Lichess or another source.\n\n### Reproduction\n\n- On the training tab\n- Select database drop-down-menu\n- Try adding new database\n\n![Image](https://github.com/user-attachments/assets/d25147b5-971d-410a-be29-a36d997bac4e)\n\n\n\n### Platform and versions\n\nEn Croissant\nVersion: 0.11.1\nTauri version: 1.6.1\nOS: Darwin x86_64 15.5.0\n\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2025-07-13T04:45:29Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 580,
+    "title": "The workflow for adding new puzzles' database is broken.",
+    "updatedAt": "2025-07-13T04:45:29Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/580"
+  },
+  {
+    "body": "### Describe the bug\n\nIt does not show options from the reference database after turning a pawn into a piece.\n\n\n\n### Reproduction\n\n![Image](https://github.com/user-attachments/assets/62ef3755-3819-425a-908e-45e647b08e3d)\n![Image](https://github.com/user-attachments/assets/4513db04-37ab-4970-9e9c-5e6abbebecb2)\n\n### Platform and versions\n\nVersion: 0.11.1\n\nTauri version: 1.6.1\n\nOS: Windows_NT x86_64 10.0.19045\n\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2025-06-09T16:31:15Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 569,
+    "title": "There is a problem with the reference database.",
+    "updatedAt": "2025-06-09T16:31:15Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/569"
+  },
+  {
+    "body": "### Describe the feature\n\nSometimes you set up full position and it turned out you was setting that position from wrong POV (the position you copying is from black POV, and you set it from default white POV), and now you should do the same thing again, but properly.\n\nIn that cases, it would be handy to have \"invert board\" button (or even \"switch sides\" button which combines \"invert board\" and \"flip board\" buttons because most of the times if not all you will need to invert for that sole purpose of fixing your mistake of not changing POV early, and in that case you will press \"invert board\" button and then flip the board because you need to see the board the way you set it).",
+    "createdAt": "2025-06-06T23:27:17Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 566,
+    "title": "\"Invert board\" or \"Switch sides\" button for edit mode",
+    "updatedAt": "2025-06-06T23:27:17Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/566"
+  },
+  {
+    "body": "### Describe the feature\n\nCreate a feature for adding times to the moves in the analysis board. This can help to track the time clock for both players if it's recorded during the game.",
+    "createdAt": "2025-06-06T14:10:23Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 565,
+    "title": "Time Editor in PGN Editor",
+    "updatedAt": "2025-06-06T14:10:23Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/565"
+  },
+  {
+    "body": "### Describe the bug\n\nFollowing the instructions on building from source. During the 'pnpm build' step I hit this failure:\n\n```\n$ pnpm build\n\n> en-croissant@0.11.1 build /home/mbrown/croissant/en-croissant\n> tauri build --no-bundle -v\n\nfailed to get cargo metadata: No such file or directory (os error 2)\n    Error [tauri_cli_node] failed to get cargo metadata: No such file or directory (os error 2)\n\u2009ELIFECYCLE\u2009 Command failed with exit code 1.\n```\n\n### Reproduction\n\n1. Following instructions from https://github.com/franciscoBSalgueiro/en-croissant#building-from-source\n2. git clone https://github.com/franciscoBSalgueiro/en-croissant\n3. cd en-croissant\n4. pnpm install\n5. pnpm build\n\n### Platform and versions\n\nDebian GUN/Linux 12\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2025-06-05T16:51:29Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 563,
+    "title": "build of master fails: failed to get cargo metadata: No such file or directory (os error 2)",
+    "updatedAt": "2025-06-05T16:51:29Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/563"
+  },
+  {
+    "body": "### Describe the feature\n\nDescription\n\nAllow users to select a move or a position and request an AI-powered explanation in natural language, optionally read aloud using a voice of their choice (e.g. male/female, tone, language).\n\nThis would make En-Croissant feel like a personal coach, not just an analysis tool.\n\n\u2e3b\n\n\ud83c\udfaf Use Cases\n\t\u2022\t\ud83d\udcda Study Mode: Understand why a move is good or bad, especially for beginners or intermediate players.\n\t\u2022\t\ud83c\udfa4 Voice Feedback: Make study more engaging and accessible \u2014 e.g., while multitasking or for visually impaired users.\n\t\u2022\t\ud83e\uddd1\u200d\ud83c\udfeb Coaching: Students can study with narrated explanations for annotated games.\n\n\u2e3b\n\n\ud83d\udee0\ufe0f Implementation Plan (Conceptual)\n\n1. AI Explanation Logic\n\nUse a GPT-based model or a local prompt-based logic that:\n\t\u2022\tTakes FEN + best move or sequence.\n\t\u2022\tReturns a paragraph like:\n\u201cBlack plays \u2026e5 here to contest the center and open up lines for the dark-squared bishop. It\u2019s a classical response in the Italian Game.\u201d\n\nOptions:\n\t\u2022\tUse an online API (e.g., OpenAI API, local llama.cpp inference).\n\t\u2022\tOr: build a rule-based explanation engine with templates based on evaluation, piece activity, threats, etc.\n\n2. Voice Narration\n\nUse text-to-speech libraries or services:\n\t\u2022\tWeb TTS APIs (if browser-based)\n\t\u2022\tOS-native APIs (macOS/Windows have this)\n\t\u2022\tIntegrate with open-source voices like [eSpeak](http://espeak.sourceforge.net/) or [Coqui TTS](https://coqui.ai/)\n\n3. UI\n\t\u2022\tRight-click move \u2192 \u201cExplain with AI\u201d\n\t\u2022\tToggle: \u201c\ud83d\udd0a Read explanation aloud\u201d\n\t\u2022\tVoice selector in settings (female/male, accent, etc.)",
+    "createdAt": "2025-06-01T17:33:40Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 559,
+    "title": "AI Move Explanation (with Optional Voice Narration)",
+    "updatedAt": "2025-06-29T19:08:11Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/559"
+  },
+  {
+    "body": "### Describe the feature\n\nMany chess learners and intermediate players prefer to train against \u201chuman-like\u201d opponents. UCI engines like Stockfish support playing at reduced strength via ELO simulation.\n\nProposed Feature:\n\nAdd an option in the engine settings to limit the engine\u2019s strength (via ELO rating or depth), using UCI_LimitStrength and UCI_Elo parameters.\n\nImplementation Notes:\n\t\u2022\tNeeds UI support for selecting ELO from a dropdown.\n\t\u2022\tConfigurable per engine instance.\n\t\u2022\tStore preferences per user.\n\nCurrently, editing the engine ELO [_in the engine settings or JSON_] doesn\u2019t seem to be working.",
+    "createdAt": "2025-06-01T17:15:04Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 558,
+    "title": "Adjustable Engine Strength / ELO for Training",
+    "updatedAt": "2025-06-01T17:15:04Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/558"
+  },
+  {
+    "body": "### Describe the feature\n\nAs databases grow, users need refined tools to dig into specific patterns (e.g., \u201cFind all wins in the Sicilian Defense with 30+ moves\u201d).\n\nProposed Feature:\n\nImplement an advanced search sidebar with:\n\n\t\u2022\tOpening name or ECO code\n\t\u2022\tResult (1-0, 0-1, draw)\n\t\u2022\tGame length (min-max)\n\t\u2022\tPlayer name or tag\n\t\u2022\tStyle of play (based on pawn structure, if heuristics available)\n\nImplementation Notes:\n\t\u2022\tUse PGN headers + some game metadata (or integrate a tag/classification system).\n\t\u2022\tCould support saved search queries.\n\n\n",
+    "createdAt": "2025-06-01T17:06:45Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 556,
+    "title": "Advanced Search and Filters (by Opening, Tag, Style, Result, Length)",
+    "updatedAt": "2025-06-01T17:06:45Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/556"
+  },
+  {
+    "body": "All questions about version 0.11.1 on Windows\n \n1. How do I resign when playing against an engine?\n2. How do I save a game against an engine to a local database of games? I'm aware of saving it to a pgn file, but I'm hoping to maintain a whole database of games instead of scattered pgn files.",
+    "createdAt": "2025-04-17T21:06:49Z",
+    "labels": [],
+    "number": 546,
+    "title": "Few questions about playing vs engines and saving the output",
+    "updatedAt": "2025-04-18T12:58:32Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/546"
+  },
+  {
+    "body": "### Describe the bug\n\n![Image](https://github.com/user-attachments/assets/ddd8eed5-9350-4295-be33-e197c915d33b)\nThis bug will be occurred when i tried to save a new PGN with a Chinese path.\nAfter the error happened, I cannot save any settings including language,database,engine settings and so on.\nThis will not be solved unless I reinstall the program.\nThe settings will remain before the bug happens\n\n\n### Reproduction\n\n1.create a new PGN\n2.save with a path that includes chinese characters\n3.no settings can be saved\n\n### Platform and versions\n\nVersion: 0.11.1\nTauri version: 1.6.1\nOS: Windows_NT x86_64 10.0.19045\n\n\n\n### Stack trace\n\n```Shell\nMinified React error #310; visit https://reactjs.org/docs/error-decoder.html?invariant=310 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\nError: Minified React error #310; visit https://reactjs.org/docs/error-decoder.html?invariant=310 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at Vs (https://tauri.localhost/assets/index.js:38:20174)\n    at Object.OT [as useReducer] (https://tauri.localhost/assets/index.js:38:20428)\n    at Kt.useReducer (https://tauri.localhost/assets/index.js:9:6321)\n    at nt (https://tauri.localhost/assets/index.js:109:13690)\n    at kDn (https://tauri.localhost/assets/index.js:477:79779)\n    at cL (https://tauri.localhost/assets/index.js:38:19576)\n    at tO (https://tauri.localhost/assets/index.js:40:3150)\n    at lse (https://tauri.localhost/assets/index.js:40:44967)\n    at ise (https://tauri.localhost/assets/index.js:40:39894)\n    at cbe (https://tauri.localhost/assets/index.js:40:39817)\n```",
+    "createdAt": "2025-04-04T12:17:37Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 543,
+    "title": "An error is finding",
+    "updatedAt": "2025-04-04T12:17:37Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/543"
+  },
+  {
+    "body": "### Describe the feature\n\nThe current ui layout is a bit unergonomic to use on small screens / window sizes. The sidebar and board section widths get small and difficult to use. There is some space that could potentially be better utilized.  \n\n1. Adding a vertical layout could potentially allow for a larger board and fit a wider area for displaying other content\n2. The title section of the sidebar (highlighted in screenshot) wraps which does decrease are available for content below\n\n![Image](https://github.com/user-attachments/assets/95b36975-7ee7-478c-9425-78d2869d3976)",
+    "createdAt": "2025-03-28T01:46:01Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 540,
+    "title": "UI improvement at small window widths",
+    "updatedAt": "2025-03-28T01:46:34Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/540"
+  },
+  {
+    "body": "1.  While editing a position, if the sidebar width is decreased past a certain position,the piece section disappears. ![Image](https://github.com/user-attachments/assets/5899335a-bf96-41ed-956b-0d8b2d18fe87)\n2. Resizing the board component with show coordinates setting on results in the coordinates overflowing from the board image. The width required for this is small enough that it may not be a practical issue for most users. but perhaps the coordinates could resize or not show when board is smaller that a certain size ![Image](https://github.com/user-attachments/assets/e391be72-2820-4034-a2e6-eecd308e1f5f)\n3. Move table in the database section is cut off at small widths ![Image](https://github.com/user-attachments/assets/53dad308-ea37-4605-abf6-1c96316efd27)\n4. Graph showing practice completion in practice tab is cut off ![Image](https://github.com/user-attachments/assets/cd56c8da-b279-4301-bd05-cdf6e7fc186f)\n\nVersion: 0.11.1\nTauri version: 1.6.1\nOS: Linux x86_64 24.11.0",
+    "createdAt": "2025-03-28T01:19:43Z",
+    "labels": [],
+    "number": 539,
+    "title": "UI layout issues at different component sizes",
+    "updatedAt": "2025-03-28T09:25:16Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/539"
+  },
+  {
+    "body": "### Describe the feature\n\nA way to Select a database or group of games and then review each game with the same settings and then have the results saved to each games file.",
+    "createdAt": "2025-03-09T06:20:18Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 536,
+    "title": "Mass Reveiw",
+    "updatedAt": "2025-03-09T06:20:18Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/536"
+  },
+  {
+    "body": "### Describe the feature\n\nIf you try and convert a large database to a PGN, you can't then add another one to be converted after that one is converted you have to wait for the first one to be converted before you can add a second one.",
+    "createdAt": "2025-03-09T05:58:23Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 535,
+    "title": "Converting multiple databases to PGNs at once",
+    "updatedAt": "2025-03-09T05:58:23Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/535"
+  },
+  {
+    "body": "### Describe the feature\n\nThe ability to save lines evaluated by the engine to the variations without jumping to that position to remove the reevaluation of the same line.\n\nFor example, after a e4, e5 opening the engine (stockfish 17 at 30 depth) recommends,\n        2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Nxe4 5. Re1 Nd6 6. Nxe5 Be7 7. Bf1 Nxe5 8. Rxe5 O-O 9. d4 Bf6 10. Re1 Nf5 11. c3 \n        d5 12. Nd2 Nd6 13. Nb3 Re8 14. Rxe8+ Nxe8 15. Nc5 c6 16. Qf3 g6 17. Bf4 Be7 18. a4 \n\nas the best line to play and for the second-best line it recommends,\n        2. Nc3  Nc6 3. Bc4 Nf6 4. d3 Na5 5. Nge2 Bc5 6. O-O O-O 7. Ng3 Nxc4 8. dxc4 d6 9. Qf3 h6 10. h3 Be6 11. Nd5 \n        Nxd5 12. cxd5 Bd7 13. Be3 Bxe3 14. Qxe3 a5 \n\nbut you can't get it into this form,\n        1. e4 {[%eval +0.21] } e5 {[%eval +0.21] } 2. Nf3  (2. Nc3  Nc6 3. Bc4 Nf6 4. d3 Na5 5. Nge2 Bc5 6. O-O O-O 7. \n        Ng3 Nxc4 8. dxc4 d6 9. Qf3 h6 10. h3 Be6 11. Nd5 Nxd5 12. cxd5 Bd7 13. Be3 Bxe3 14. Qxe3 a5 {[%eval -0.01] }) \n        Nc6 3. Bb5 Nf6 4. O-O Nxe4 5. Re1 Nd6 6. Nxe5 Be7 7. Bf1 Nxe5 8. Rxe5 O-O 9. d4 Bf6 10. Re1 Nf5 11. c3 d5 12. \n        Nd2 Nd6 13. Nb3 Re8 14. Rxe8+ Nxe8 15. Nc5 c6 16. Qf3 g6 17. Bf4 Be7 18. a4 {[%eval +0.32] } *\n\nwithout going back to e5 creating unnecessary evaluation which in more complicated positions or higher depths could take a long time to do. I would recommend a button that toggles between the mode where it skips to that position and then one where it just marks the position in the lines / variations. Another way it could be implemented is a by having a way to copy the line to the clipboard. This would allow an easier export of evaluation lines to note sheets and other documents.",
+    "createdAt": "2025-03-09T05:26:39Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 534,
+    "title": "Save Lines from Evaluations ",
+    "updatedAt": "2025-03-09T05:33:55Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/534"
+  },
+  {
+    "body": "https://github.com/user-attachments/assets/d6bd636a-c425-404f-858f-61cbeb216d52\n\n### Describe the bug\n\nIn the Analysis Board, if I have stockfish running as a engine and scroll through the game move by move with the arrow keys, the board is laggy. Pieces stutter in the middle of their move animation, and in general just moving forward is slow because the move animation takes much longer.\n\nThe issue is not the general load on the PC, if I start a second en-croissant while the first has the engine running, then I can scroll through moves quickly and fluidly in the second instance (unless I also turn on the engine there).\n\nIf somebody has an idea how to tackle this, I am willing to create a PR for this - I just don't know where exactly to start for this. I already implemented the ability to set a process priority for the engine process, but this didn't fix the issue.\n\n### Reproduction\n\n1. Open Analysis board\n2. Make a few moves\n3. Use left and right arrow keys  to scroll through the moves. Move animations are quick and smooth.\n4. Start the engine to analyze along side.\n5. Use left and right arrow keys  to scroll through the moves. Move animations stutter - they are slow and jerky or laggy.\n\n### Platform and versions\n\nLinux, tested on current git master.\n\n### Stack trace\n\n```Shell\n\n```",
+    "createdAt": "2025-03-02T09:08:19Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 530,
+    "title": "Laggy board UI while running engine",
+    "updatedAt": "2025-03-07T16:56:41Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/530"
+  },
+  {
+    "body": "### Describe the feature\n\nI use the \"Files\" tab of En Croissant to create and manage the openings/variations of my repertoire.  \nFor readability, I like to move the single games/chapters inside of the files in a specific order (e.g. drag & drop Chapters, like in Lichess Studies). In En Croissant however I noticed, that you can't move the games/chapters around after creating them.  \nIs a feature like that planned, for example similar to how you can already move the different engines in the \"Analysis\" tab? I attached some screenshots of the UI where such a drag & drop feature would be useful.\n\nPreview in the \"Files\" tab:\n![Image](https://github.com/user-attachments/assets/a937436c-d9f8-4302-93a5-1c3d0746c5ab)  \n\nInside of the file (\"Info\" tab), after clicking \"Open\" in the \"Files\" tab:\n![Image](https://github.com/user-attachments/assets/d327482d-afa6-405a-b6a3-b15487523af0)",
+    "createdAt": "2025-02-28T19:20:22Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 527,
+    "title": "Changing the order of games in a file",
+    "updatedAt": "2025-02-28T19:20:22Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/527"
+  },
+  {
+    "body": "### Describe the feature\n\nHi there, I have an idea of making en croissant not create INFO files for every PGN in specified folder. This \"issue\" occurs after entering \"Files\" section in the app. I'd like to have a clean folder just for my games, but En Croissant makes these INFO files for every PGN and half of my folder is filled with files that i don't need. If you have time, I'd be very happy to have this option in my app.\n\n![Image](https://github.com/user-attachments/assets/86bc085e-4e11-40c1-8c0c-33f60ea89b55)",
+    "createdAt": "2025-02-16T23:26:02Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 516,
+    "title": "Idea of blocking the creation of INFO files for PGNs",
+    "updatedAt": "2025-02-16T23:26:02Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/516"
+  },
+  {
+    "body": "### Describe the feature\n\nFor certain critical positions in my opening repertoire, I'll run the engine analysis for a long period, copy the critical lines and evaluation, then paste into the notes section of my study, along with the depth. However, currently this requires manually typing out all the moves, and I'd appreciate a button that just generates this text and adds to clipboard directly. Here is a local artist's rendition of what I could look like:\n\n![Image](https://github.com/user-attachments/assets/2afc7ce8-2db3-412c-bc3f-8ab3ba85c76d)\n\nWhich would copy the following text to clipboard:\n\n```\n-0.30: 3... e6 4. e4 Nc6 5. d4 d5 6. e5 Qa5 7. Be2 Bd7 8. O-O Nge7 9. Bb2\n-0.30: 3... bxa3 4. e4 g6 5. Rxa3 Bg7 6. c4 d6 7. h3 Nf6 8. Nc3 O-O 9. Be2\n-0.05: 3... b5 4. e3 a6 5. axb4 Bb7 6. c4 bxc4 7. Bxc4 e6 8. b5 Nf6 9. Nc3\n-0.05: 3... a6 4. axb4 b5 5. e3 Bb7 6. c4 bxc4 7. Bxc4 e6 8. b5 Nf6 9. Nc3\n0.00: 3... Nc6 4. axb4 Nxb4 5. e4 e6 6. d4 d5 7. Bb5+ Nc6 8. Ne5 Bd7 9. Nxd7\nStockfish v17 Depth 57 \n```",
+    "createdAt": "2025-02-08T00:58:53Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 510,
+    "title": "Add \"copy engine output to clipboard\" to analysis tab",
+    "updatedAt": "2025-02-08T00:58:53Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/510"
+  },
+  {
+    "body": "### Describe the feature\n\nCould be interesting to have a report/signal/notification of the most critical moves/position of a game.\nThe theory has been described in this paper: [Fragility of Chess positions: measure, universality and tipping points](https://arxiv.org/abs/2410.02333)",
+    "createdAt": "2025-02-05T12:56:07Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 509,
+    "title": "Add Fragility of Chess positions measurement",
+    "updatedAt": "2025-02-05T12:56:07Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/509"
+  },
+  {
+    "body": "### Describe the bug\n\nHello there,\n\nI am currently developing a chess engine and wanted to try En Croissant as a frontend. However, it seems to have problems reading the incoming UCI results by the engine, which can be read by other programs like lichess-bot perfectly fine. I don't know what I'm missing here, but I would believe this is an actual bug in the UCI implementation as my engine says all the important things to include:\n\n```\nGUI: uci\nEngine: id name Chess Engine v0.0.1-cpp\nEngine: id author mags0ft\nEngine: uciok\nGUI: isready\nEngine: readyok\nGUI: position fen r3k2r/pp1n1ppp/2p1pnb1/q3N3/1b1P1BP1/2N4P/PPPQBP2/2KR3R w kq - 5 14\nGUI: go depth 3\nEngine: info time 188 nodes 950 score -368 depth 3\nEngine: info time 231 nodes 1166 score -337 depth 3\nEngine: info time 272 nodes 1380 score -337 depth 3\nEngine: info time 312 nodes 1598 score -337 depth 3\nEngine: info time 467 nodes 2443 score -337 depth 3\nEngine: info time 627 nodes 3304 score -337 depth 3\n\n[... a lot more of the same lines (full log is attached!) ...]\n\nEngine: info time 3971 nodes 21296 score -337 depth 3\nEngine: info time 4214 nodes 22578 score -337 depth 3\nEngine: info time 4455 nodes 23853 score -337 depth 3\nEngine: info time 4603 nodes 24633 score -337 depth 3\nEngine: info time 4737 nodes 25340 score -337 depth 3\nEngine: info time 4872 nodes 26039 score -337 depth 3\nEngine: info time 5087 nodes 27124 score -337 depth 3\nEngine: info time 5087 nodes 27124 score -337 depth 3 pv d1e1\nEngine: bestmove d1e1\n```\n\nThe frontend seems to wait until the engine is done, then returns \"No analysis available\". I have already spent hours trying to debug this, I would appreciate any response on whether this is my fault or the UCI implementation/front-end are buggy.\n\nThanks in advance!\n\n[logs.csv](https://github.com/user-attachments/files/18468942/logs.csv)\n\n### Reproduction\n\nI have coded a minimal reproducible example that is attached right here as CPP source file (with TXT extension because GitHub didn't let me do otherwise) and as built x86 executable.\n\n1. add it to En Croissant\n2. go into analysis mode, pick a random FEN like \"r3k2r/pp1n1ppp/2p1pnb1/q3N3/1b1P1BP1/2N4P/PPPQBP2/2KR3R w kq - 5 14\" (from https://lichess.org/XEZzWu33/black#26)\n3. run the engine and wonder\n\n[Source code for a minimum reproducible example](https://github.com/user-attachments/files/18468939/example.txt)\n\n### Platform and versions\n\nUbuntu 22.04 LTS (Linux 6.8.0-51), En Croissant 0.11.1\n\n### Stack trace\n\n```Shell\nThere is no stacktrace due to any thrown exception available. Here is the full application log to stdout:\n\n[2025-01-19][13:15:27][INFO][en_croissant] Setting up application\n[2025-01-19][13:15:27][INFO][en_croissant] Checking for required directories\n[2025-01-19][13:15:27][INFO][en_croissant] Checking for required files\n[2025-01-19][13:15:30][INFO][webview] React app started successfully\n[2025-01-19][13:15:31][INFO][en_croissant::opening] Initializing openings table...\n```",
+    "createdAt": "2025-01-19T13:30:46Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 500,
+    "title": "front-end says \"No analysis available\" even after receiving fully UCI-compliant, accurate analysis by the engine",
+    "updatedAt": "2025-01-19T13:33:07Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/500"
+  },
+  {
+    "body": "### Describe the feature\n\nWould that be possible to add a flag to auto start a default engine (or the first one in the list) when a new analysis board is being created?",
+    "createdAt": "2025-01-14T14:34:05Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 495,
+    "title": "Auto-start engine",
+    "updatedAt": "2025-01-14T14:34:05Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/495"
+  },
+  {
+    "body": "### Describe the bug\r\n\r\n- When computer runs out of time it crashes\r\n- If computer gets 1ms to think but it starts at 0.9ms at the end of ms, it plays illegal move and freezes\r\n- If computer plays quickly like depth 2 vs depth 3 or ms then it also freezes even with legal move\r\n- Computer wastes time loading its engine while clock is counting down -> **Solution:**Let engine load before timer starts\r\n- Engine takes 30s to load on a slow computer then crashes if taking too long -> **Solution:**When you reach engine tab it can show all the stats of the engine since it doesn't need to be loaded\r\n- Large databases take a long time to load on slow computer then crashes if it takes too long -> **Solution:**Just load the names and stats of the database then load it while the user is on the page or when the user clicks on the database and wants to see games , people, tournaments, etc\r\n- Syzygypath not saving location sometimes\r\n- Switching file location of en croissant just makes another file and doesn't delete the old one and also sometimes doesn't switch\r\n- Downloading engines directly from en croissant (i tested leela in this case) doesn't download and crashes saying failed to fetch files -> might be a download issue and might need to just change download location\r\n- If there's no internet and you open tablebase it crashes -> **Solution:**It can replace the tablebase icon with \"_There is currently no internet_\" but even better if you have a syzygypath (using custom syzygy path setting for analysis or engines) then it can use it\r\n- If engines take too long to load and you switch to home page it crashes but reload fixes it -> **Solution:**Just load engine stats from previous and it will be faster and no crashes, also the issue might be quitting process\r\n- The X in the corner used for closing windows doesn't close it and instead a very small sliver of that x is how you leave application\r\n- The download percentages for your personal games are sometimes off like 0.0% if you just get on and have a slow computer and 101% after loading the full thing sometimes (only the chess.com was 101% in my case)\r\n\r\n### Platform and versions\r\n\r\nWindows 10 home, CPU: intel N2840\r\nWindows 10 pro, CPU (using hyper-v but issues were in both cases): Intel 1185g7\r\n",
+    "createdAt": "2025-01-04T02:14:06Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 487,
+    "title": "Every bug so far",
+    "updatedAt": "2025-01-04T02:14:30Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/487"
+  },
+  {
+    "body": "### Describe the feature\n\nI want a feature to combine play with analysis. Like when you are playing with a engine, you can have an options to see eval bar, what engine are thinking and can choose to play with engine from \"this\" position. I can even play the move for engine, engine will with switch side to play. I want a take back options too ",
+    "createdAt": "2024-12-13T06:05:39Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 463,
+    "title": "Play with engine from position",
+    "updatedAt": "2024-12-13T06:05:39Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/463"
+  },
+  {
+    "body": "### Describe the feature\n\nwhen we import the link from lichess or chess it should be good if it check and update the game status",
+    "createdAt": "2024-12-11T20:47:30Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 461,
+    "title": "live update of games ",
+    "updatedAt": "2024-12-14T00:04:06Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/461"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nThe Woodpecker method has been known to rapidly improve tactical pattern recognition and lead to a significant boost in chess ratings. It's basically solving a fixed number of chess tactics (100-200 for the amateur, 1000 for the serious professional), and then going back and solving the same puzzles again, this time aiming to do it faster than before. \r\n\r\nThis feature would greatly benefit all the chess players who are looking to improve their game. This would also set en-croissant apart from all the other open-source tools as none of them have this feature, leading to greater adoption of en-croissant by chess players of all levels. \r\n\r\nAt a minimum, implementation of this feature would require a way to create puzzle sets from a puzzle database (lichess for example), based on ratings and/or motifs (if the information is available in the puzzle database). \r\n\r\nA tracker to keep track of the days taken to finish a puzzle set would be nice to have but is not a core requirement.\r\nExample for a tracker: \r\nCycle 1: 500 puzzles | 40 hours | 87% accuracy\r\nCycle 2: 500 puzzles | 18 hours | 92% accuracy\r\nCycle 3: 500 puzzles | 8.75 hours | 95% accuracy",
+    "createdAt": "2024-12-04T04:09:56Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 453,
+    "title": "Woodpecker method (spaced repetition) for puzzle training",
+    "updatedAt": "2024-12-04T04:20:01Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/453"
+  },
+  {
+    "body": "### Describe the feature\n\nI am currently using `en-croissant` to analyze my `.pgn` files. Currently, the *Game Report* feature can only analyze one game at a time. \r\n\r\nAs PGN files can contain multiple games, this is highly desirable for someone like myself who plays many blitz games in one day and wants to analyze/annotate them all in one go.",
+    "createdAt": "2024-11-25T02:14:45Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 449,
+    "title": "[Feature] Bulk game analysis in Game Report",
+    "updatedAt": "2024-11-25T02:14:45Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/449"
+  },
+  {
+    "body": "### Describe the feature\n\nI appreciate all the work done on En Croissant. It is already the best alternative on the market for me (I think it's awesome). After using it for a while, I have a couple suggestions for improvements. \r\n\r\nFirst, regarding the inline notation:\r\n\r\n- [ ] Remove the moving of longer comments to new lines\r\n- [ ] Include full move number after comments\r\n- [ ] Better nesting of variations\r\n\r\nCurrently comments are moved in their entirety to new lines if they exceed the available leftover line width. This makes the hierarchy harder to follow, it also creates a confusing inconsistency with shorter comments. Keeping comments true inline, regardless of length, would improve readability in my opinion (see comparison below).\r\n\r\nAnother thing that could aid in readability is having the full move number displayed whenever a comment preceeds the move. Compare *2\u2026Nc6* with *Nc6* below. I think overall it's a lot clearer to (a) have the move \"true inline\", and (b) with the full move number (compared to alone on it's own line with no move number). \r\n\r\nAnd for the third point, take a look at *3\u2026 exd4 4. e5* below. Is the nesting/grouping not really confusing compared to the way Lichess handles it? I've been struggling to navigate sub-variations a lot when analysing my games, and I think this is a big part of it. \r\n\r\n*Lichess*\r\n<img width=\"250\" alt=\"i_241118-130213\" src=\"https://github.com/user-attachments/assets/23a30470-5221-4afb-88c5-6ac63ba26686\">\r\n\r\n*En Croissant*\r\n<img width=\"250\" alt=\"i_241118-130350\" src=\"https://github.com/user-attachments/assets/a874724f-823b-41be-88c5-f1aa5653701a\">\r\n\r\n\r\nA few other feature requests not related to the inline notation:\r\n\r\n- [ ] Add shortcut to open current board position in a new tab and analysis board directly\r\n\r\nIt would be more convenient than the manual method of \"opening the info tab, selecting the FEN, copying it, opening a new tab, choosing analysis board, pasting it\". And lifting certain positions from games must be a fairly common user action I imagine, at least it is for me. Having a shortcut below the board (next to the present ones) for this would be great.\r\n\r\n- [ ] Ability to add comment by right-clicking in the move list directly, or below the board\r\n\r\nThe vertical space for the move list is quite valuable, and allowing the full right side of the screen to be occupied by the move list while still being able to annotate would be a great feature. Also, since there is empty space below the board, an expandable glyph section there (combined with the right click feature to add comments directly) might be a good solution?\r\n\r\n<img width=\"500\" alt=\"i_241118-132519\" src=\"https://github.com/user-attachments/assets/7817ac0f-b939-4bf3-a07d-060f91a3b4fe\">\r\n\r\n<img width=\"500\" alt=\"i_241118-132604\" src=\"https://github.com/user-attachments/assets/bd32ba4d-d57b-4c18-987a-484ea8cd451d\">\r\n\r\n\r\nLooking forward to seeing how the project evolves in the future!",
+    "createdAt": "2024-11-19T11:52:30Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 445,
+    "title": "Inline notation improvements (and other suggestions)",
+    "updatedAt": "2026-01-11T17:22:45Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/445"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nHello\r\n\r\nI have requests to improve \"EnCroissant\" \r\n1) Is it possible to have a game notation mode like to Lichess, ChessCom, Chess books or IRL. That's to say verticaly for just to see more clearly variants and find them faster.\r\n2) Is it possible to add comments before the move\r\n3) Is it possible to add variants colors\r\n\r\nThanks for developping a good alternative to Chessbase.",
+    "createdAt": "2024-11-17T13:56:00Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 442,
+    "title": "Game notation like lichess or other plateform",
+    "updatedAt": "2024-11-17T14:01:02Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/442"
+  },
+  {
+    "body": "### Describe the feature\n\nI would enjoy the ability to play against an engine, say Stockfish, and be able to analyze the game at the same time. Thanks! ",
+    "createdAt": "2024-11-07T00:21:37Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 434,
+    "title": "Analyzing while playing against engine",
+    "updatedAt": "2024-11-07T00:21:37Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/434"
+  },
+  {
+    "body": "### Describe the feature\n\nI think this product is great!\r\n\r\nI would like to suggest a feature: reworking the mistakes made or in other words -  creating a personal puzzle.\r\n\r\nSo imagine there is a move that loses a lot of points that you made. \r\n\r\nJust randomly bring this situation from the database of personal games and play the best move again. So that person can improve on its own games.  \r\n\r\nI can potentially help build this with a bit of guidance on the structure of the lib. I can code in Rust and Typescript.",
+    "createdAt": "2024-11-05T10:21:41Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 432,
+    "title": "Personal puzzles",
+    "updatedAt": "2024-11-05T10:21:41Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/432"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nIts all known that we can make our own book for guis such as Arena, LucasChess and Banksia, mainly for engines to use them while playing or study them yourself. would be cool to do it within en croissant since the UI is super friendly and it would be super easy to do. \r\n\r\nFor example you could make a .bin, abk or whatever the other format was to make a book for engines to use when playing against them in the app",
+    "createdAt": "2024-10-29T16:35:15Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 429,
+    "title": "make your own book in the app?",
+    "updatedAt": "2024-10-29T16:36:17Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/429"
+  },
+  {
+    "body": "### Describe the feature\n\nBeing abel to use cloud engines (li chess/chessDB) for game reports ",
+    "createdAt": "2024-10-25T17:55:15Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 424,
+    "title": "Cloud Engines for game report?",
+    "updatedAt": "2024-10-25T17:55:15Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/424"
+  },
+  {
+    "body": "### Describe the feature\n\nWhen I search in the database for games with the current position I would like to merge them to my repertoire/the current game/analysis. ",
+    "createdAt": "2024-10-25T11:53:51Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 423,
+    "title": "Merge games",
+    "updatedAt": "2024-10-25T11:53:51Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/423"
+  },
+  {
+    "body": "### Describe the bug\n\nWhen saving a game to a database, I receive an error message and my save fails.\r\n\n\n### Reproduction\n\n1. Add game on the board\r\n2. Try to save it to an existing PGN\r\n3. Error o\r\n![github](https://github.com/user-attachments/assets/7b3270b9-26a9-4a80-bb81-9ea213d57756)\r\nccurs\n\n### Platform and versions\n\nEn Croissant\r\nVersion: 0.11.1\r\n\r\nTauri version: 1.6.1\r\n\r\nOS: Windows_NT x86_64 10.0.22631\n\n### Stack trace\n\n_No response_",
+    "createdAt": "2024-10-16T08:44:07Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 418,
+    "title": "Problem while saving to database",
+    "updatedAt": "2024-10-16T08:48:29Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/418"
+  },
+  {
+    "body": "### Describe the feature\n\nI would like to contribute with the translation into Spanish. Could you please send me the language file so I can translate it?\r\nThank you very much",
+    "createdAt": "2024-10-12T19:09:29Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 413,
+    "title": "translation into Spanish",
+    "updatedAt": "2024-10-13T03:46:26Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/413"
+  },
+  {
+    "body": "### Setting for rated/unrated lichess game download\r\n\r\nCurrently the app fetches the lichess API with the rated=true query parameter. I would like to see an option to download unrated games as well for my analysis. I most often play unrated games and would like to be able to quickly analyse them as well. ",
+    "createdAt": "2024-09-16T11:07:50Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 393,
+    "title": "Add option to download unrated lichess games",
+    "updatedAt": "2024-09-16T11:08:09Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/393"
+  },
+  {
+    "body": "### Describe the feature\n\n1. Image of first one\r\n![image](https://github.com/user-attachments/assets/c705ac27-b76a-40c5-8269-f02fb2700dcc)\r\n\r\n2.  Image of second one\r\n![image](https://github.com/user-attachments/assets/0f01c736-da27-4d3f-ae45-956078c5f512)\r\n![image](https://github.com/user-attachments/assets/c82acadb-b60f-47c9-a7cb-9d0020341b29)\r\n\r\n3. When i analysis move, the evalution bar blink when engine is analysing, make it not disappear and smooth like chesscom\r\n\r\n4. Thank you for creating this software, i love this very much. Better than chess base:)",
+    "createdAt": "2024-09-13T09:58:35Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 378,
+    "title": "Best Move Recommend; {move} was played ... and analysis that move and comment;  Make the evalution bar not blink",
+    "updatedAt": "2024-09-13T09:58:35Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/378"
+  },
+  {
+    "body": "### Describe the bug\n\nI play a lot of casual games on lichess. Unfortunately, en croisant doesn't import them when downloading all games from lichess account\n\n### Reproduction\n\n1. Go to account\r\n2. Add a lichess account with casual games\r\n3. Download all games\n\n### Platform and versions\n\nLatest version\n\n### Stack trace\n\n```Shell\nN/A\n```\n",
+    "createdAt": "2024-09-10T06:25:37Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 372,
+    "title": "Lichess casual games are not imported",
+    "updatedAt": "2024-09-16T11:11:12Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/372"
+  },
+  {
+    "body": "### Describe the bug\n\nOn a Mac Silicon machine, using the easy engine install of Stockfish, will download X86-64 arch stockfish.\r\nThis will create very bad performance in analyses as macOs will use rosetta to run stockfish.\r\n\r\nYou mays also check if stockfish is not installed with home-brew in /opt/homebrew/bin/stockfish for example.\n\n### Reproduction\n\n1. Go to Engine\r\n2. Click install, Stockfish 17\r\n3. Stockfish 17 stockfish-macos-x86-64-sse41-popcnt is wrongly installed\n\n### Platform and versions\n\nApple M1 Pro, Sonoma 14.6.1\n\n### Stack trace\n\n_No response_",
+    "createdAt": "2024-09-10T05:37:56Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 371,
+    "title": "Bad engine architecture",
+    "updatedAt": "2026-02-03T17:42:01Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/371"
+  },
+  {
+    "body": "### Describe the feature\n\nI recently discovered this app and love the sleek design and features! It would be awesome if it could generate insights for a specific player that's imported.\r\n\r\nInsights can be very helpful for many players to identify their weaknesses and strengths.\r\n\r\nBelow is an example of GM Hikaru insight report from chess.com\r\n\r\nhttps://www.chess.com/insights/hikaru#overview ",
+    "createdAt": "2024-09-07T13:29:53Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 361,
+    "title": "Player insights ",
+    "updatedAt": "2024-09-07T13:29:53Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/361"
+  },
+  {
+    "body": "### Describe the feature\n\nBlocked by #47\r\n\r\nGenerate puzzles projects:\r\n- https://github.com/linrock/chess-puzzle-maker\r\n- https://github.com/vitogit/pgn-tactics-generator",
+    "createdAt": "2024-09-05T17:42:23Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 360,
+    "title": "Generate puzzles from imported games",
+    "updatedAt": "2024-09-05T17:42:23Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/360"
+  },
+  {
+    "body": "### Describe the feature\n\nI looked for this in the feature requests / issues list but didn't see it, and I can't figure out how to do it if it's possible!\r\n\r\n![image](https://github.com/user-attachments/assets/9c240bed-713d-4577-81ae-ad28fe80f085)\r\n\r\nIt would be great if you could have the Analysis + Database tabs open side by side like on the lichess site itself (opening explorer + analysis). This way we can see the eval as well as what people are playing in our rating range.\r\n\r\nThank you and love the software! ",
+    "createdAt": "2024-08-12T04:32:42Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 339,
+    "title": "Allow split view of Analysis and Database at the same time",
+    "updatedAt": "2024-08-12T04:34:15Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/339"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nI would like to see the move score displayed directly on the board. I would also like to see the frequency of moves.\r\n\r\n**How often played:**\r\n![how often played](https://github.com/user-attachments/assets/bf65a249-5584-47e8-8c7b-bac89cabb21b)\r\n  \r\n  \r\n**Move rating:**\r\n![move rating](https://github.com/user-attachments/assets/4bbc6d27-dea0-4e17-8f7a-9da6f844c131)\r\n",
+    "createdAt": "2024-07-26T11:50:50Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 335,
+    "title": "move score displayed directly on the board",
+    "updatedAt": "2024-07-26T11:51:34Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/335"
+  },
+  {
+    "body": "### Describe the feature\n\nImport games is very useful feature.\r\nBut it supports only lichess and chess.com, if I'm not wrong\r\nbut ChessGames.com is widely used resource to get same games and apply importing games from there by link or id might be very useful\r\n\r\nthere is link example\r\nhttps://www.chessgames.com/perl/chessgame?gid=XXXXXXX\r\nwhere XXXXXXX some numeric game id on site\r\nand it contains hyperlinks for \r\ndownload\r\nhttps://www.chessgames.com/nodejs/game/downloadGamePGN/SurnameWhite_SurnameBlack_Year.pgn?gid=XXXXXXX \r\nor just view (that could be more useful as far no misspelling or smth with surnames)\r\nhttps://www.chessgames.com/nodejs/game/viewGamePGN?text=1&gid=XXXXXXX \r\n\r\nand from here can be imported",
+    "createdAt": "2024-07-18T21:49:30Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 329,
+    "title": "Import game from ChessGames",
+    "updatedAt": "2024-07-18T21:49:30Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/329"
+  },
+  {
+    "body": "### Describe the bug\n\nWhen importing pgn files, ec won't show comments if several are right next to eachother.\r\n![tfgFonu0PK](https://github.com/franciscoBSalgueiro/en-croissant/assets/48065006/eb31bdce-5f4a-4fd8-8555-d57b7e9a56cd)\r\n![en-croissant_nZd7kNX85E](https://github.com/franciscoBSalgueiro/en-croissant/assets/48065006/455c9cd9-f39d-4048-a58d-4e50b569f591)\r\n\n\n### Reproduction\n\n1. Download or create a pgn file with multiple comments\r\n2. Import into ec\r\n3. Try to look for the missing comments\n\n### Platform and versions\n\nWindows 11\r\nEC v0.10.0\n\n### Stack trace\n\n_No response_",
+    "createdAt": "2024-06-20T13:14:15Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 319,
+    "title": "pgn parsing doesn't allow for multiple comments",
+    "updatedAt": "2024-06-20T13:14:15Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/319"
+  },
+  {
+    "body": "### Describe the bug\n\nSo, I was playing a game against the engine and was with the text Move Input setting turned on. I could do other moves fine (move pieces, like playing a knight or bishop move), but couldn't castle. I tried \"00\", \"OO\", \"oo\", \"kg1/kg8\", but nothing.\n\n### Reproduction\n\n1. Turn on the \"text Move Input\" setting on;\r\n2. Start a game against the engine;\r\n3. Try to move using the text notation (pgn notation);\r\n4. Reach a position where you can castle;\r\n5. Try to castle!\n\n### Platform and versions\n\nWindows 11 Pro 23H2\n\n### Stack trace\n\n_No response_",
+    "createdAt": "2024-06-12T16:21:17Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 316,
+    "title": "Can't castle using text Move Input",
+    "updatedAt": "2024-06-18T18:17:09Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/316"
+  },
+  {
+    "body": "### Describe the feature\n\nI love to review my on-line games with en-croissant app.\r\nHowever, since I'm lazy..., I would fine so great to have a few new options in settings:\r\n\r\n- automatically update database (from lichess.org, chess.com, ...)\r\n- analysis report settings\r\n- launch automatically report when opening a game from database\r\n\r\n\r\n",
+    "createdAt": "2024-05-23T18:41:45Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 307,
+    "title": "New settings: automatically sync accounts & review options",
+    "updatedAt": "2024-05-23T18:41:45Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/307"
+  },
+  {
+    "body": "### Describe the feature\n\nThe practice feature is great to learn a new opening. But sometimes I found it confusing to replay missed moves of different lines switching from one to another.\r\nI'd say it would be better if the cards in deck were about doing a full line from the beginning rather than just one move.",
+    "createdAt": "2024-05-23T18:31:54Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 306,
+    "title": "Practice mode considers lines instead of moves",
+    "updatedAt": "2024-05-23T18:31:54Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/306"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nAt the moment the UI allows 1-5 lines in the analysis -> settings configuration.\r\n\r\nIt would be quite convenient to allow 1-8 lines to be set here (yes I know it can be set in the engine configuration section).\r\n\r\nWhen doing opening repertoire building, I often want to switch between searching for 8 white moves to see all the sane white moves, but only the 2 best black responses to each white move (or vice-versa).\r\n",
+    "createdAt": "2024-05-15T02:46:26Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 301,
+    "title": "Allow more lines in the UI analysis configuration",
+    "updatedAt": "2024-05-15T02:50:50Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/301"
+  },
+  {
+    "body": "### Describe the feature\n\nI recently read a chessbook that had a pretty great coding for variations:\r\n \r\n<img src=\"https://github.com/franciscoBSalgueiro/en-croissant/assets/75273490/907d44e8-7b7a-4031-921c-044c86f8fd4b\" width=\"480\"/>\r\n\r\nThe idea, however unusual, is very pleasant to read ; therefore I'd recommend some sort of system that would emulate that inside en-croissant. Comments would also be able to be colored (highlight color obviously, not the text). Example:\r\n\r\n![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/75273490/c01cd027-0d5a-43c7-ba14-2247f046c161)\r\n\r\nHere, highlights have random colors, but it could work with a curated set of colors ; s.a. : \r\n- Default\r\n- Alternative (blue)\r\n- Better (green)\r\n- Worse (red)\r\nAnd maybe some other. Idk if multi-level support is interesting or not.",
+    "createdAt": "2024-04-29T16:27:11Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 282,
+    "title": "Color-coding for variations and comments",
+    "updatedAt": "2024-05-01T11:50:32Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/282"
+  },
+  {
+    "body": "### Overview\r\nA self-contained user profile with a configurable location which allows for separation and organization of chess knowledge.\r\n\r\n### Use Cases\r\nUser profiles enable such scenarios:\r\n- A Coach using a separate profile for each of their students.\r\n- A tournament player making opening preparations for a specific events.\r\n- A shared profile for multiple users to use on a distributed system.\r\n- Easy backups and versioning of the profiles themselves.\r\n\r\n### Details\r\nThe application could have menu for switching user profiles in the bottom left corner, and an interface to back them up or manage them.\r\n\r\n### Considerations\r\nImplementing custom user profiles will require additional complexity in the Installer and codebase, including configuring the behavior of the application surrounding the profile.",
+    "createdAt": "2024-04-21T15:38:18Z",
+    "labels": [],
+    "number": 278,
+    "title": "[Proposal] User Profiles ",
+    "updatedAt": "2024-04-21T15:38:18Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/278"
+  },
+  {
+    "body": "### Overview\r\nA plugin API allowing for extensibility and fine-grained use cases for users and developers who want to integrate with or extend En croissant in some form.\r\n\r\n### Use cases\r\nThe plugin API would some use cases like this:\r\n- **Integration with other Applications.** - I'm a user of Obsidian and use it for Personal Knowledge Management, currently there are not enough good plugins to allow for a fully-fledged PKM system for Chess. En Croissant in a great candidate as a dedicated application which could then be integrated into Obsidian with a plugin, allowing for a comprehensive Chess PKM system which currently does not exist.\r\n- **Extensibility.** - Alot of users often have specific, fine-grained use cases which cannot be met by the core functionality of an application alone, so a Plugin API would allow for solutions to be brought forward\r\n- **Custom Positional Evaluations** - [In this blog on lichess.org](https://lichess.org/@/jk_182/blog/calculating-the-sharpness-of-different-players/JgqgiwXI), someone came up with a way to evaluate the position's \"sharpness\" by using Lc0, plugins could allow for such custom evaluations to be done.\r\n\r\nThere are no limits to what community plugin developers can do; these are just a few example cases of what's possible.\r\n\r\n### Workarounds\r\nNone, except that custom engines and databases can be added currently.\r\n\r\n### Considerations\r\n- Plugin systems often introduce a large amount of complexity and can be very demanding to maintain effectively, affecting both the ecosystem and codebase. \r\n- Plugin APIs introduce security risks as they require loading third-party components, plugins need to be either reviewed or sandboxed to address the possibility of vulnerabilities being introduced.",
+    "createdAt": "2024-04-21T14:58:11Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 277,
+    "title": "[Proposal] Plugin API for Extensibility",
+    "updatedAt": "2024-04-21T15:00:21Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/277"
+  },
+  {
+    "body": "### Describe the feature\n\nGood evening,\r\n\r\nI was just wondering if it would be feasible if there could be any way to sign the installation executables with an EV code-signing certificate.\r\n\r\nIt is just that when installing the program now, there is a Windows SmartScreen popup, and it kind of leaves my mind unsettled when I try to install new programs, especially with software that is not very popular, and does not have many hits on Google; it would give more piece of mind for it to be signed.\r\n\r\nThis is especially unnerving considering the recent happenings of the xz project, and so the open-source community is a little on-edge right now.\r\n\r\nOf course we can always build from source ourselves, but this is just a matter of convenience/peace of mind.\r\n\r\nMaybe consider investing in an EV certificate in the future once this project grows larger and gathers a larger base, some of whom might have less experience in programming?\r\n\r\nKind Regards",
+    "createdAt": "2024-04-09T11:16:35Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 270,
+    "title": "Adding signing to the installation packages",
+    "updatedAt": "2024-09-30T00:37:30Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/270"
+  },
+  {
+    "body": "### Describe the feature\n\nSlightly different from show threat because it is sometimes useful to see the engine plans after 3 or 4 null moves in a row for one side.\r\nIn Chessbase null move is noted -- in PGN.",
+    "createdAt": "2024-04-07T16:19:00Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 268,
+    "title": "Add Null move",
+    "updatedAt": "2024-04-07T16:19:00Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/268"
+  },
+  {
+    "body": "### Describe the feature\n\nwhen you are playing a game with another person, an engine, or watching engines play a game, you can analyse the game. i would like to have an option to open analysis for that game in a new tab.\r\n\r\nthis can be helpful in situations like if the game is still going on, or you don't want to manually open the play game tab again when you go into analysis.\r\n\r\n",
+    "createdAt": "2024-04-05T16:25:06Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 266,
+    "title": "Suggestion: Open analysis in new tab",
+    "updatedAt": "2024-04-05T16:25:06Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/266"
+  },
+  {
+    "body": "### Describe the feature\n\nIt would be nice to have something similar to Lichess or other software, where you get the option to choose between all the subvariations when you get to a point where the PGN has more than 1 possible move.\r\n\r\nFor example, in the following image you can select with the arrows/mouse between the main move (Ne3), or another variation (Nf2):\r\n\r\n![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/25471663/8adf80f6-34df-434e-9e53-95a25b711fbd)\r\n",
+    "createdAt": "2024-04-03T11:35:24Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 263,
+    "title": "Navigate variations",
+    "updatedAt": "2026-02-16T15:53:21Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/263"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nWhen performing specific database search by position (see screenshot below) only one player's search field is provided to narrow down the search\r\n\r\n<img width=\"636\" alt=\"Screenshot 2024-03-25 at 11 49 07\" src=\"https://github.com/franciscoBSalgueiro/en-croissant/assets/15387611/5d732b0e-7ec9-4ecb-88a9-fd61d6214541\">\r\n\r\nWould it be possible to extend the search to both players, given a certain position? For players with thousands of games in the database only specifying one does not narrow down the search enough to browse the games in the corresponding section. This brings me to the other point of the games database in the game analysis section not allowing for scrolling (see screenshot)\r\n\r\n<img width=\"647\" alt=\"Screenshot 2024-03-25 at 11 53 22\" src=\"https://github.com/franciscoBSalgueiro/en-croissant/assets/15387611/d62af2f4-01a0-4630-b8ec-0ea1e1bf135d\">\r\n\r\nmost of the times many more games exist, they do not however show up because the table only limits to N results (may be similar to https://github.com/franciscoBSalgueiro/en-croissant/issues/243).\r\n\r\nLast but not the least, when setting up positions manually for database search the black pieces shade back into the background - not sure if this is specific to my computer colour settings (I tried to change them but the issue persists): perhaps one could add a gray background so that both white and black pieces display sharply enough?\r\n\r\n<img width=\"272\" alt=\"Screenshot 2024-03-25 at 11 54 40\" src=\"https://github.com/franciscoBSalgueiro/en-croissant/assets/15387611/f4c6dece-2597-4e12-9b55-53966f6f7f60\">\r\n\r\n---------------\r\nAs always, this software is terrific, thank you for the latest release, it's awesome!\r\n",
+    "createdAt": "2024-03-25T10:57:10Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 256,
+    "title": "On game analysis DB search: search both players, scroll games section, adjust pieces background",
+    "updatedAt": "2024-03-25T10:57:55Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/256"
+  },
+  {
+    "body": "### Describe the feature\n\nWhen I switch between Analysis and Database tabs and then press Right or Left arrow key to show the next or previous move in the position, the app alternates the selection rectangle between the main tabs instead of changing the position back and forth. The Lichess & Chess.com conventions for Left and Right arrow keys is to only switch between moves of the displayed game.\r\n\r\nPlease make them only switch between moves, without needing to do a mouse click on the moves box every time someone switches from one tab to another.\r\n\r\nExample, see selection rectangle in blue,\r\n![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/144251310/5a443ffb-76f4-4f78-8ad8-047658548ce8)\r\n",
+    "createdAt": "2024-03-23T20:21:37Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 254,
+    "title": "Make Right and Left Arrow keys to only alternate between game moves instead of alternating the selection rectangle between tabs",
+    "updatedAt": "2024-03-23T20:21:37Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/254"
+  },
+  {
+    "body": "### Describe the feature\n\n![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/40061628/637eb641-152f-4786-8bc2-9e03e383f60c)\r\nThis is an example where Scid finds a duplicated game because on game is included in another game.\r\nAth the moment en-croissant don't detect these doubles.\r\nScid only detect these count of doubles when the player names are identical\r\nI also want an option to detect these doubles when player names are different or other information like event is different. Than I want en-croissant to keep the better game, (longer game, more recent, higher elo, longer time control ,etc).\r\nMaybe it are technically not exact doubles. But I don't see how it can be useful to keep games with exact the same moves, and exact the same results, together in a database.\r\nDoubles where one game is included in another happens quite often in human tournaments when using DGT boards, sometimes the feed gets an extra move or a database feed like TWIC does an update one week and provides a game correction the next week.\r\n\r\nI have made a Python script for myself to delete these duplicates, with the help of Microsoft Copilot Pro.\r\nI'm not a programmer so it could be that there are mistakes in the script, (please let me know if you find any).\r\n\r\nHere is the readme.txt of the script:\r\nRemove_duplicates_and_prefixes.py This script removes duplicate games from a given input PGN file and writes the unique games to an output PGN file named duplicates_removed.pgn. Steps to use:\r\n1.\tSave the script in a directory on your computer.\r\n2.\tOpen a terminal or command prompt.\r\n3.\tNavigate to the directory where you saved the script using the cd command.\r\n4.\tRun the script by typing python remove_duplicates_and_prefixes.py and press Enter. The script will look for an input file named input.pgn in the same directory.\r\n\r\nHere is the script:\r\n\r\n```\r\nimport chess.pgn\r\nimport os\r\nimport sys\r\nfrom datetime import datetime\r\n\r\ndef get_quality_score(game):\r\n    rating_weight = 0.4\r\n    recency_weight = 0.2\r\n    time_format_weight = 0.2\r\n    length_weight = 0.2\r\n    white_rating = int(game.headers.get('WhiteElo', '0'))\r\n    black_rating = int(game.headers.get('BlackElo', '0'))\r\n    average_rating = (white_rating + black_rating) / 2\r\n    date_str = game.headers.get('Date', '1800.01.01')\r\n    date = datetime.strptime(date_str, '%Y.%m.%d')\r\n    recency = (datetime.now() - date).days\r\n    event = game.headers.get('Event', '').lower()\r\n    time_format_score = 1 if 'bullet' in event else 2 if 'blitz' in event else 3\r\n    length = len(list(game.mainline_moves()))\r\n    quality_score = (rating_weight * average_rating) - (recency_weight * recency) + (time_format_weight * time_format_score) + (length_weight * length)\r\n    return quality_score\r\n\r\ndef remove_duplicates_and_prefixes(input_pgn_path, output_pgn_path):\r\n    games = {}\r\n    with open(input_pgn_path) as pgn:\r\n        while True:\r\n            game = chess.pgn.read_game(pgn)\r\n            if game is None:\r\n                break\r\n            moves = str(game.mainline_moves())\r\n            if moves not in games:\r\n                games[moves] = game\r\n            else:\r\n                old_game = games[moves]\r\n                new_game = game\r\n                old_score = get_quality_score(old_game)\r\n                new_score = get_quality_score(new_game)\r\n                if new_score > old_score:\r\n                    games[moves] = game\r\n\r\n    with open(output_pgn_path, \"w\") as output_pgn:\r\n        for game in games.values():\r\n            output_pgn.write(str(game))\r\n            output_pgn.write(\"\\n\\n\")\r\n\r\ndef main():\r\n    try:\r\n        input_pgn_path = sys.argv[1]\r\n        output_pgn_path = \"duplicates_removed.pgn\"\r\n        remove_duplicates_and_prefixes(input_pgn_path, output_pgn_path)\r\n    except FileNotFoundError as e:\r\n        print(f\"File not found: {e.filename}\")\r\n    except Exception as e:\r\n        print(f\"An error occurred: {str(e)}\")\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n\r\n```\r\n\r\n    \r\n    It would be nice if some similar functionality to detect these duplicates, could be added to en-croissant\r\n\r\n",
+    "createdAt": "2024-03-23T13:32:16Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 253,
+    "title": "Request option to detect doubles when games are included in other games.",
+    "updatedAt": "2024-03-23T13:32:16Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/253"
+  },
+  {
+    "body": "### Describe the feature\n\nWould be nice to have the possibility to save the report and the analysis to update a game that is saved in a database.\r\nI didn't find a way to update a database game after having generated a report and insert some variations and comments.\r\n\r\nBonus: during the report generation, would be nice to have the engine first line if a move is recognized as a blunder (or even better having a parameter to put a threshold where the engine line is automaticlly added as a variation)",
+    "createdAt": "2024-03-23T13:15:04Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 252,
+    "title": "Save reports and analysis",
+    "updatedAt": "2024-03-23T13:15:04Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/252"
+  },
+  {
+    "body": "### Describe the feature\n\nThe keyboard navigation, especially when navigating PGN files, is a bit lacking. Here is a list of keyboard mappings that I'd like to see in En-croissant, including those from #11 . A lot of these can also be included in the menu bar.\r\n\r\n**Tabs**\r\n- [x] New tab (Ctrl+t)\r\n- [x] Close tab (Ctrl+w)\r\n- [x] Cycle tabs (Ctrl+Tab)\r\n- [x] Cycle tabs backwards (Ctrl+Shift+Tab)  \r\n\r\n**Files**\r\n- [x] Open file (Ctrl+o)\r\n- [x] Save file (Ctrl+s)\r\n- [ ] Save as (Ctrl+shift+s)\r\n\r\n**Edit**\r\n- [x] Comment position (d)\r\n- [x] Annotate position (g)\r\n- [x] Toggle annotations (1 to 6, \"??\" to \"!!\")\r\n- [ ] Replace move (Shift+Move)\r\n- [ ] Play best computer move (Space)\r\n- [ ] Play first explorer move (Shift+Space)\r\n- [x] Clear shapes (Ctrl+L)\r\n\r\n**View**\r\n- [x] Flip board (f)\r\n- [x] Toggle eval bar and best moves arrows (z)\r\n- [x] Go to engines (e)\r\n- [x] Go to explorer (x)\r\n- [ ] Toggle fullscreen (Ctrl+f)\r\n\r\n**Navigation**\r\n- [x] Next/previous move (right/left)\r\n- [x] Start of variation / End of variation (up/down)\r\n- [x] Start of game / End of game (Shift+up/Shift+down)\r\n- [x] Next branch / Previous branch (Shift+right/Shift+left)\r\n\r\n**Engine**\r\n- [x] Toggle all engines (Ctrl+e)\r\n- [ ] Toggle specific engine (Ctrl+NUM)\r\n- [ ] Generate game report (Ctrl+r)\r\n\r\n**Play**\r\n- [ ] Player vs. Engine (F9)\r\n- [ ] Player vs. Player (F10)\r\n- [ ] Engine vs. Engine (F11)\r\n\r\n**Help**\r\n- [ ] Show keybinds (?)",
+    "createdAt": "2024-03-23T13:07:04Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 251,
+    "title": "Keyboard shortcuts and navigation",
+    "updatedAt": "2024-05-11T06:24:11Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/251"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nIt is not necessarily but might be useful to add some kind of Expand button with extra info and more search criteria\r\n![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/24498981/bfabb25c-6b83-48bc-88ce-976a9e9141a5)\r\nAfter you click on it - show ways of game termination results (checkmate, flagged, insufficient material, resignation etc) and percentage of all games and may also be split like win-lose, because you can flag some or be flagged by them after the same opening.\r\nAnd add Average number of moves by each game termination result after expanding and one general average moves to show before expanding related to the direct opening\r\nAlso add number of games with this specific opening, not only some mysterious percentage\r\n\r\nSo that is the purpose of such idea and allow filtering by couple of such results in combine, like:\r\n find all (\"white draws\" with \"more than 50 moves\") and (\"white lost\" with \"flagged\" and \"more than 65 moves\") \r\nand get list of openings/games\r\nsearch filter can be applied with dropdown list fulfilled with checkboxes\r\nBased on this criteria it will be easier to change to master your opening repertoire or prepare for someone",
+    "createdAt": "2024-03-20T15:11:16Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 250,
+    "title": "Player's Opening Statistic Show/Search more information",
+    "updatedAt": "2024-03-20T15:12:40Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/250"
+  },
+  {
+    "body": "### Describe the feature\n\nWhen using analysis, i feel there should be an option to analyze moves that were made in analysis, giving feedback on the moves with an engine, just like the game report feature, with the same settings, except it only analyzes the played move, and automatically starts when a move is played. the popular chess website chess.com has this feature, though only usually available to premium users.",
+    "createdAt": "2024-03-19T14:40:00Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 246,
+    "title": "Suggestion: Real time move report during analysis",
+    "updatedAt": "2024-03-19T14:40:00Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/246"
+  },
+  {
+    "body": "### Describe the feature\n\nCurrently the games are presented in pages, which is unpractical for large databases. I would like a to have a continuous scrolling of the games as in chessbase, hiarcs, etc... Of course, internally, the games will be read from the db on demand.",
+    "createdAt": "2024-03-14T20:49:15Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      }
+    ],
+    "number": 243,
+    "title": "Continuous scrolling games in DB",
+    "updatedAt": "2024-03-14T20:49:15Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/243"
+  },
+  {
+    "body": "### Describe the feature\n\nA feature to select a tournament from the tournaments currently broadcasted from lichess and analyze a game in real time (or close to real time). ",
+    "createdAt": "2024-03-06T15:53:56Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 239,
+    "title": "Live games analysis",
+    "updatedAt": "2024-03-13T14:11:21Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/239"
+  },
+  {
+    "body": "### Describe the feature\n\nFeature to create an mp4 or gif animation from your PGN, with annotations and comments. For the animation there should be various settings, like what exactly to display and what not, font size, board type/color, pieces, perspective, time per move, time per move relative to move strength etc. Maybe the setting to show in the beginning who is playing with what color and the site and so on, the information that usually is in the beginning of the PGN.",
+    "createdAt": "2024-02-28T19:08:16Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 228,
+    "title": "Game Animation",
+    "updatedAt": "2024-03-02T17:47:07Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/228"
+  },
+  {
+    "body": "### Describe the feature\n\nI see it with 2 possible behaviors\r\n1. Create DB from existing couple of DBs and you are able to select few of already existing DB and get 1 new\r\n2. You pick one of already existing DB. Pick smth like Merge or Combine and select which DBs you want to add to the existing. As an alternative it van be like Drag&Drop feature when you drag DB to some target",
+    "createdAt": "2024-02-28T16:02:14Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67WeQ",
+        "name": "priority: medium",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 226,
+    "title": "Combine several DBs into a Single one",
+    "updatedAt": "2024-03-16T22:54:22Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/226"
+  },
+  {
+    "body": "### Describe the feature\n\nA few bot personalities with lower elo you can play instead of playing stockfish on full elo.",
+    "createdAt": "2024-02-27T08:29:09Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67WeQ",
+        "name": "priority: medium",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 224,
+    "title": "Bot personalities",
+    "updatedAt": "2026-01-25T14:24:36Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/224"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nSomething that cycles through a filterable # of games and displays the following:\r\n\r\n1. The mistake that was made with some kind of \"red x\" or negator\r\n2. The correct move, plus a potential continuation (with a green check or reinforcer)\r\n3. The correct move plus continuation, two more times at quicker speed",
+    "createdAt": "2024-02-24T07:16:01Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 221,
+    "title": "Feature Request: Auto-mistake review",
+    "updatedAt": "2024-03-02T18:15:06Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/221"
+  },
+  {
+    "body": "### Describe the feature\n\nWhen downloading a player database from Lichess, filtering by game type or date would be helpful.  For example:  only download classical and rapid games from the last six months.",
+    "createdAt": "2024-02-19T02:02:05Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 211,
+    "title": "Ability to filter games on import",
+    "updatedAt": "2024-03-02T18:13:53Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/211"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\n- [ ] The ability to start/stop an engine by clicking on it next to run, in addition to existing play/stop a bit further down\r\n- [x] The ability to rearrange engines' order by drag-dropping them in any order\r\n- [ ] Adding the option to view some other engine metrics like TB Hits or Nodes for example\r\n- [ ] Add the possibility of playing 100 or 1000 games from a position of engine vs engine (in play from here window) with a good way to explore the result. Ideally with some database of already played games or with some temperature parameter to avoid getting the same games over and over again.",
+    "createdAt": "2024-02-18T08:55:16Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67WeQ",
+        "name": "priority: medium",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 208,
+    "title": "UX improvements related to engines",
+    "updatedAt": "2024-03-02T18:15:50Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/208"
+  },
+  {
+    "body": "### Describe the feature\n\nAs a user, I would like the ability to be able to view my Lichess studies and update them in en-croissant.\r\n\r\n### Proposed functionality\r\n#### Upload Study\r\nWhen you finish annotation a game, allow the user to directly make it part of a study as a \"Save Option\"\r\n![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/6075260/01eb88b4-0508-4580-9298-f37325321be5)\r\n\r\nThen from there, you can choose a study or chapter to add this game to OR make a new study with this as the base.\r\n\r\n#### View Studies\r\nA new option in the \"Board\" tab to allow interaction with Lichess Studies\r\n![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/6075260/4e6e79a2-bcd0-430f-8bb8-3205e929e9e7)\r\n\r\n(sorry for the bad images! it's the best I could do)\r\n ",
+    "createdAt": "2024-02-16T23:22:13Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 205,
+    "title": "Ability to interact with Lichess Studies",
+    "updatedAt": "2024-04-25T10:56:05Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/205"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nAdd ability to sort by time control in database (only show blitz games or only show rapid games). This would be helpful if you want to see what your win rates are for openings you play in rapid etc.",
+    "createdAt": "2024-02-16T13:50:08Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67WeQ",
+        "name": "priority: medium",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 201,
+    "title": "Add Ability to Sort by Time Control in Database",
+    "updatedAt": "2024-03-02T17:58:40Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/201"
+  },
+  {
+    "body": "### Describe the feature\n\nI'd like to expand the database of my games by adding some more but I can't find how to do it.\r\nI tried from the analysis board but, as far as I understand, I can just copy-paste the pgn in the db files manually at the moment.\r\n\r\nIt would be great to have a button here \"+\" to add a game to the database:\r\n<img width=\"1170\" alt=\"Screenshot 2024-02-15 alle 09 22 18\" src=\"https://github.com/franciscoBSalgueiro/en-croissant/assets/32706712/af4c2318-e94d-43e7-a37c-850cebaad294\">\r\n",
+    "createdAt": "2024-02-15T08:25:21Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67RsQ",
+        "name": "priority: high",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 191,
+    "title": "Add or update game in personal database",
+    "updatedAt": "2026-02-23T13:57:09Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/191"
+  },
+  {
+    "body": "### Describe the feature\n\nIt would be nice to allow multiple reference databases.\r\n\r\nIn my case, I have multiple chess accounts, and it would be nice to be able to select all of their individual databases as a single combined reference database so that way when I search for a custom position for similar games it searches through all accounts.",
+    "createdAt": "2024-02-14T20:08:07Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67WeQ",
+        "name": "priority: medium",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 186,
+    "title": "Allow multiple reference databases",
+    "updatedAt": "2024-03-02T17:49:03Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/186"
+  },
+  {
+    "body": "### Describe the bug\r\n\r\nSetting a custom partial position in the board analysis is reset when switching tabs\r\n\r\nEDIT: it seems like the entire state of the tab's view is reset, for example if I scroll down in the games tab and click away to a new tab and then come back, the scrollbar is reset too.\r\n\r\n### Reproduction\r\n\r\n1. Open the analysis board\r\n2. Go to the database tab\r\n3. Select Local\r\n4. Select Options in right \r\n5. Set position type to partial\r\n6. Remove/move pieces around\r\n7. Switch to a different tab and then switch back\r\n\r\n### Platform and versions\r\n\r\nEn Croissant\r\nVersion: 0.9.1\r\nTauri version: 1.5.2\r\nOS: Darwin x86_64 13.5.2\r\n\r\n### Stack trace\r\n\r\n_No response_",
+    "createdAt": "2024-02-14T20:05:00Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 185,
+    "title": "Partial position board resets after switching tabs",
+    "updatedAt": "2024-02-14T20:10:08Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/185"
+  },
+  {
+    "body": "### Describe the feature\n\nI almost always download portable versions of applications. And I think it should be easy to provide portable versions alongside the setup ones you are providing.\r\n\r\nThanks for the awesome project!",
+    "createdAt": "2024-02-12T12:17:26Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi68vgQ",
+        "name": "upstream",
+        "description": "",
+        "color": "E42BF3"
+      }
+    ],
+    "number": 165,
+    "title": "Add portable builds",
+    "updatedAt": "2024-03-02T17:59:19Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/165"
+  },
+  {
+    "body": "### Describe the bug\r\n\r\nA few things from the UCI protocol are missing I think and might make less popular engines behave weird.\r\n\r\nSource https://backscattering.de/chess/uci/\r\n\r\n- [x] no use of `isready` (fixed by #172)\r\n  > This command is also required once before the engine is asked to do any search to wait for the engine to finish initializing.\r\n\r\n- [ ] ucinewgame\r\n  > this is sent to the engine when the next search (started with [position](https://backscattering.de/chess/uci/#gui-position) and [go](https://backscattering.de/chess/uci/#gui-go)) will be from a different game\r\n\r\n- [x] Also the GUI doesn't send `position startpos` for the first position (or the equivalent FEN version) which also might cause issues with some engines.\r\n\r\n### Platform and versions\r\n\r\n/\r\n\r\n### Stack trace\r\n\r\n_No response_",
+    "createdAt": "2024-02-11T20:36:33Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWLw",
+        "name": "type: bug",
+        "description": "Something isn't working",
+        "color": "d73a4a"
+      }
+    ],
+    "number": 163,
+    "title": "[Backend] UCI Protocol Inaccuracies",
+    "updatedAt": "2024-02-13T19:15:11Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/163"
+  },
+  {
+    "body": "### Describe the feature\n\nAdd an strength and weaknesses analysis tool, that tells you where you are already good and where you have to improve, to reach the next elo level. Analysis is done in following categories: Attack, Defense, Counter Play, Advantage Capitalization, Resourcefulness, Repeirtoire, Time Management, Tactical Vision, Positional Play, Overall Move Accuracy. In addition to that you could add fitting emojis to each category, like a robot to \"overall move accuracy\" and a clock to \"time management\" and so on.",
+    "createdAt": "2024-02-11T09:20:22Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 153,
+    "title": "Strength and Weakness anaylsis tool as in AimChess",
+    "updatedAt": "2024-03-02T18:09:35Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/153"
+  },
+  {
+    "body": "### Describe the feature\n\nYou could add an (AI) studying plan generator, that generates a studying plan that fits your needs, to improve your weaknesses.",
+    "createdAt": "2024-02-11T09:15:31Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 152,
+    "title": "Studying plan generator",
+    "updatedAt": "2024-03-02T18:10:38Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/152"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nIt would be nice to have Flatpak or AppImage available for Linux on the website. I only saw .deb but it looks like AppImage is available too.",
+    "createdAt": "2024-02-10T18:36:35Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi68vgQ",
+        "name": "upstream",
+        "description": "",
+        "color": "E42BF3"
+      }
+    ],
+    "number": 148,
+    "title": "Flatpak, AppImage",
+    "updatedAt": "2026-02-06T14:15:43Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/148"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nPredict your FIDE rating, based on a game, or collection of games.",
+    "createdAt": "2024-01-26T22:09:11Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 131,
+    "title": "Estimate ELO rating",
+    "updatedAt": "2024-03-02T17:58:00Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/131"
+  },
+  {
+    "body": "### Describe the feature\n\nI'm sure that allowing people to use the feature above will make them more likely to star the project, and will make me use it more for sure.",
+    "createdAt": "2024-01-24T01:04:11Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 128,
+    "title": "Allow players to play Lichess games on En Croissant",
+    "updatedAt": "2024-03-02T17:40:04Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/128"
+  },
+  {
+    "body": "### Describe the feature\r\n\r\nThere should be support for importing .bin format opening books (for the Engines), in order to optimize the performance of Engine vs Engine games.",
+    "createdAt": "2024-01-24T00:58:04Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67WeQ",
+        "name": "priority: medium",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 127,
+    "title": "Opening Book support for the .bin format",
+    "updatedAt": "2024-03-02T17:53:20Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/127"
+  },
+  {
+    "body": "### Describe the feature\n\nWould it be possible for you to implement standard explanations of why things are called blunders, misses, or dubious moves, or even to show what the top engine moves would suggest? \r\n\r\nLike a blunder could say something along the lines of \"This is inviting a fork\"\r\n\r\nOr a miss could be \"This ruins your pawn structure\"\r\n\r\nOr another one could be \"this misses a discovered attack\"\r\n\r\nI think it might be easier to just suggest the engine move, than it would be to write all of those explanations. But either one would be cool to have eventually. \r\n\r\n\r\n\r\nAlso in the readme, where you have this line \"pnpm tauri build --bundle none\" did you mean to have \"bundle\" instead of \"bundles\"? \"Bundles\" is what command prompt requires on Windows to build the exe. ",
+    "createdAt": "2023-11-24T15:28:13Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 108,
+    "title": "Move descriptions in Game Report",
+    "updatedAt": "2024-03-02T17:39:19Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/108"
+  },
+  {
+    "body": "## Issues\n- [x] After changing a tab the report will not be shown\n- [ ] Trying to generate a report with an engine that doesn't support multipv will crash\n- [x] Unfinished reports\n\t`1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Nxe4 *`\n\t`1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 Bc5 5. c3 O-O 6. O-O d6 *`\n- [x] If a report starts with black to move and white makes the evaluation go up, it will trigger a mistake e.g. with a 100ms analysis with SF 16.\n  ```\n  [FEN \"r4rk1/1pp3p1/p2p1qPn/3Pp3/2P1B1b1/5N2/PP2QPPR/1K1R4 b - - 4 26\"]\n  [SetUp \"1\"]\n\n  26... Bf5 27.Nd2 Ng4 28.Qxg4 *\n  ```\n  ![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/91aec060-33ab-4016-9ec7-38169e0d29d0)\n- [x] The starting position is not being analyzed.\n\tThis means that if the starting position has an evaluation very different from 0.15, the first move will be misevaluated. e.g. If white has piece odds, no matter what move it does it will be marked as a blunder or, if black has piece odds, if white makes a mistake it will not be marked as a blunder.\n\n## Suggestions\n- [x] Stop reports\n- [ ] Live report of nags\n- [x] Use the selected engine settings\n- [x] More configurations (limits)\n- [x] Do the analysis backwards\n\tWith engines like Stockfish or Komodo this considerably increases the quality of the analysis, in addition to providing a more reliable and trustworthy one as well, which allows for the following:\n\t- [ ] Clean up the analysis\n\t\tWhen the analysis is finished, go through the moves forwards and:\n\t\t- If the player played the best move, we should use the same evaluation the previous position had. e.g if the best move in the starting position is 1. e4 and the evaluation in the starting position is +0.4, and after 1. e4 it was +0.3 then 1. e4 should increase to +0.4.\n\t\t- If its black to move and the evaluation is higher than in the previous position or, if its white to move and the evaluation is lower than in the previous position, we should use the same evaluation the previous position had.\n\t- [x] Add best, excellent, and good moves\n\t\tBase on these limits https://support.chess.com/article/2965-how-are-moves-classified-what-is-a-blunder-or-brilliant-and-etc\n\t- [x] Add great (!) moves\n\t\t(Change multipv to 2) If the played move was the best move, and if the played move was the only good move in the position, and it's not taking material, it should be \"great\".\n\t- [x] Add brilliant (!!) moves\n\t\tIf the played move was the best move, and that move made a piece of higher value than the one we might or might not have taken be in danger, it should be \"brilliant\".",
+    "createdAt": "2023-11-02T19:28:27Z",
+    "labels": [],
+    "number": 72,
+    "title": "Game report",
+    "updatedAt": "2026-03-01T16:58:38Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/72"
+  },
+  {
+    "body": "I would like to implement this, however I can't find any standard way of representing puzzles.\r\n\r\nI made the lichess puzzle db with a small script to convert from the specific format used by the [lichess database](https://database.lichess.org/#puzzles) to the SQL format accepted by en croissant.\r\n\r\n@dav1312",
+    "createdAt": "2023-10-18T17:02:18Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67WeQ",
+        "name": "priority: medium",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 47,
+    "title": "Local puzzle databases",
+    "updatedAt": "2025-07-22T20:15:19Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/47"
+  },
+  {
+    "body": "## Issues\n- [x] When using multiple engines, the eval bar can get crazy if the engines have very different evals\n- [x] #229\n- [x] #232\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/22d3f66e-f84d-4e73-82f2-4728724de32d)\n- [x] Wrong file missing error in all engines\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/b06bcacf-54a1-4703-80da-8aeec20dfbde)\n- [x] It's not possible to change the number of lines of chessdb\n- [x] #144\n- [x] #145\n- [x] #143\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/0a0e4fd6-0ef7-41c2-aec6-a019ad13a990)\n- [x] Use move history instead of fens\n\t`position [fen | startpos]  moves ...`\n\tThis helps with / fixes 3-fold detection\n- [x] If an analysis is running, and database moves are pressed, the analysis doesn't update the position and the engine will still analyze the original position\n- [x] #132\n\tThe `uci` command also outputs all the available options with their type, and their default values. Sending the engine options that it doesn't support may cause unexpected issues.\n\tSomething that would be cool is adding a button to select a file from the computer if the option has \"file\" (or \"File\") in its name.\n- [x] When a pgn starts with black to move the moves still start as if it was white\n\te.g. loading:\n\t```\n  [FEN \"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1\"]\n  [SetUp \"1\"]\n\n  1...e5 2.Nf3 Nc6 *\n\t```\n\tresults in:\n\t```\n  [FEN \"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1\"]\n\n  1. e5 Nf3 2. Nc6\n\t```\n- [x] The pictures when trying to load the engine are stretched. Might require to be inside of a div with text-align: center.\n- [x] App crashes trying to enable Stockfish\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/ffa5e7b3-032a-4fb3-937c-367218d8082d)\n- [x] #95\n\tPrettier lichess deals with this using overflow: hidden to the chessboard. Chess.com doesn't deal with this and just has a very small border radius which makes this issue imperceptible.\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/27c1c5a8-8108-475e-985b-f44c5e049898)\n- [x] #91\n- [x] #90\n- [x] #89\n\tWhen using just 1 line with Komodo, the info doesn't update. The engine works fine in the logs.\n- [x] #88\n- [x] #87\n- [x] #81 \n\tThis causes some issues like, in Stockfish, clearning the hash after every position which means the engine doesn't \"learn\" about the game.\n- [x] #62\n- [x] #16\n- [x] #12\n- [x] #39\n- [x] If you try to analyze a previously analyzed position, the eval and depth don't update until you get a to higher depth (even if intentional it doesn't seem like a good idea)\n- [x] #18\n- [x] #22\n- [x] #35\n\t`navigator.hardwareConcurrency`\n- [x] The picture for the Komodo default engine should be Komodo, not Komodo Dragon\n- [x] #33\n- [x] #28\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/cbd20015-e9f3-4177-9ef1-277ce7180da8)\n- [x] #20\n- [x] #26\n- [x] #54\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/fd99eb10-9743-4b68-a3ab-dfc48b0f7a8b)\n- [x] #30\n\n### Ubuntu-only issues?\n- [x] #64\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/5a38f57f-f7c1-4c09-8b5e-a2991cbbdc3f)\n- [x] #65\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/f73dd9a1-808b-4736-ad48-320168e4b566)\n- [x] #68\n  - Default komodo:\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/99ae47da-69a9-4975-bdf0-051f4750ed5c)\n  - Default Stockfish:\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/2026e27b-3675-4fbe-89b4-bee5f478ddb8)\n  - Local engines don't appear in the modal when trying to add them into the binary file input\n\n## Suggestions\n\n- [x] #231\n- [x] #146\n- [x] Make the clock progress bar animation move from right to left, just like the progress bar itself\n- [x] #103\n- [ ] More keyboard shortcuts\n\t- [x] New tab (Ctrl+N)\n\t- [ ] Load FEN or PGN from clipboard (Ctrl+Shift+V)\n\t- [ ] Write PGN to clipboard (Ctrl+K)\n\t- [ ] Analyze with all engines (Ctrl+G)\n\t- [ ] Stop all engines (Ctrl+H)\n\t- [ ] Restart engines (Ctrl+.)\n\t- [ ] Play vs engine (F9)\n\t- [ ] Engine selfplay (F11)\n\t- [ ] Generate game report (F12)\n- [x] #116\n- [x] Being able to modify and load a FEN and PGNs directly in the inputs of the info tab\n- [x] #114\n\tYou can make some assumptions like:\n\t - default flags can be assumed to be `w - - 0 1` if some are missing\n\t - if it has tabs or new lines they should be replaced with spaces\n\t - multiple spaces or spaces at the beginning or end should be removed\n- [ ] Being able to load multiple PGNs in the import PGN game\n- [ ] Delete all sidelines\n- [x] #104\n- [x] #142\n- [x] Different arrow colors for each engine\n- [ ] More default engines ([Leela](https://github.com/LeelaChessZero/lc0), [Berserk](https://github.com/jhonnold/berserk), [Igel](https://github.com/vshcherbyna/igel), [Rubi](https://github.com/Matthies/RubiChess), [Koivisto](https://github.com/Luecx/Koivisto), etc. Or even [older Stockfish versions](https://files.stockfishchess.org/archive/) or [Stockfish dev](https://github.com/official-stockfish/Stockfish/releases?q=prerelease%3Atrue&expanded=true))\n- [ ] Being able to limit what moves the engine analyzes (`searchmoves`)\n- [x] The engine page add new button td might need `colSpan={3}` https://github.com/franciscoBSalgueiro/en-croissant/blob/bd3c3a7871c122925890537fd9bcec55c9c4e21b/src/components/engines/EnginesPage.tsx#L62-L70\n- [x] Improve Play Chess options.\n    - [x] Some engines might not support Skill Level.\n    - [x] Impossible Bot should not have a Skill Level input, it should use the engine default.\n    - [x] If the user changes the default parameters, the selected bot should change to some \"Custom Bot\".\n    - [x] More limit customization like limit by nodes, thinking time or a time control.\n    - [x] It makes no sense to have a Color option when selecting Human.\n    - [x] The Event and player names should be filled accordingly. For example: Event: Easy Bot. Black: Stockfish 16.\n- [x] #115\n- [x] Being able to let 2 engines play against each other\n- [x] #113\n- [x] Being able to disable inline notation of the moves\n- [x] Resizable chessboard\n- [x] Automatic resize of the chessboard for small screens\n- [ ] #47\n- [x] Using online databases (https://github.com/noobpwnftw/chessdb) for move evaluations\n- [x] Save engine settings (fixed by #92)\n\tIt is pretty annoying having to set the settings every time I open a new tab or when closing an opening the app.\n- [x] #24\n- [x] #70\n- [x] A way of running all engines at the same time\n- [x] #45\n- [x] #42\n- [x] Being able to limit the engine by time, nodes, mate, or no limit at all.\n- [x] Update default Komodo to 14 (https://komodochess.com/pub/komodo-14.zip)\n- [x] Eval graph\n- [x] #78\n- [x] #43\n- [x] #37\n\t![image](https://github.com/franciscoBSalgueiro/en-croissant/assets/63931154/ddeb9835-1371-419c-bf70-65a94873062f)\n- [x] #14\n",
+    "createdAt": "2023-09-29T23:46:34Z",
+    "labels": [],
+    "number": 11,
+    "title": "Issues and features",
+    "updatedAt": "2026-01-09T16:42:05Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/11"
+  },
+  {
+    "body": "Support all variants from lichess.\r\n\r\n- [x] Chess960\r\n- [ ] King of the Hill\r\n- [ ] Three-Check\r\n- [ ] Antichess\r\n- [ ] Atomic\r\n- [ ] Horde\r\n- [ ] Racing Kings\r\n- [ ] Crazyhouse",
+    "createdAt": "2022-12-25T12:26:40Z",
+    "labels": [
+      {
+        "id": "LA_kwDOIBVgl88AAAABDxlWMg",
+        "name": "type: enhancement",
+        "description": "New feature or request",
+        "color": "a2eeef"
+      },
+      {
+        "id": "LA_kwDOIBVgl88AAAABi67aaA",
+        "name": "priority: low",
+        "description": "",
+        "color": "0CD42F"
+      }
+    ],
+    "number": 1,
+    "title": "Add support for variants",
+    "updatedAt": "2024-03-02T17:36:36Z",
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/issues/1"
+  }
+]

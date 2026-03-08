@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Web Speech API Test - Chess TTS</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    button { margin: 5px; padding: 8px 16px; cursor: pointer; }
+    select { padding: 8px; margin: 10px 0; width: 100%; }
+    .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+    h3 { margin-top: 0; }
+  </style>
+</head>
+<body>
+  <h1>Web Speech API - Chess TTS Demo</h1>
+
+  <div class="section">
+    <h3>Voice Selection</h3>
+    <select id="voiceSelect"></select>
+    <br>
+    <label>Speed: <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1"> <span id="rateVal">1.0</span></label>
+  </div>
+
+  <div class="section">
+    <h3>Chess Moves</h3>
+    <button onclick="speak('Knight to f3')">Nf3</button>
+    <button onclick="speak('Bishop takes on e5')">Bxe5</button>
+    <button onclick="speak('Queen to d7, check')">Qd7+</button>
+    <button onclick="speak('Castles kingside')">O-O</button>
+    <button onclick="speak('Pawn promotes to Queen')">e8=Q</button>
+    <button onclick="speak('Rook to d1, checkmate')">Rd1#</button>
+  </div>
+
+  <div class="section">
+    <h3>Annotation / Comment Examples</h3>
+    <button onclick="speak('A brilliant sacrifice that opens up the kingside.')">Comment 1</button>
+    <button onclick="speak('White has a slight advantage due to the bishop pair.')">Comment 2</button>
+    <button onclick="speak('This is the main line of the Sicilian Najdorf.')">Comment 3</button>
+  </div>
+
+  <div class="section">
+    <h3>Custom Text</h3>
+    <input type="text" id="customText" placeholder="Type anything..." style="width:80%; padding:8px;">
+    <button onclick="speak(document.getElementById('customText').value)">Speak</button>
+  </div>
+
+  <script>
+    const voiceSelect = document.getElementById('voiceSelect');
+    const rateSlider = document.getElementById('rate');
+    const rateVal = document.getElementById('rateVal');
+    let voices = [];
+
+    function loadVoices() {
+      voices = speechSynthesis.getVoices();
+      voiceSelect.innerHTML = '';
+      voices.forEach((v, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = `${v.name} (${v.lang})${v.default ? ' — DEFAULT' : ''}`;
+        voiceSelect.appendChild(opt);
+      });
+    }
+
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+
+    rateSlider.addEventListener('input', () => {
+      rateVal.textContent = parseFloat(rateSlider.value).toFixed(1);
+    });
+
+    function speak(text) {
+      speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.voice = voices[voiceSelect.value] || null;
+      utter.rate = parseFloat(rateSlider.value);
+      speechSynthesis.speak(utter);
+    }
+  </script>
+</body>
+</html>

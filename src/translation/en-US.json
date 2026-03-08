@@ -552,6 +552,8 @@
     "Settings.Inputs.SpellCheck.Desc": "Enable or disable spell check on text inputs",
     "Settings.Inputs.TextInput": "Text Move Input",
     "Settings.Inputs.TextInput.Desc": "Enter moves in text format",
+    "Settings.Inputs.LichessIncludeUnrated": "Include Unrated Lichess Games",
+    "Settings.Inputs.LichessIncludeUnrated.Desc": "Download casual/unrated games when syncing from Lichess",
     "Settings.Key": "Key",
     "Settings.Keybinds": "Keybinds",
     "Settings.Keybinds.Desc": "Customize keyboard shortcuts",
@@ -659,8 +661,6 @@
     "Settings.Network.RelayUrl": "Relay Server URL",
     "Settings.Network.RelayUrl.Desc": "WebSocket URL of the multiplayer relay server",
     "Settings.Network.PlayerName": "Player Name",
-    "Settings.Network.PlayerName.Desc": "Your display name in multiplayer games",
-    "Settings.Network.LichessIncludeUnrated": "Include Unrated Lichess Games",
-    "Settings.Network.LichessIncludeUnrated.Desc": "Download casual/unrated games when syncing from Lichess"
+    "Settings.Network.PlayerName.Desc": "Your display name in multiplayer games"
   }
 }
