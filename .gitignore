@@ -69,3 +69,4 @@ pending_docs/
 
 # Claude Code configuration (local instructions)
 .claude/
+!.claude/UPSTREAM_STATUS.md
