@@ -55,7 +55,7 @@ Last updated: 2026-03-07
 | #301 | Allow up to 8 analysis lines (not just 5) | High | ✅ Fixed |
 | #495 | Auto-start engine on new analysis board | High | ✅ Fixed |
 | #510 | Copy engine output to clipboard | High | ✅ Fixed |
-| #534 | Save engine line without jumping to position | High | ⬜ Open |
+| #534 | Save engine line without jumping to position | High | ✅ Fixed |
 | #708 | Support PGN `[%timestamp]` syntax | High | ✅ Fixed |
 | #393 | Option to download unrated Lichess games | Medium | ✅ Fixed |
 | #266 | Open analysis in new tab from Play Chess | Medium | ⬜ Open |
@@ -135,16 +135,16 @@ Last updated: 2026-03-07
 | BATCH 1: Easy Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 2: Moderate Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 3: Hard Bug Fixes | 3 | **2** ✅ | 1 |
-| BATCH 4: Easy Enhancements | 14 | **4** ✅ | 10 |
+| BATCH 4: Easy Enhancements | 14 | **5** ✅ | 9 |
 | BATCH 5: Moderate Enhancements | 23 | 0 | **23** |
 | BATCH 6: Large Enhancements | 23 | 0 | **23** |
-| **TOTAL** | **81** | **24** | **57** |
+| **TOTAL** | **81** | **25** | **56** |
 
-**24 issues resolved. 57 remaining.**
+**25 issues resolved. 56 remaining.**
 
 Next highest-impact targets (quick wins from Batch 4):
-1. **#534** — Save engine line without navigating there
-2. **#266** — Open analysis in new tab from Play Chess
-3. **#516** — Option to suppress `.info` sidecar files
-4. **#682** — Arrows for variation moves on board
-5. **#672** — Credit authors in database download list
+1. **#266** — Open analysis in new tab from Play Chess
+2. **#516** — Option to suppress `.info` sidecar files
+3. **#682** — Arrows for variation moves on board
+4. **#672** — Credit authors in database download list
+5. **#565** — Time editor in PGN editor
