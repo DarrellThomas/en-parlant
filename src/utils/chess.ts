@@ -431,9 +431,15 @@ function innerParsePGN(
       }
 
       if (comment.text) {
-        root.comment = root.comment
-          ? `${root.comment}\n\n${comment.text}`
-          : comment.text;
+        // Strip [%timestamp N] tags from chess.com exports
+        const cleanedText = comment.text
+          .replace(/\[%timestamp\s+[^\]]*\]/g, "")
+          .trim();
+        if (cleanedText) {
+          root.comment = root.comment
+            ? `${root.comment}\n\n${cleanedText}`
+            : cleanedText;
+        }
       }
     } else if (token.type === "ParenOpen") {
       const variation = [];
