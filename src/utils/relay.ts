@@ -60,21 +60,26 @@ export function createGame(playerName: string): Promise<{ code: string }> {
       return;
     }
 
-    const timeout = setTimeout(
-      () => reject(new Error("Create game timed out")),
-      10_000,
-    );
-
-    socket.once("game_created", (data: { code: string }) => {
+    function onCreated(data: { code: string }) {
       clearTimeout(timeout);
+      socket?.off("error", onError);
       resolve(data);
-    });
+    }
 
-    socket.once("error", (data: { message: string }) => {
+    function onError(data: { message: string }) {
       clearTimeout(timeout);
+      socket?.off("game_created", onCreated);
       reject(new Error(data.message));
-    });
+    }
 
+    const timeout = setTimeout(() => {
+      socket?.off("game_created", onCreated);
+      socket?.off("error", onError);
+      reject(new Error("Create game timed out"));
+    }, 10_000);
+
+    socket.once("game_created", onCreated);
+    socket.once("error", onError);
     socket.emit("create_game", { name: playerName });
   });
 }
@@ -89,24 +94,26 @@ export function joinGame(
       return;
     }
 
-    const timeout = setTimeout(
-      () => reject(new Error("Join game timed out")),
-      10_000,
-    );
-
-    socket.once(
-      "game_joined",
-      (data: { color: "white" | "black"; peerName: string }) => {
-        clearTimeout(timeout);
-        resolve(data);
-      },
-    );
-
-    socket.once("error", (data: { message: string }) => {
+    function onJoined(data: { color: "white" | "black"; peerName: string }) {
       clearTimeout(timeout);
-      reject(new Error(data.message));
-    });
+      socket?.off("error", onError);
+      resolve(data);
+    }
 
+    function onError(data: { message: string }) {
+      clearTimeout(timeout);
+      socket?.off("game_joined", onJoined);
+      reject(new Error(data.message));
+    }
+
+    const timeout = setTimeout(() => {
+      socket?.off("game_joined", onJoined);
+      socket?.off("error", onError);
+      reject(new Error("Join game timed out"));
+    }, 10_000);
+
+    socket.once("game_joined", onJoined);
+    socket.once("error", onError);
     socket.emit("join_game", { code, name: playerName });
   });
 }
