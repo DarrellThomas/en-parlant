@@ -47,7 +47,7 @@ Last updated: 2026-03-07
 
 ---
 
-## BATCH 4: Easy Enhancements — 8 DONE (8/14)
+## BATCH 4: Easy Enhancements — 11 DONE (11/14)
 
 | # | Title | Relevance | Status |
 |---|---|---|---|
@@ -60,7 +60,7 @@ Last updated: 2026-03-07
 | #393 | Option to download unrated Lichess games | Medium | ✅ Fixed |
 | #266 | Open analysis in new tab from Play Chess | Medium | ✅ Fixed |
 | #516 | Option to suppress `.info` sidecar files | Medium | ✅ Fixed |
-| #682 | Arrows for variation moves on board | Medium | ⬜ Open |
+| #682 | Arrows for variation moves on board | Medium | ✅ Fixed |
 | #672 | Credit authors in database download list | Medium | ⬜ Open |
 | #565 | Time editor in PGN editor | Low | ⬜ Open |
 | #566 | Invert/swap sides in board editor | Low | ⬜ Open |
@@ -135,19 +135,17 @@ Last updated: 2026-03-07
 | BATCH 1: Easy Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 2: Moderate Bug Fixes | 9 | **9** ✅ | 0 |
 | BATCH 3: Hard Bug Fixes | 3 | **2** ✅ | 1 |
-| BATCH 4: Easy Enhancements | 14 | **9** ✅ | 5 |
+| BATCH 4: Easy Enhancements | 14 | **11** ✅ | 3 |
 | BATCH 5: Moderate Enhancements | 23 | 0 | **23** |
 | BATCH 6: Large Enhancements | 23 | 0 | **23** |
-| **TOTAL** | **81** | **29** | **52** |
+| **TOTAL** | **81** | **31** | **50** |
 
-**29 issues resolved. 52 remaining.**
+**31 issues resolved. 50 remaining.**
 
 Next highest-impact targets (quick wins from Batch 4):
-1. **#516** — Option to suppress `.info` sidecar files
-2. **#682** — Arrows for variation moves on board
-3. **#672** — Credit authors in database download list
-4. **#565** — Time editor in PGN editor
-5. **#566** — Invert/swap sides in board editor
+1. **#672** — Credit authors in database download list
+2. **#565** — Time editor in PGN editor
+3. **#566** — Invert/swap sides in board editor
 
 ---
 
