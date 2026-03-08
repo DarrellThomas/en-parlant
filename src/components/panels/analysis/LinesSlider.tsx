@@ -11,7 +11,7 @@ export default function LinesSlider(props: {
     <SegmentedControl
       size="xs"
       color={props.color || theme.primaryColor}
-      data={["1", "2", "3", "4", "5"]}
+      data={["1", "2", "3", "4", "5", "6", "7", "8"]}
       value={props.value.toString()}
       onChange={(v) => props.setValue(Number.parseInt(v))}
     />
