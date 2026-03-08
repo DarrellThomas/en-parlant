@@ -15,6 +15,8 @@ import {
 } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 import {
+  IconCheck,
+  IconCopy,
   IconGripVertical,
   IconPinned,
   IconPinnedOff,
@@ -34,6 +36,7 @@ import {
   useDeferredValue,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
@@ -51,6 +54,7 @@ import { chessopsError, positionFromFen, swapMove } from "@/utils/chessops";
 import type { Engine } from "@/utils/engines";
 import { formatNodes } from "@/utils/format";
 import { formatScore } from "@/utils/score";
+import { formatEngineLines } from "./formatEngineLines";
 import AnalysisRow from "./AnalysisRow";
 import * as classes from "./BestMoves.css";
 import EngineSettingsForm, { type Settings } from "./EngineSettingsForm";
@@ -127,6 +131,7 @@ function BestMovesComponent({
     [engine, settings, setSettings2, setEngines],
   );
 
+  const [copied, setCopied] = useState(false);
   const [settingsOn, toggleSettingsOn] = useToggle();
   const [threat, setThreat] = useAtom(currentThreatAtom);
   const [detachedEngineId, setDetachedEngineId] = useAtom(
@@ -203,6 +208,38 @@ function BestMovesComponent({
           />
         </Accordion.Control>
         <ActionIcon.Group>
+          <Tooltip label={t("Board.Analysis.CopyEngine")}>
+            <ActionIcon
+              size="lg"
+              onClick={() => {
+                if (engineVariations && engineVariations.length > 0) {
+                  const text = formatEngineLines(
+                    engine.name,
+                    engineVariations,
+                    halfMoves,
+                    threat,
+                  );
+                  navigator.clipboard.writeText(text);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 5000);
+                }
+              }}
+              variant="transparent"
+              mt="auto"
+              mb="auto"
+            >
+              {copied ? (
+                <IconCheck size="1rem" style={{ color: "#00FF00" }} />
+              ) : (
+                <IconCopy
+                  size="1rem"
+                  opacity={
+                    engineVariations && engineVariations.length > 0 ? 1 : 0.3
+                  }
+                />
+              )}
+            </ActionIcon>
+          </Tooltip>
           <Tooltip label="Check the opponent's threat">
             <ActionIcon
               size="lg"

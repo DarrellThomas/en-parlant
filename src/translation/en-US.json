@@ -44,6 +44,7 @@
     "Board.Analysis.EngineSpeedHint": "How fast the engine is running",
     "Board.Analysis.GenerateReport": "Generate report",
     "Board.Analysis.GeneratingReport": "Generating report",
+    "Board.Analysis.CopyEngine": "Copy engine output to clipboard",
     "Board.Analysis.InactiveEngine": "Engine isn't enabled",
     "Board.Analysis.Logs": "Logs",
     "Board.Analysis.ManageEngines": "Manage Engines",
