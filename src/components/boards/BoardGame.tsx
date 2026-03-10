@@ -161,6 +161,7 @@ function BoardGame() {
   const headers = useStore(treeStore, (s) => s.headers);
   const setFen = useStore(treeStore, (s) => s.setFen);
   const setHeaders = useStore(treeStore, (s) => s.setHeaders);
+  const resetTree = useStore(treeStore, (s) => s.reset);
   const setResult = useStore(treeStore, (s) => s.setResult);
   const appendMove = useStore(treeStore, (s) => s.appendMove);
 
@@ -809,12 +810,8 @@ function BoardGame() {
     setGameId(null);
     setWhiteTime(null);
     setBlackTime(null);
-    setFen(INITIAL_FEN);
+    resetTree();
     setDrawOffer({ offered: false, received: false });
-    setHeaders({
-      ...headers,
-      result: "*",
-    });
     // Go directly to game with fresh board
     await startGame(true);
   }
@@ -824,11 +821,7 @@ function BoardGame() {
     setGameState("settingUp");
     setWhiteTime(null);
     setBlackTime(null);
-    setFen(INITIAL_FEN);
-    setHeaders({
-      ...headers,
-      result: "*",
-    });
+    resetTree();
     if (isMultiplayer) {
       disconnectFromRelay();
       setLocalReady(false);

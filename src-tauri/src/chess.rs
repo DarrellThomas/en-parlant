@@ -10,7 +10,7 @@ use std::{
 
 use derivative::Derivative;
 use governor::{Quota, RateLimiter};
-use log::info;
+use log::{info, warn};
 use nonzero_ext::*;
 use serde::{Deserialize, Serialize};
 use shakmaty::{
@@ -385,67 +385,74 @@ pub async fn get_best_moves(
                 let mut proc = process.lock().await;
                 match parse_one(&normalize_uci_line(&line)) {
                     UciMessage::Info(attrs) => {
-                        if let Ok(best_moves) =
-                            parse_uci_attrs(attrs, &proc.options.fen.parse()?, &proc.options.moves)
+                        match parse_uci_attrs(attrs, &proc.options.fen.parse()?, &proc.options.moves)
                         {
-                            if best_moves.score.lower_bound == Some(true)
-                                || best_moves.score.upper_bound == Some(true)
-                            {
-                                proc.base.log_engine(&line);
-                                continue;
-                            }
-                            let multipv = best_moves.multipv;
-                            let cur_depth = best_moves.depth;
-                            let cur_nodes = best_moves.nodes;
-                            if multipv as usize == proc.best_moves.len() + 1 {
-                                proc.best_moves.push(best_moves);
-                                if multipv == proc.real_multipv {
-                                    if proc.best_moves.iter().all(|x| x.depth == cur_depth)
-                                        && cur_depth >= proc.last_depth
-                                        && lim.check().is_ok()
-                                    {
-                                        let progress = match proc.go_mode {
-                                            GoMode::Depth(depth) => {
-                                                (cur_depth as f64 / depth as f64) * 100.0
+                            Ok(best_moves) => {
+                                if best_moves.score.lower_bound == Some(true)
+                                    || best_moves.score.upper_bound == Some(true)
+                                {
+                                    proc.base.log_engine(&line);
+                                    continue;
+                                }
+                                let multipv = best_moves.multipv;
+                                let cur_depth = best_moves.depth;
+                                let cur_nodes = best_moves.nodes;
+                                if multipv as usize == proc.best_moves.len() + 1 {
+                                    proc.best_moves.push(best_moves);
+                                    if multipv == proc.real_multipv {
+                                        if proc.best_moves.iter().all(|x| x.depth == cur_depth)
+                                            && cur_depth >= proc.last_depth
+                                            && lim.check().is_ok()
+                                        {
+                                            let progress = match proc.go_mode {
+                                                GoMode::Depth(depth) => {
+                                                    (cur_depth as f64 / depth as f64) * 100.0
+                                                }
+                                                GoMode::Time(time) => {
+                                                    (proc.start.elapsed().as_millis() as f64
+                                                        / time as f64)
+                                                        * 100.0
+                                                }
+                                                GoMode::Nodes(nodes) => {
+                                                    (cur_nodes as f64 / nodes as f64) * 100.0
+                                                }
+                                                GoMode::PlayersTime(_) => 99.99,
+                                                GoMode::Infinite => 99.99,
+                                            };
+                                            let payload = BestMovesPayload {
+                                                best_lines: proc.best_moves.clone(),
+                                                engine: id.clone(),
+                                                tab: tab.clone(),
+                                                fen: proc.options.fen.clone(),
+                                                moves: proc.options.moves.clone(),
+                                                progress,
+                                            };
+                                            // Buffer or send based on timing
+                                            let too_soon = proc.last_event_sent.map_or(
+                                                proc.start.elapsed() < min_time_before_first,
+                                                |t| t.elapsed() < min_time_between,
+                                            );
+                                            if too_soon {
+                                                buffered_payload = Some(payload);
+                                            } else {
+                                                proc.last_event_sent = Some(Instant::now());
+                                                payload.emit(&app)?;
+                                                buffered_payload = None;
                                             }
-                                            GoMode::Time(time) => {
-                                                (proc.start.elapsed().as_millis() as f64
-                                                    / time as f64)
-                                                    * 100.0
-                                            }
-                                            GoMode::Nodes(nodes) => {
-                                                (cur_nodes as f64 / nodes as f64) * 100.0
-                                            }
-                                            GoMode::PlayersTime(_) => 99.99,
-                                            GoMode::Infinite => 99.99,
-                                        };
-                                        let payload = BestMovesPayload {
-                                            best_lines: proc.best_moves.clone(),
-                                            engine: id.clone(),
-                                            tab: tab.clone(),
-                                            fen: proc.options.fen.clone(),
-                                            moves: proc.options.moves.clone(),
-                                            progress,
-                                        };
-                                        // Buffer or send based on timing
-                                        let too_soon = proc.last_event_sent.map_or(
-                                            proc.start.elapsed() < min_time_before_first,
-                                            |t| t.elapsed() < min_time_between,
-                                        );
-                                        if too_soon {
-                                            buffered_payload = Some(payload);
-                                        } else {
-                                            proc.last_event_sent = Some(Instant::now());
-                                            payload.emit(&app)?;
-                                            buffered_payload = None;
+                                            proc.last_depth = cur_depth;
+                                            proc.last_best_moves = proc.best_moves.clone();
+                                            proc.last_progress = progress as f32;
                                         }
-                                        proc.last_depth = cur_depth;
-                                        proc.last_best_moves = proc.best_moves.clone();
-                                        proc.last_progress = progress as f32;
+                                        proc.best_moves.clear();
                                     }
-                                    proc.best_moves.clear();
                                 }
                             }
+                            Err(e) => match e {
+                                Error::NoMovesFound => {}
+                                _ => {
+                                    warn!("Failed to parse info line: {}, error: {:?}", line, e);
+                                }
+                            },
                         }
                     }
                     UciMessage::BestMove { .. } => {
@@ -540,8 +547,10 @@ pub async fn analyze_game(
     let (mut proc, mut reader) = EngineProcess::new(path).await?;
 
     let fen = Fen::from_ascii(options.fen.as_bytes())?;
+    let setup = fen.as_setup().clone();
+    let castling_mode = CastlingMode::detect(&setup);
 
-    let mut chess: Chess = fen.clone().into_position(CastlingMode::Chess960)?;
+    let mut chess: Chess = setup.position(castling_mode)?;
     let mut fens: Vec<(Fen, Vec<String>, bool)> = vec![(fen, vec![], false)];
 
     options
@@ -614,24 +623,30 @@ pub async fn analyze_game(
         while let Ok(Some(line)) = reader.next_line().await {
             match parse_one(&normalize_uci_line(&line)) {
                 UciMessage::Info(attrs) => {
-                    if let Ok(best_moves) =
-                        parse_uci_attrs(attrs, &proc.options.fen.parse()?, moves)
-                    {
-                        let multipv = best_moves.multipv;
-                        let cur_depth = best_moves.depth;
-                        if multipv as usize == proc.best_moves.len() + 1 {
-                            proc.best_moves.push(best_moves);
-                            if multipv == proc.real_multipv {
-                                if proc.best_moves.iter().all(|x| x.depth == cur_depth)
-                                    && cur_depth >= proc.last_depth
-                                {
-                                    current_analysis.best = proc.best_moves.clone();
-                                    proc.last_depth = cur_depth;
+                    match parse_uci_attrs(attrs, &proc.options.fen.parse()?, moves) {
+                        Ok(best_moves) => {
+                            let multipv = best_moves.multipv;
+                            let cur_depth = best_moves.depth;
+                            if multipv as usize == proc.best_moves.len() + 1 {
+                                proc.best_moves.push(best_moves);
+                                if multipv == proc.real_multipv {
+                                    if proc.best_moves.iter().all(|x| x.depth == cur_depth)
+                                        && cur_depth >= proc.last_depth
+                                    {
+                                        current_analysis.best = proc.best_moves.clone();
+                                        proc.last_depth = cur_depth;
+                                    }
+                                    assert_eq!(proc.best_moves.len(), proc.real_multipv as usize);
+                                    proc.best_moves.clear();
                                 }
-                                assert_eq!(proc.best_moves.len(), proc.real_multipv as usize);
-                                proc.best_moves.clear();
                             }
                         }
+                        Err(e) => match e {
+                            Error::NoMovesFound => {}
+                            _ => {
+                                warn!("Failed to parse info line: {}, error: {:?}", line, e);
+                            }
+                        },
                     }
                 }
                 UciMessage::BestMove { .. } => {
