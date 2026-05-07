@@ -309,7 +309,7 @@ function BoardGame() {
         path: settings.engine?.path ?? "",
         options,
         go: settings.timeControl ? null : go,
-        minMoveTimeMs: settings.timeControl ? null : minMoveTimeMs,
+        min_move_time_ms: settings.timeControl ? null : minMoveTimeMs,
       };
     }
     return {

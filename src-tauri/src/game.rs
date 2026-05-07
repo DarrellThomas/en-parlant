@@ -32,7 +32,7 @@ pub enum PlayerConfig {
         options: Vec<EngineOption>,
         go: Option<GoMode>,
         #[serde(default)]
-        min_move_time_ms: Option<u64>,
+        min_move_time_ms: Option<u32>,
     },
 }
 
@@ -1054,6 +1054,7 @@ async fn request_engine_move(
 
     // Human-like move delay: wait until min_move_time_ms has elapsed (with jitter)
     if let Some(min_ms) = min_move_time_ms {
+        let min_ms = min_ms as u64;
         let elapsed = move_start.elapsed().as_millis() as u64;
         if elapsed < min_ms {
             let delay = {
