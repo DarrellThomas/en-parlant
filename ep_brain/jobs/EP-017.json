@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "job_id": "EP-017",
+  "title": "Add human bot profiles for sparring partners",
+  "state": "done",
+  "type": "feature",
+  "priority": 1,
+  "source": {
+    "upstream_pr": null,
+    "url": null,
+    "notes": "Original feature inspired by Discord discussion. No GUI chess app has human-like bot profiles."
+  },
+  "description": "12 built-in bots (600-2200 Elo) with names, avatars, and playing styles. Each profile maps to Stockfish UCI options (Skill Level, UCI_Elo, Contempt). Includes random profile generator, custom bot editor with emoji picker/Elo slider/aggression slider, and gallery modal. Human-like move delay with jitter in the Rust backend. New 3-way opponent selector: Human / Bot / Engine.",
+  "notes": [
+    "10 files changed, ~930 lines added",
+    "Bot profiles are purely frontend — flattened to PlayerConfig::Engine at game start",
+    "Rust backend only change: min_move_time_ms field on PlayerConfig::Engine with shutdown-aware jittered delay",
+    "Elo <1320 uses Skill Level (SF UCI_Elo floor is 1320), Elo 1320+ uses UCI_LimitStrength + UCI_Elo",
+    "Aggression 0-100 maps to Contempt -50 to +100",
+    "Move delay varies by moveSpeed profile and Elo (500ms-8000ms base with +/-30% jitter)",
+    "Custom profiles persisted via savedBotProfilesAtom in localStorage",
+    "specta generates min_move_time_ms as snake_case (enum rename_all only affects variant names) — use u32 not u64 to avoid bigint"
+  ],
+  "scope": {
+    "in_scope": [
+      "BotProfile and BotStyle types",
+      "12 built-in profiles across Elo ranges with personality descriptions",
+      "Random profile generator with curated name/emoji/style pools",
+      "UCI mapping function (Skill Level, UCI_Elo, UCI_LimitStrength, Contempt)",
+      "Move time humanization with jittered delay in Rust backend",
+      "3-way opponent selector (Human/Bot/Engine) in OpponentForm",
+      "Bot gallery modal with Gallery and My Bots tabs",
+      "Bot editor form for custom profiles",
+      "BotProfileCard component (compact and full variants)",
+      "Persistence atoms for saved profiles and last-used profile"
+    ],
+    "out_of_scope": [
+      "Opening book selection per profile",
+      "Time management simulation (variable thinking time per move complexity)",
+      "Neural network personality models (Maia-style)",
+      "Bot profile avatars beyond emoji (SVG illustrations)",
+      "Player skill tracking to auto-calibrate bot difficulty"
+    ]
+  },
+  "primary_files": [
+    "src/utils/botProfiles.ts",
+    "src/components/boards/BotProfileCard.tsx",
+    "src/components/boards/BotGallery.tsx",
+    "src/components/boards/BotEditor.tsx",
+    "src/components/boards/OpponentForm.tsx",
+    "src/components/boards/BoardGame.tsx",
+    "src-tauri/src/game.rs",
+    "src/state/atoms.ts",
+    "src/translation/en-US.json",
+    "src/bindings/generated.ts"
+  ],
+  "done_criteria": [
+    "3-way Human/Bot/Engine selector works in opponent form",
+    "All 12 built-in bots selectable from gallery",
+    "Random bot generation produces valid profiles",
+    "Custom bot creation, save, and delete works",
+    "Bot games use correct UCI options for Elo range",
+    "Move delay feels natural in untimed games",
+    "No delay applied when time controls are active",
+    "Board orientation correct when playing as black vs bot",
+    "TypeScript and Rust compile cleanly",
+    "Committed and pushed"
+  ]
+}
