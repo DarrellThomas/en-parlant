@@ -64,8 +64,7 @@ function AddEngine({
 
     validate: {
       name: (value) => {
-        if (!value) return t("Common.RequireName");
-        if (engines.find((e) => e.name === value)) return t("Common.NameAlreadyUsed");
+        if (value && engines.find((e) => e.name === value)) return t("Common.NameAlreadyUsed");
       },
       path: (value) => {
         if (!value) return t("Common.RequirePath");
@@ -129,6 +128,12 @@ function AddEngine({
           <EngineForm
             submitLabel={t("Common.Add")}
             form={form}
+            detectStockfish
+            validateName={(name) =>
+              engines.find((engine) => engine.name === name)
+                ? t("Common.NameAlreadyUsed")
+                : undefined
+            }
             onSubmit={(values: LocalEngine) => {
               setEngines(async (prev) => [...(await prev), values]);
               setOpened(false);
