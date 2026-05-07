@@ -1,4 +1,5 @@
 import {
+  Button,
   Center,
   Divider,
   Group,
@@ -7,13 +8,17 @@ import {
   Stack,
   TextInput,
 } from "@mantine/core";
-import { IconCpu, IconUser } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
+import { IconCpu, IconDice, IconRobot, IconUser } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import type { GoMode } from "@/bindings";
 import TimeInput, { type TimeType } from "@/components/common/TimeInput";
 import EngineSettingsForm from "@/components/panels/analysis/EngineSettingsForm";
 import { DEFAULT_TIME_CONTROL, type TimeControlField } from "@/utils/clock";
 import type { EngineSettings, LocalEngine } from "@/utils/engines";
+import { BUILT_IN_PROFILES, type BotProfile, generateBotProfile } from "@/utils/botProfiles";
+import { BotGallery } from "./BotGallery";
+import { BotProfileCard } from "./BotProfileCard";
 import { EnginesSelect } from "./EnginesSelect";
 
 export { DEFAULT_TIME_CONTROL };
@@ -34,6 +39,14 @@ export type OpponentSettings =
       engineSettings?: EngineSettings;
       timeUnit?: TimeType;
       incrementUnit?: TimeType;
+    }
+  | {
+      type: "bot";
+      timeControl?: TimeControlField;
+      profile: BotProfile;
+      engine: LocalEngine | null;
+      timeUnit?: TimeType;
+      incrementUnit?: TimeType;
     };
 
 export function OpponentForm({
@@ -48,19 +61,27 @@ export function OpponentForm({
   setOtherOpponent: React.Dispatch<React.SetStateAction<OpponentSettings>>;
 }) {
   const { t } = useTranslation();
+  const [galleryOpened, { open: openGallery, close: closeGallery }] = useDisclosure(false);
 
-  function updateType(type: "engine" | "human") {
+  function updateType(type: "engine" | "human" | "bot") {
     if (type === "human") {
       setOpponent((prev) => ({
         ...prev,
         type: "human",
         name: "Player",
       }));
+    } else if (type === "bot") {
+      setOpponent((prev) => ({
+        ...prev,
+        type: "bot",
+        profile: ("profile" in prev && prev.profile) || BUILT_IN_PROFILES[3],
+        engine: ("engine" in prev && prev.engine) || null,
+      }));
     } else {
       setOpponent((prev) => ({
         ...prev,
         type: "engine",
-        engine: null,
+        engine: ("engine" in prev && prev.engine) || null,
         go: ("go" in prev && prev.go) || { t: "Depth", c: 24 },
       }));
     }
@@ -80,6 +101,15 @@ export function OpponentForm({
             ),
           },
           {
+            value: "bot",
+            label: (
+              <Center style={{ gap: 10 }}>
+                <IconRobot size={16} />
+                <span>{t("Board.Opponent.Bot")}</span>
+              </Center>
+            ),
+          },
+          {
             value: "engine",
             label: (
               <Center style={{ gap: 10 }}>
@@ -90,7 +120,7 @@ export function OpponentForm({
           },
         ]}
         value={opponent.type}
-        onChange={(v) => updateType(v as "human" | "engine")}
+        onChange={(v) => updateType(v as "human" | "bot" | "engine")}
       />
 
       {opponent.type === "human" && (
@@ -98,6 +128,40 @@ export function OpponentForm({
           value={opponent.name ?? ""}
           onChange={(e) => setOpponent((prev) => ({ ...prev, name: e.target.value }))}
         />
+      )}
+
+      {opponent.type === "bot" && (
+        <Stack gap="xs">
+          <BotProfileCard profile={opponent.profile} compact />
+          <Group gap="xs">
+            <Button size="xs" variant="light" onClick={openGallery} style={{ flex: 1 }}>
+              {t("Board.Bot.Browse")}
+            </Button>
+            <Button
+              size="xs"
+              variant="light"
+              leftSection={<IconDice size={14} />}
+              onClick={() =>
+                setOpponent((prev) => ({
+                  ...prev,
+                  profile: generateBotProfile(),
+                }))
+              }
+            >
+              {t("Board.Bot.Random")}
+            </Button>
+          </Group>
+          <EnginesSelect
+            engine={opponent.engine}
+            setEngine={(engine) => setOpponent((prev) => ({ ...prev, engine }))}
+          />
+          <BotGallery
+            opened={galleryOpened}
+            onClose={closeGallery}
+            selectedId={opponent.profile.id}
+            onSelect={(profile) => setOpponent((prev) => ({ ...prev, profile }))}
+          />
+        </Stack>
       )}
 
       {opponent.type === "engine" && (
@@ -217,7 +281,7 @@ export function OpponentForm({
               }}
               setSettings={(fn) =>
                 setOpponent((prev) => {
-                  if (prev.type === "human") {
+                  if (prev.type !== "engine") {
                     return prev;
                   }
                   const newSettings = fn({

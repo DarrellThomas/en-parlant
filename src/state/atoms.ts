@@ -352,6 +352,13 @@ export const gamePlayer2SettingsAtom = atomWithStorage<OpponentSettings>(
 
 export const gameSameTimeControlAtom = atomWithStorage<boolean>("game-same-time-control", true);
 
+// Bot Profiles
+
+import type { BotProfile } from "@/utils/botProfiles";
+
+export const savedBotProfilesAtom = atomWithStorage<BotProfile[]>("bot-profiles", []);
+export const lastBotProfileAtom = atomWithStorage<BotProfile | null>("last-bot-profile", null);
+
 function tabValue<T extends object | string | boolean | number | null | undefined>(
     family: AtomFamily<string, PrimitiveAtom<T>>,
 ) {

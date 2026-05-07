@@ -87,6 +87,7 @@ import GameInfo from "../common/GameInfo";
 import GameNotation from "../common/GameNotation";
 import MoveControls from "../common/MoveControls";
 import { TreeStateContext } from "../common/TreeStateContext";
+import { botProfileToEngineConfig } from "@/utils/botProfiles";
 import Board from "./Board";
 import BoardControls from "./BoardControls";
 import EditingCard from "./EditingCard";
@@ -300,6 +301,17 @@ function BoardGame() {
         name: settings.name ?? "Player",
       };
     }
+    if (settings.type === "bot") {
+      const { options, go, minMoveTimeMs } = botProfileToEngineConfig(settings.profile);
+      return {
+        type: "engine",
+        name: settings.profile.name,
+        path: settings.engine?.path ?? "",
+        options,
+        go: settings.timeControl ? null : go,
+        minMoveTimeMs: settings.timeControl ? null : minMoveTimeMs,
+      };
+    }
     return {
       type: "engine",
       name: settings.engine?.name ?? "Engine",
@@ -354,7 +366,8 @@ function BoardGame() {
     setPlayers(playerSettings);
 
     const boardOrientation =
-      playerSettings.black.type === "human" && playerSettings.white.type === "engine"
+      playerSettings.black.type === "human" &&
+      (playerSettings.white.type === "engine" || playerSettings.white.type === "bot")
         ? "black"
         : "white";
 

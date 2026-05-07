@@ -31,6 +31,8 @@ pub enum PlayerConfig {
         #[serde(default)]
         options: Vec<EngineOption>,
         go: Option<GoMode>,
+        #[serde(default)]
+        min_move_time_ms: Option<u64>,
     },
 }
 
@@ -962,7 +964,7 @@ async fn request_engine_move(
     controller: &Arc<RwLock<GameController>>,
     app: &AppHandle,
 ) -> Result<(), Error> {
-    let (engine_arc, go_mode, initial_fen, moves, turn) = {
+    let (engine_arc, go_mode, initial_fen, moves, turn, min_move_time_ms) = {
         let ctrl = controller.read().await;
 
         if ctrl.status != GameStatus::Playing {
@@ -981,8 +983,12 @@ async fn request_engine_move(
             None => return Err(Error::EngineNotInitialized),
         };
 
-        let go = match player_config {
-            PlayerConfig::Engine { go, .. } => go,
+        let (go, min_move_time) = match player_config {
+            PlayerConfig::Engine {
+                go,
+                min_move_time_ms,
+                ..
+            } => (go, min_move_time_ms),
             _ => return Err(Error::NotEngineTurn),
         };
 
@@ -1034,8 +1040,10 @@ async fn request_engine_move(
             go.unwrap_or(GoMode::Depth(20))
         };
 
-        (engine, go_mode, initial_fen, moves, turn)
+        (engine, go_mode, initial_fen, moves, turn, min_move_time)
     };
+
+    let move_start = Instant::now();
 
     let best_move = {
         let mut engine = engine_arc.lock().await;
@@ -1043,6 +1051,35 @@ async fn request_engine_move(
         engine.go(&go_mode).await?;
         engine.wait_for_bestmove().await?
     };
+
+    // Human-like move delay: wait until min_move_time_ms has elapsed (with jitter)
+    if let Some(min_ms) = min_move_time_ms {
+        let elapsed = move_start.elapsed().as_millis() as u64;
+        if elapsed < min_ms {
+            let delay = {
+                use rand::Rng;
+                let remaining = min_ms - elapsed;
+                let jitter_factor: f64 = rand::thread_rng().gen_range(0.7..1.3);
+                (remaining as f64 * jitter_factor) as u64
+            };
+
+            let mut shutdown_rx = {
+                let ctrl = controller.read().await;
+                ctrl.shutdown_tx
+                    .as_ref()
+                    .map(|tx| tx.subscribe())
+            };
+
+            if let Some(ref mut rx) = shutdown_rx {
+                tokio::select! {
+                    _ = tokio::time::sleep(Duration::from_millis(delay)) => {}
+                    _ = rx.changed() => { return Ok(()); }
+                }
+            } else {
+                tokio::time::sleep(Duration::from_millis(delay)).await;
+            }
+        }
+    }
 
     let mut ctrl = controller.write().await;
     ctrl.engine_thinking = false;
