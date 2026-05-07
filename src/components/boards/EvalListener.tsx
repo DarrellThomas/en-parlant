@@ -35,13 +35,14 @@ function EvalListener() {
   const store = useContext(TreeStateContext)!;
   const is960 = useStore(store, (s) => s.headers.variant === "Chess960");
   const fen = useStore(store, (s) => s.root.fen);
+  const targetPath = useStore(store, (s) => s.position);
 
   const moves = useStore(
     store,
     useShallow((s) => getVariationLine(s.root, s.position, is960)),
   );
 
-  const [pos, error] = positionFromFen(fen);
+  const [pos] = positionFromFen(fen);
   if (pos) {
     for (const uci of moves) {
       const move = parseUci(uci);
@@ -93,6 +94,7 @@ function EvalListener() {
         moves={moves}
         threat={threat}
         chess960={is960}
+        targetPath={targetPath}
       />
     ));
 }
@@ -108,6 +110,7 @@ function EngineListener({
   moves,
   threat,
   chess960,
+  targetPath,
 }: {
   engine: Engine;
   firstEngineWithLines: string | null;
@@ -119,10 +122,12 @@ function EngineListener({
   moves: string[];
   threat: boolean;
   chess960: boolean;
+  targetPath: number[];
 }) {
   const store = useContext(TreeStateContext)!;
-  const setScore = useStore(store, (s) => s.setScore);
+  const setScoreAtPath = useStore(store, (s) => s.setScoreAtPath);
   const activeTab = useAtomValue(activeTabAtom);
+  const searchingMovesKey = useMemo(() => searchingMoves.join(","), [searchingMoves]);
 
   const [, setProgress] = useAtom(engineProgressFamily({ engine: engine.id, tab: activeTab! }));
 
@@ -150,7 +155,7 @@ function EngineListener({
         startTransition(() => {
           setEngineVariation((prev) => {
             const newMap = new Map(prev);
-            newMap.set(`${searchingFen}:${searchingMoves.join(",")}`, ev);
+            newMap.set(`${searchingFen}:${searchingMovesKey}`, ev);
             if (threat) {
               newMap.delete(`${fen}:${moves.join(",")}`);
             } else if (finalFen) {
@@ -162,7 +167,7 @@ function EngineListener({
           const shouldSetScore =
             firstEngineWithLines === engine.id || firstEngineWithLines === null;
           if (shouldSetScore) {
-            setScore(ev[0].score);
+            setScoreAtPath(targetPath, ev[0].score);
           }
         });
       }
@@ -172,14 +177,21 @@ function EngineListener({
     };
   }, [
     activeTab,
-    setScore,
+    setScoreAtPath,
+    setProgress,
     settings.enabled,
     isGameOver,
     searchingFen,
-    JSON.stringify(searchingMoves),
+    searchingMoves,
+    searchingMovesKey,
+    threat,
+    fen,
+    moves,
+    finalFen,
     engine.id,
     setEngineVariation,
     firstEngineWithLines,
+    targetPath,
   ]);
 
   const getBestMoves = useMemo(
@@ -193,7 +205,7 @@ function EngineListener({
         .with("chessdb", () => chessdbGetBestMoves)
         .with("lichess", () => lichessGetBestMoves)
         .exhaustive(),
-    [engine.type, engine],
+    [engine],
   );
 
   useThrottledEffect(
@@ -221,7 +233,7 @@ function EngineListener({
               const [progress, bestMoves] = moves;
               setEngineVariation((prev) => {
                 const newMap = new Map(prev);
-                newMap.set(`${searchingFen}:${searchingMoves.join(",")}`, bestMoves);
+                newMap.set(`${searchingFen}:${searchingMovesKey}`, bestMoves);
                 return newMap;
               });
               setProgress(progress);
@@ -240,7 +252,7 @@ function EngineListener({
       JSON.stringify(settings.settings),
       settings.go,
       searchingFen,
-      JSON.stringify(searchingMoves),
+      searchingMovesKey,
       isGameOver,
       activeTab,
       getBestMoves,
