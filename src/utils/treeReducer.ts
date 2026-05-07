@@ -169,19 +169,15 @@ export function getGameName(headers: GameHeaders) {
     return "Unknown";
 }
 
-export const getNodeAtPathOrNull = (node: TreeNode, path: number[]): TreeNode | null => {
+export const getNodeAtPath = (node: TreeNode, path: number[]): TreeNode => {
     let currentNode = node;
     for (const index of path) {
         if (!currentNode.children || index >= currentNode.children.length) {
-            return null;
+            return currentNode;
         }
         currentNode = currentNode.children[index];
     }
     return currentNode;
-};
-
-export const getNodeAtPath = (node: TreeNode, path: number[]): TreeNode => {
-    return getNodeAtPathOrNull(node, path) ?? node;
 };
 
 export function getTreeStructureHash(node: TreeNode): string {
