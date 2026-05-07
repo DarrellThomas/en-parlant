@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "job_id": "EP-018",
+  "title": "Cherry-pick PR #800: Fix eval bar flicker while browsing moves",
+  "state": "done",
+  "type": "cherry_pick",
+  "priority": 1,
+  "source": {
+    "upstream_pr": 800,
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/pull/800",
+    "notes": "By ck-zhang. Clean cherry-pick with minor conflict (our chess960 prop + their targetPath prop — need both)."
+  },
+  "description": "Eval bar blanks momentarily when navigating between moves because the new position's score is null until the engine reports. Fix holds the last known score in displayedScore state and writes engine scores to the searched path (setScoreAtPath) instead of the currently selected node. Adds getNodeAtPathOrNull for safe path lookups.",
+  "primary_files": [
+    "src/components/boards/Board.tsx",
+    "src/components/boards/EvalListener.tsx",
+    "src/state/store/tree.ts",
+    "src/utils/treeReducer.ts",
+    "src/utils/tests/store.test.ts"
+  ],
+  "done_criteria": [
+    "Eval bar does not blank when clicking through moves during analysis",
+    "Engine scores written to correct path node",
+    "TypeScript compiles cleanly",
+    "Lint passes"
+  ]
+}
