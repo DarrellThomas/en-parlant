@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "job_id": "EP-019",
+  "title": "Cherry-pick PR #799: Allow pasting engine paths and detect stockfish on PATH",
+  "state": "done",
+  "type": "cherry_pick",
+  "priority": 2,
+  "source": {
+    "upstream_pr": 799,
+    "url": "https://github.com/franciscoBSalgueiro/en-croissant/pull/799",
+    "notes": "By ck-zhang. Translation conflicts resolved (UseStockfish key insertion + En Parlant~ branding)."
+  },
+  "description": "Replace file-only engine picker with TextInput that accepts pasted paths. Adds ~ expansion, bare command name resolution via PATH lookup, and a Stockfish button when stockfish is detected on PATH. New Rust command find_executable_on_path with cross-platform support and tests.",
+  "primary_files": [
+    "src-tauri/src/fs.rs",
+    "src-tauri/src/main.rs",
+    "src/bindings/generated.ts",
+    "src/components/engines/AddEngine.tsx",
+    "src/components/engines/EngineForm.tsx"
+  ],
+  "done_criteria": [
+    "Engine path TextInput accepts pasted paths",
+    "Tilde expansion works for ~/path style",
+    "Stockfish detected on PATH shows quick-add button",
+    "File browse button still works",
+    "Rust test passes",
+    "TypeScript and Rust compile cleanly"
+  ]
+}
