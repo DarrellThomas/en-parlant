@@ -1,5 +1,77 @@
 [
   {
+    "name": "Reckless",
+    "version": "0.9.0",
+    "os": "windows",
+    "bmi2": true,
+    "image": null,
+    "downloadLink": "https://enparlant.redshed.ai/engines/reckless-0.9.0/reckless-windows-avx2.exe",
+    "path": "reckless-windows-avx2.exe",
+    "elo": 3833,
+    "downloadSize": 64664576,
+    "featured": true
+  },
+  {
+    "name": "Reckless",
+    "version": "0.9.0",
+    "os": "windows",
+    "bmi2": false,
+    "image": null,
+    "downloadLink": "https://enparlant.redshed.ai/engines/reckless-0.9.0/reckless-windows-generic.exe",
+    "path": "reckless-windows-generic.exe",
+    "elo": 3833,
+    "downloadSize": 64625664,
+    "featured": true
+  },
+  {
+    "name": "Reckless",
+    "version": "0.9.0",
+    "os": "macos",
+    "bmi2": true,
+    "image": null,
+    "downloadLink": "https://enparlant.redshed.ai/engines/reckless-0.9.0/reckless-macos",
+    "path": "reckless-macos",
+    "elo": 3833,
+    "downloadSize": 65329264,
+    "featured": true
+  },
+  {
+    "name": "Reckless",
+    "version": "0.9.0",
+    "os": "macos",
+    "bmi2": false,
+    "image": null,
+    "downloadLink": "https://enparlant.redshed.ai/engines/reckless-0.9.0/reckless-macos",
+    "path": "reckless-macos",
+    "elo": 3833,
+    "downloadSize": 65329264,
+    "featured": true
+  },
+  {
+    "name": "Reckless",
+    "version": "0.9.0",
+    "os": "linux",
+    "bmi2": true,
+    "image": null,
+    "downloadLink": "https://enparlant.redshed.ai/engines/reckless-0.9.0/reckless-linux-avx2",
+    "path": "reckless-linux-avx2",
+    "elo": 3833,
+    "downloadSize": 65004440,
+    "featured": true
+  },
+  {
+    "name": "Reckless",
+    "version": "0.9.0",
+    "os": "linux",
+    "bmi2": false,
+    "image": null,
+    "downloadLink": "https://enparlant.redshed.ai/engines/reckless-0.9.0/reckless-linux-generic",
+    "path": "reckless-linux-generic",
+    "elo": 3833,
+    "downloadSize": 64964984,
+    "featured": true
+  },
+  {
     "name": "Stockfish",
     "version": "18",
     "os": "windows",

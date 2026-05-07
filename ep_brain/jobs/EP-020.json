@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "job_id": "EP-020",
+  "title": "Add Reckless engine to catalog with Featured badge",
+  "state": "done",
+  "type": "feature",
+  "priority": 2,
+  "source": {
+    "upstream_pr": null,
+    "url": "https://github.com/codedeliveryservice/Reckless",
+    "notes": "Reckless is a Rust chess engine ranked #2 globally (SPCC 3833). AGPL-3.0 licensed. v0.9.0 binaries for all platforms."
+  },
+  "description": "Add Reckless v0.9.0 to the engine download catalog with a Featured badge. 6 catalog entries (3 OS x 2 CPU tiers). Binaries hosted on enparlant.redshed.ai CDN. Featured badge renders as orange-yellow gradient on EngineCard. Image field set to null pending logo upload to CDN.",
+  "notes": [
+    "Reckless binaries are raw executables (not archives) — download_file handles this correctly",
+    "macOS has one universal binary used for both bmi2=true and bmi2=false entries",
+    "AVX-512 variants skipped — AVX2 and generic cover all users",
+    "Logo from GitHub README (user-attachments URL) not publicly downloadable — needs manual browser save and CDN upload",
+    "TODO: Upload binaries to enparlant.redshed.ai/engines/reckless-0.9.0/ and update image field with logo URL"
+  ],
+  "primary_files": [
+    "api/engines.json",
+    "src/components/engines/AddEngine.tsx",
+    "src/utils/engines.ts",
+    "src/translation/en-US.json"
+  ],
+  "done_criteria": [
+    "Reckless appears in engine Download tab with Featured badge",
+    "Binaries downloadable from CDN (pending upload)",
+    "TypeScript compiles cleanly",
+    "Lint passes"
+  ]
+}

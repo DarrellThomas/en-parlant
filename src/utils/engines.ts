@@ -44,6 +44,7 @@ const localEngineSchema = z.object({
     elo: z.number().nullish(),
     downloadSize: z.number().nullish(),
     downloadLink: z.string().nullish(),
+    featured: z.boolean().nullish(),
     loaded: z.boolean().nullish(),
     go: goModeSchema.nullish(),
     enabled: z.boolean().nullish(),

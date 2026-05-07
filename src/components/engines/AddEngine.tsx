@@ -1,5 +1,6 @@
 import {
   Alert,
+  Badge,
   Box,
   Button,
   Center,
@@ -267,9 +268,16 @@ function EngineCard({
           <Text tt="uppercase" c="dimmed" fw={700} size="xs">
             ENGINE
           </Text>
-          <Text fw="bold" mb="xs">
-            {engine.name} {engine.version}
-          </Text>
+          <Group gap="xs" mb="xs">
+            <Text fw="bold">
+              {engine.name} {engine.version}
+            </Text>
+            {engine.featured && (
+              <Badge size="xs" variant="gradient" gradient={{ from: "orange", to: "yellow" }}>
+                {t("Engines.Add.Featured")}
+              </Badge>
+            )}
+          </Group>
           <Group wrap="nowrap" gap="xs">
             <IconTrophy size="1rem" />
             <Text size="xs">{`${engine.elo} ELO`}</Text>

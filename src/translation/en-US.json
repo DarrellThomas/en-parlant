@@ -320,6 +320,7 @@
     "Engines.Add.Cloud": "Cloud",
     "Engines.Add.Elo.Desc": "Engine's Elo",
     "Engines.Add.DownloadFailed": "Download failed. The file may be unavailable.",
+    "Engines.Add.Featured": "Featured",
     "Engines.Add.ErrorFetch": "Failed to fetch the engine's info from the server.",
     "Engines.Add.ImageFile": "Image file",
     "Engines.Add.ImageFile.Desc": "Click to select the image file (recommended size: 60x60)",
