@@ -83,6 +83,18 @@ function AnalysisPanel() {
   const [tab, setTab] = useAtom(currentAnalysisTabAtom);
   const [expanded, setExpanded] = useAtom(currentExpandedEnginesAtom);
 
+  // Don't expand every engine accordion by default — mounting all BestMoves
+  // components at once (one per loaded engine) on first panel open made the
+  // renderer thrash for several seconds on machines with many engines loaded.
+  // Open just the first; user can expand others as needed. Memoized to keep
+  // the array reference stable so Mantine's Accordion doesn't think the value
+  // changed on every render.
+  const defaultExpanded = useMemo(
+    () => (loadedEngines.length > 0 ? [loadedEngines[0].name] : []),
+    [loadedEngines],
+  );
+  const accordionValue = expanded ?? defaultExpanded;
+
   const [pos] = positionFromFen(currentNodeFen);
   const navigate = useNavigate();
 
@@ -159,7 +171,7 @@ function AnalysisPanel() {
                 variant="separated"
                 multiple
                 chevronSize={0}
-                value={expanded ?? loadedEngines.map((e) => e.name)}
+                value={accordionValue}
                 onChange={(v) => setExpanded(v)}
                 styles={{
                   label: {
@@ -189,29 +201,42 @@ function AnalysisPanel() {
                     {(provided) => (
                       <div ref={provided.innerRef} {...provided.droppableProps}>
                         <Stack w="100%" gap="xs">
-                          {loadedEngines.map((engine, i) => (
-                            <Draggable
-                              key={engine.name + i.toString()}
-                              draggableId={engine.name}
-                              index={i}
-                            >
-                              {(provided) => (
-                                <div ref={provided.innerRef} {...provided.draggableProps}>
-                                  <Accordion.Item value={engine.name}>
-                                    <BestMoves
-                                      id={i}
-                                      engine={engine}
-                                      fen={rootFen}
-                                      moves={moves}
-                                      halfMoves={currentNodeHalfMoves}
-                                      dragHandleProps={provided.dragHandleProps}
-                                      orientation={headers.orientation || "white"}
-                                    />
-                                  </Accordion.Item>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
+                          {loadedEngines.map((engine, i) => {
+                            // Lazy-mount BestMoves: only the expanded engine pays the
+                            // full mount cost (positionFromFen + replay + multiple atom
+                            // subscriptions). Collapsed engines render a lightweight
+                            // header that just re-mounts the heavy component when the
+                            // user expands it. This is what fixes the "Analysis tab
+                            // freezes for many seconds when first opened" problem.
+                            const isExpanded = accordionValue.includes(engine.name);
+                            return (
+                              <Draggable
+                                key={engine.name + i.toString()}
+                                draggableId={engine.name}
+                                index={i}
+                              >
+                                {(provided) => (
+                                  <div ref={provided.innerRef} {...provided.draggableProps}>
+                                    <Accordion.Item value={engine.name}>
+                                      {isExpanded ? (
+                                        <BestMoves
+                                          id={i}
+                                          engine={engine}
+                                          fen={rootFen}
+                                          moves={moves}
+                                          halfMoves={currentNodeHalfMoves}
+                                          dragHandleProps={provided.dragHandleProps}
+                                          orientation={headers.orientation || "white"}
+                                        />
+                                      ) : (
+                                        <Accordion.Control>{engine.name}</Accordion.Control>
+                                      )}
+                                    </Accordion.Item>
+                                  </div>
+                                )}
+                              </Draggable>
+                            );
+                          })}
                         </Stack>
 
                         {provided.placeholder}

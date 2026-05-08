@@ -1256,10 +1256,13 @@ export function stopSpeaking() {
     }
     // Bump generation so any pending responses are discarded
     requestGeneration++;
-    // Stop any playing audio
+    // Stop any playing audio and force WebKit to release the GStreamer pipeline.
+    // Why: pause() alone leaves the decoder alive until JS GC runs, so rapid
+    // navigation accumulates dozens of live MP3 pipelines and chokes the renderer.
     if (currentAudio) {
         currentAudio.pause();
-        currentAudio.currentTime = 0;
+        currentAudio.removeAttribute("src");
+        currentAudio.load();
         currentAudio = null;
     }
     // Stop system TTS if active

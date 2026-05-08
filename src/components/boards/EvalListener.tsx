@@ -2,7 +2,7 @@ import { parseUci } from "chessops";
 import { INITIAL_FEN, makeFen } from "chessops/fen";
 import equal from "fast-deep-equal";
 import { useAtom, useAtomValue } from "jotai";
-import { startTransition, useContext, useEffect, useMemo } from "react";
+import { startTransition, useContext, useEffect, useMemo, useRef } from "react";
 import { match } from "ts-pattern";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
@@ -80,10 +80,11 @@ function EvalListener() {
 
   return (engines ?? [])
     .filter((e) => e.loaded)
-    .map((e) => (
+    .map((e, idx) => (
       <EngineListener
         key={e.id}
         engine={e}
+        engineIndex={idx}
         firstEngineWithLines={firstEngineWithLines}
         isGameOver={isGameOver}
         finalFen={finalFen || ""}
@@ -99,6 +100,7 @@ function EvalListener() {
 
 function EngineListener({
   engine,
+  engineIndex,
   firstEngineWithLines,
   isGameOver,
   finalFen,
@@ -110,6 +112,7 @@ function EngineListener({
   chess960,
 }: {
   engine: Engine;
+  engineIndex: number;
   firstEngineWithLines: string | null;
   isGameOver: boolean;
   finalFen: string;
@@ -196,6 +199,12 @@ function EngineListener({
     [engine.type, engine],
   );
 
+  // Stagger cold-starts: when several engines are enabled at once (e.g. "enable
+  // all"), spawning them simultaneously slams the CPU on weaker machines and
+  // makes the UI feel frozen during NNUE/bitboard init. Delay the first call
+  // by engineIndex * 250ms so they come up in sequence.
+  const firstStartRef = useRef(true);
+
   useThrottledEffect(
     () => {
       if (settings.enabled) {
@@ -212,21 +221,29 @@ function EngineListener({
           if (chess960 && !options.find((o) => o.name === "UCI_Chess960")) {
             options.push({ name: "UCI_Chess960", value: "true" });
           }
-          getBestMoves(activeTab!, settings.go, {
-            moves: searchingMoves,
-            fen: searchingFen,
-            extraOptions: options,
-          }).then((moves) => {
-            if (moves) {
-              const [progress, bestMoves] = moves;
-              setEngineVariation((prev) => {
-                const newMap = new Map(prev);
-                newMap.set(`${searchingFen}:${searchingMoves.join(",")}`, bestMoves);
-                return newMap;
-              });
-              setProgress(progress);
-            }
-          });
+          const launch = () => {
+            getBestMoves(activeTab!, settings.go, {
+              moves: searchingMoves,
+              fen: searchingFen,
+              extraOptions: options,
+            }).then((moves) => {
+              if (moves) {
+                const [progress, bestMoves] = moves;
+                setEngineVariation((prev) => {
+                  const newMap = new Map(prev);
+                  newMap.set(`${searchingFen}:${searchingMoves.join(",")}`, bestMoves);
+                  return newMap;
+                });
+                setProgress(progress);
+              }
+            });
+          };
+          if (firstStartRef.current) {
+            firstStartRef.current = false;
+            setTimeout(launch, engineIndex * 250);
+          } else {
+            launch();
+          }
         }
       } else {
         if (engine.type === "local") {
@@ -246,6 +263,7 @@ function EngineListener({
       getBestMoves,
       setEngineVariation,
       engine,
+      engineIndex,
     ],
   );
   return null;

@@ -142,11 +142,26 @@ const enginesFileStorage: AsyncStringStorage = {
     },
 };
 
+// Defensive dedup: if engines.json ever ends up with two entries sharing an id
+// (a copy-paste bug, a corrupted import, etc.) Mantine Select chokes on the
+// duplicate option value. Reassign collisions to fresh UUIDs so both engines
+// survive and the UI keeps working.
+const dedupedEnginesSchema = zodArray(engineSchema).transform((engines) => {
+    const seen = new Set<string>();
+    return engines.map((engine) => {
+        if (seen.has(engine.id)) {
+            return { ...engine, id: crypto.randomUUID() };
+        }
+        seen.add(engine.id);
+        return engine;
+    });
+});
+
 export const enginesAtom = unwrap(
     atomWithStorage<Engine[]>(
         "engines/engines.json",
         [],
-        createAsyncZodStorage(zodArray(engineSchema), enginesFileStorage) as AsyncStorage<Engine[]>,
+        createAsyncZodStorage(dedupedEnginesSchema, enginesFileStorage) as AsyncStorage<Engine[]>,
     ),
 );
 

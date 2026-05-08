@@ -143,13 +143,24 @@ function playClip(blobUrl: string, volume: number, speed: number): Promise<void>
         audio.volume = volume;
         audio.playbackRate = speed;
         setCurrentAudio(audio);
-        audio.onended = () => resolve();
+        // Release the GStreamer pipeline immediately when the clip finishes —
+        // otherwise back-to-back clips accumulate and saturate the WebKit renderer.
+        const release = () => {
+            audio.pause();
+            audio.removeAttribute("src");
+            audio.load();
+        };
+        audio.onended = () => {
+            release();
+            resolve();
+        };
         audio.onerror = () => {
             console.warn("Cloud TTS: playback error");
-            resolve(); // don't break the chain
+            release();
+            resolve();
         };
         audio.play().catch((e) => {
-            // AbortError is normal when interrupted
+            release();
             if (e instanceof DOMException && e.name === "AbortError") {
                 resolve();
             } else {

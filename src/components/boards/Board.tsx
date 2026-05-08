@@ -152,6 +152,16 @@ function Board({
 
   const turn = pos?.turn || "white";
   const orientation = headers.orientation || "white";
+
+  // Game-over banner: surface checkmate/stalemate/draw clearly over the board.
+  // Without this, end-of-game state is only visible in tiny text inside panels.
+  const gameOverLabel: string | null = pos?.isCheckmate()
+    ? `Checkmate — ${turn === "white" ? "Black" : "White"} wins`
+    : pos?.isStalemate()
+      ? "Stalemate"
+      : pos?.isInsufficientMaterial()
+        ? "Draw — insufficient material"
+        : null;
   const toggleOrientation = () =>
     setHeaders({
       ...headers,
@@ -506,6 +516,29 @@ function Board({
                 turn={turn}
                 orientation={orientation}
               />
+
+              {gameOverLabel && (
+                <Box
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    background: "rgba(0, 0, 0, 0.8)",
+                    color: "white",
+                    padding: "0.6rem 1.4rem",
+                    borderRadius: "0.4rem",
+                    fontWeight: 700,
+                    fontSize: "1.4rem",
+                    pointerEvents: "none",
+                    zIndex: 10,
+                    textAlign: "center",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  {gameOverLabel}
+                </Box>
+              )}
 
               <Chessground
                 ref={cgRef}
