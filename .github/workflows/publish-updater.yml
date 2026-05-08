@@ -30,6 +30,7 @@ jobs:
           endpoint = https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
           acl = private
           EOF
+          sed -i 's/^[[:space:]]*//' ~/.config/rclone/rclone.conf
 
       - name: Download latest.json from release
         env:
