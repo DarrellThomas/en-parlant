@@ -78,6 +78,7 @@ import {
   sendMove,
   sendReady,
   sendResign,
+  watchRelayStatus,
 } from "@/utils/relay";
 import { type Tab, genID } from "@/utils/tabs";
 import type { GameHeaders } from "@/utils/treeReducer";
@@ -595,9 +596,16 @@ function BoardGame() {
       });
     });
 
+    const cleanup3 = watchRelayStatus({
+      reconnecting: t("Multiplayer.Reconnecting"),
+      reconnected: t("Multiplayer.Reconnected"),
+      connectionLost: t("Multiplayer.ConnectionLost"),
+    });
+
     return () => {
       cleanup1();
       cleanup2();
+      cleanup3();
     };
   }, [isMultiplayer, multiplayerState, t, setPeerReady, setPeerOnline, setMultiplayerState]);
 

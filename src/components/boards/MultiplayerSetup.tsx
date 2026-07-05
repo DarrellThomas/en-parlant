@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { IconCheck, IconCopy } from "@tabler/icons-react";
+import { useNavigate } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,15 +26,18 @@ import {
   connectToRelay,
   createGame,
   disconnectFromRelay,
+  isRelayConfigured,
   joinGame,
   onPeerJoined,
   startHeartbeat,
+  watchRelayStatus,
 } from "@/utils/relay";
 
 type SetupView = "choose" | "creating" | "waiting" | "joining";
 
 export default function MultiplayerSetup() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [playerName, setPlayerName] = useAtom(playerNameAtom);
   const [, setMultiplayerState] = useAtom(currentMultiplayerStateAtom);
   const [, setLocalColor] = useAtom(currentLocalColorAtom);
@@ -43,6 +47,7 @@ export default function MultiplayerSetup() {
   const [gameCode, setGameCode] = useState("");
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
+  const [relayNotConfigured, setRelayNotConfigured] = useState(false);
 
   // When creator's peer joins, transition to connected
   useEffect(() => {
@@ -55,14 +60,31 @@ export default function MultiplayerSetup() {
       startHeartbeat();
     });
 
-    return cleanup;
-  }, [view, gameCode, setPeerName, setLocalColor, setMultiplayerState]);
+    const cleanupStatus = watchRelayStatus({
+      reconnecting: t("Multiplayer.Reconnecting"),
+      reconnected: t("Multiplayer.Reconnected"),
+      connectionLost: t("Multiplayer.ConnectionLost"),
+    });
+
+    return () => {
+      cleanup();
+      cleanupStatus();
+    };
+  }, [view, gameCode, t, setPeerName, setLocalColor, setMultiplayerState]);
 
   const handleCreate = useCallback(async () => {
     if (!playerName.trim()) return;
 
-    setView("creating");
     setError("");
+    setRelayNotConfigured(false);
+
+    if (!isRelayConfigured()) {
+      setError(t("Multiplayer.RelayNotConfigured"));
+      setRelayNotConfigured(true);
+      return;
+    }
+
+    setView("creating");
     setMultiplayerState({ phase: "creating" });
 
     try {
@@ -79,7 +101,7 @@ export default function MultiplayerSetup() {
       setView("choose");
       setMultiplayerState({ phase: "idle" });
     }
-  }, [playerName, setMultiplayerState]);
+  }, [playerName, t, setMultiplayerState]);
 
   const handleJoin = useCallback(async () => {
     const code = joinCode.toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -87,6 +109,14 @@ export default function MultiplayerSetup() {
 
     const formatted = `${code.slice(0, 2)}-${code.slice(2, 4)}-${code.slice(4, 6)}`;
     setError("");
+    setRelayNotConfigured(false);
+
+    if (!isRelayConfigured()) {
+      setError(t("Multiplayer.RelayNotConfigured"));
+      setRelayNotConfigured(true);
+      return;
+    }
+
     setMultiplayerState({ phase: "joining" });
 
     try {
@@ -103,7 +133,7 @@ export default function MultiplayerSetup() {
       setView("joining");
       setMultiplayerState({ phase: "idle" });
     }
-  }, [joinCode, playerName, setPeerName, setLocalColor, setMultiplayerState]);
+  }, [joinCode, playerName, t, setPeerName, setLocalColor, setMultiplayerState]);
 
   const handleCancel = useCallback(() => {
     disconnectFromRelay();
@@ -111,8 +141,31 @@ export default function MultiplayerSetup() {
     setGameCode("");
     setJoinCode("");
     setError("");
+    setRelayNotConfigured(false);
     setMultiplayerState({ phase: "idle" });
   }, [setMultiplayerState]);
+
+  const openRelaySettings = useCallback(() => {
+    navigate({ to: "/settings", search: { tab: "network" } });
+  }, [navigate]);
+
+  const errorBlock = error && (
+    <Stack gap={4}>
+      <Text c="red" size="sm">
+        {error}
+      </Text>
+      {relayNotConfigured && (
+        <Button
+          size="xs"
+          variant="subtle"
+          onClick={openRelaySettings}
+          style={{ alignSelf: "start" }}
+        >
+          {t("Multiplayer.OpenSettings")}
+        </Button>
+      )}
+    </Stack>
+  );
 
   // Choose: name + create/join buttons
   if (view === "choose") {
@@ -129,11 +182,7 @@ export default function MultiplayerSetup() {
           placeholder="Player"
         />
 
-        {error && (
-          <Text c="red" size="sm">
-            {error}
-          </Text>
-        )}
+        {errorBlock}
 
         <Group grow>
           <Button onClick={handleCreate} disabled={!playerName.trim()}>
@@ -217,11 +266,7 @@ export default function MultiplayerSetup() {
           styles={{ input: { textTransform: "uppercase" } }}
         />
 
-        {error && (
-          <Text c="red" size="sm">
-            {error}
-          </Text>
-        )}
+        {errorBlock}
 
         <Group>
           <Button

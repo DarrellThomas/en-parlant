@@ -4,6 +4,7 @@
  * Reads relay URL from relayUrlAtom via the Jotai store (same pattern as tts.ts).
  */
 
+import { notifications } from "@mantine/notifications";
 import { getDefaultStore } from "jotai";
 import { io, type Socket } from "socket.io-client";
 import { relayUrlAtom } from "@/state/atoms";
@@ -13,6 +14,10 @@ let heartbeatInterval: ReturnType<typeof setInterval> | null = null;
 let lastPeerActivity = 0;
 
 // --- Connection ---
+
+export function isRelayConfigured(): boolean {
+    return getDefaultStore().get(relayUrlAtom).trim().length > 0;
+}
 
 export function connectToRelay(): void {
     if (socket?.connected) return;
@@ -40,6 +45,56 @@ export function connectToRelay(): void {
     socket.on("connect_error", (err) => {
         console.warn("[relay] connection error:", err.message);
     });
+}
+
+// Surfaces socket.io's automatic reconnection attempts as a notification, since
+// otherwise a dropped relay connection is invisible until an action fails.
+export function watchRelayStatus(messages: {
+    reconnecting: string;
+    reconnected: string;
+    connectionLost: string;
+}): () => void {
+    if (!socket) return () => {};
+    const manager = socket.io;
+
+    const onAttempt = () => {
+        notifications.show({
+            id: "relay-status",
+            message: messages.reconnecting,
+            loading: true,
+            autoClose: false,
+            withCloseButton: false,
+        });
+    };
+    const onReconnect = () => {
+        notifications.update({
+            id: "relay-status",
+            message: messages.reconnected,
+            color: "teal",
+            loading: false,
+            autoClose: 2000,
+        });
+    };
+    const onFailed = () => {
+        notifications.update({
+            id: "relay-status",
+            message: messages.connectionLost,
+            color: "red",
+            loading: false,
+            autoClose: false,
+            withCloseButton: true,
+        });
+    };
+
+    manager.on("reconnect_attempt", onAttempt);
+    manager.on("reconnect", onReconnect);
+    manager.on("reconnect_failed", onFailed);
+
+    return () => {
+        manager.off("reconnect_attempt", onAttempt);
+        manager.off("reconnect", onReconnect);
+        manager.off("reconnect_failed", onFailed);
+    };
 }
 
 export function disconnectFromRelay(): void {
